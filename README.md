@@ -1,81 +1,161 @@
 # 🏥 Agente de Inteligência Assistencial  
-### Automação de Relatórios de Segurança Hospitalar
+### Automação de Relatórios de Segurança do Paciente com Python + NLP
+
+---
 
 ## 📌 Contexto
 
-Este projeto foi desenvolvido para automatizar a elaboração de relatórios trimestrais de incidentes assistenciais em ambiente hospitalar.
+Este projeto foi desenvolvido para otimizar a elaboração do **Relatório Trimestral de Segurança do Paciente** em uma unidade hospitalar.
 
-Tradicionalmente, a consolidação do relatório envolvia:
+Antes da implementação do sistema, o processo envolvia:
 
-- Coleta manual de múltiplas planilhas  
-- Cruzamento estatístico de indicadores  
-- Construção de gráficos históricos  
-- Redação técnica explicando variações  
+- Consolidação manual de múltiplas planilhas  
+- Cruzamentos estatísticos  
+- Construção manual de gráficos  
+- Redação técnica interpretativa  
+- Revisões sucessivas  
 
-O processo demandava esforço operacional significativo e apresentava risco de inconsistências manuais.
+O ciclo completo levava, em média, **cerca de 30 dias de trabalho analítico distribuído para compilação do relatório**.
 
 ---
 
 ## 🎯 Objetivo
 
-Reduzir o tempo de consolidação e padronizar a análise, automatizando:
+Reduzir drasticamente o tempo de geração do relatório e aumentar:
 
-- ETL e consolidação de bases  
-- Geração de indicadores estatísticos  
-- Séries históricas e gráficos  
-- Análise textual assistida por IA para interpretação de variações  
-
----
-
-## 🧠 Arquitetura da Solução
-
-O sistema foi desenvolvido em arquitetura modular:
-
-- `app.py` → Interface Streamlit  
-- `motor_analise.py` → Motor de processamento e cálculos  
-- Engine analítica baseada em Pandas  
-- Integração com API Gemini para análise semântica  
-
-O deploy ocorre localmente via compilação com PyInstaller, garantindo que dados sensíveis permaneçam na rede interna.
+- 📊 Consistência estatística  
+- 🔎 Padronização das análises  
+- 📈 Confiabilidade dos indicadores  
+- ⚡ Agilidade na tomada de decisão  
 
 ---
 
-## ⚙️ Stack Tecnológica
+## 🚀 Resultado Obtido
 
-- Python 3.x  
-- Streamlit  
-- Pandas  
-- Matplotlib  
-- Google Gemini API  
-- PyInstaller  
+Com o Agente de Inteligência Assistencial:
 
----
+- O tempo de elaboração caiu para **poucas horas**
+- A análise textual passou a ser **gerada automaticamente**
+- A interpretação passou a considerar **variações estatísticas + contexto semântico**
+- O processo tornou-se replicável, rastreável e menos dependente de esforço manual
 
-## 📊 Funcionalidades Principais
-
-- Consolidação automatizada de notificações  
-- Análise de séries temporais (5 anos)  
-- Cruzamento por turno, setor e gravidade  
-- Indicadores assistenciais (queda, LPP, flebite, etc.)  
-- Geração assistida de análise textual executiva  
-- Geração automática de matriz de risco (Ishikawa)  
+Importante:  
+O sistema **não substitui a análise humana**, mas automatiza a etapa operacional e gera um primeiro diagnóstico técnico estruturado.
 
 ---
 
-## 🔐 Considerações de Segurança
+## 🖥️ Interface do Sistema
 
-- Dados processados localmente  
-- Nenhum armazenamento externo de informações sensíveis  
-- Chave de API inserida manualmente pelo usuário  
-- Projeto demonstrado com dados fictícios  
+### Tela Inicial
+Upload das bases e configuração dos parâmetros:
 
----
-
-## 🚀 Resultado
-
-Redução significativa do tempo de elaboração do relatório e maior padronização analítica para suporte à tomada de decisão.
+![Tela Inicial](tela_inicial.png)
 
 ---
 
-📌 Desenvolvido por **Ediney Magalhães**  
-Analytics Engineer | Estatística Aplicada
+### Exemplo de Análise Gerada (DADOS FICTÍCIOS)
+Gráficos comparativos + interpretação textual automática com IA:
+
+![Exemplo de Análise](analise_gerada.png)
+
+---
+
+## 🧠 Como Funciona
+
+O sistema executa:
+
+1. **Ingestão de dados (Excel/CSV)**
+2. Tratamento e padronização via **Pandas**
+3. Cálculo de indicadores estatísticos
+4. Geração de gráficos com **Matplotlib**
+5. Processamento textual via **Google Gemini API**
+6. Consolidação em relatório estruturado dentro da interface
+
+---
+
+## 🏗️ Arquitetura
+```bash
+├── app.py                # Interface Streamlit
+├── motor_analise.py      # Regras de negócio e cálculos
+├── utils/                # Funções auxiliares
+├── tela_inicial.png      # Screenshot inicial
+├── analise_gerada.png    # Screenshot com análise
+└── requirements.txt
+```
+
+
+
+Principais decisões arquiteturais:
+
+- Separação entre interface e motor analítico  
+- Scanner dinâmico para modelos da API (resiliência a mudanças)  
+- Execução local (compilação .exe) para preservar dados sensíveis  
+
+---
+
+## 🔐 Segurança e LGPD
+
+- O sistema roda **localmente**
+- Nenhum dado sensível é armazenado externamente
+- A chave da API é inserida pelo usuário no momento da execução
+- O executável foi gerado com **PyInstaller** para uso interno
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Python 3**
+- **Streamlit**
+- **Pandas**
+- **Matplotlib**
+- **Google Gemini API (NLP)**
+- **PyInstaller**
+
+---
+
+## 📊 Estrutura Analítica do Relatório
+
+O relatório é composto por 11 blocos:
+
+1. Visão Geral
+2. Histórico Temporal (5 anos)
+3. Classificação de Incidentes
+4. Análise por Turno
+5. Gravidade e Taxonomia
+6. Setores Assistenciais
+7. Setores Administrativos
+8. Setores de Apoio
+9. Indicadores de Qualidade
+10. Tratativas e Protocolos
+11. Matriz de Risco (incluindo Ishikawa)
+
+---
+
+## 💡 Aprendizados Técnicos
+
+Durante o desenvolvimento:
+
+- Evolução de código monolítico para arquitetura modular
+- Tratamento de inconsistências de base histórica
+- Ajustes de prompt engineering para análise mais contextual
+- Implementação de fallback dinâmico para modelos de IA
+- Consolidação de boas práticas de automação analítica em ambiente hospitalar
+
+---
+
+## 📌 Considerações Finais
+
+Este projeto representa a convergência entre:
+
+- Engenharia de Dados  
+- Estatística Aplicada  
+- Business Analytics  
+- IA Generativa  
+
+Mais do que um dashboard, trata-se de um **sistema analítico automatizado aplicado a um problema real de negócio em ambiente de produção**.
+
+---
+
+Desenvolvido por **Ediney Magalhães**  
+Analytics Engineer | Estatística Aplicada | Health Analytics
+
