@@ -5,9 +5,9 @@
 
 ## 📌 Contexto
 
-Este projeto foi desenvolvido para otimizar a elaboração do **Relatório Trimestral de Segurança do Paciente** em uma unidade hospitalar.
+Este projeto foi desenvolvido para otimizar a elaboração do **Relatório Trimestral de Segurança do Paciente** em unidade hospitalar.
 
-Antes da implementação do sistema, o processo envolvia:
+Antes da implementação, o processo envolvia:
 
 - Consolidação manual de múltiplas planilhas  
 - Cruzamentos estatísticos  
@@ -15,13 +15,13 @@ Antes da implementação do sistema, o processo envolvia:
 - Redação técnica interpretativa  
 - Revisões sucessivas  
 
-O ciclo completo levava, em média, **cerca de 30 dias de trabalho analítico distribuído para compilação do relatório**.
+O ciclo completo levava, em média, cerca de **30 dias de trabalho para elaborar o relatório do trimestre**.
 
 ---
 
 ## 🎯 Objetivo
 
-Reduzir drasticamente o tempo de geração do relatório e aumentar:
+Reduzir drasticamente o tempo operacional e aumentar:
 
 - 📊 Consistência estatística  
 - 🔎 Padronização das análises  
@@ -34,13 +34,13 @@ Reduzir drasticamente o tempo de geração do relatório e aumentar:
 
 Com o Agente de Inteligência Assistencial:
 
-- O tempo de elaboração caiu para **poucas horas**
+- O relatório passou a ser gerado em aproximadamente **5 minutos**
 - A análise textual passou a ser **gerada automaticamente**
-- A interpretação passou a considerar **variações estatísticas + contexto semântico**
-- O processo tornou-se replicável, rastreável e menos dependente de esforço manual
+- A interpretação considera **variações estatísticas e tendências históricas**
+- O processo tornou-se replicável e menos dependente de esforço manual
 
 Importante:  
-O sistema **não substitui a análise humana**, mas automatiza a etapa operacional e gera um primeiro diagnóstico técnico estruturado.
+O sistema **não substitui a análise humana**, mas automatiza a etapa operacional e gera um diagnóstico técnico estruturado para validação final.
 
 ---
 
@@ -53,7 +53,7 @@ Upload das bases e configuração dos parâmetros:
 
 ---
 
-### Exemplo de Análise Gerada (DADOS FICTÍCIOS)
+### Exemplo de Análise Gerada
 Gráficos comparativos + interpretação textual automática com IA:
 
 ![Exemplo de Análise](analise_gerada.png)
@@ -64,52 +64,70 @@ Gráficos comparativos + interpretação textual automática com IA:
 
 O sistema executa:
 
-1. **Ingestão de dados (Excel/CSV)**
+1. Ingestão de dados (Excel/CSV)
 2. Tratamento e padronização via **Pandas**
 3. Cálculo de indicadores estatísticos
 4. Geração de gráficos com **Matplotlib**
 5. Processamento textual via **Google Gemini API**
-6. Consolidação em relatório estruturado dentro da interface
+6. Consolidação em relatório estruturado na interface
 
 ---
 
 ## 🏗️ Arquitetura
+
 ```bash
 ├── app.py                # Interface Streamlit
 ├── motor_analise.py      # Regras de negócio e cálculos
-├── utils/                # Funções auxiliares
 ├── tela_inicial.png      # Screenshot inicial
 ├── analise_gerada.png    # Screenshot com análise
-└── requirements.txt
+└── Ligar_Painel.bat      # Script para iniciar o servidor
 ```
 
+## 🔄 Fluxo Simplificado
 
+```text
+Usuário
+   ↓
+Servidor Streamlit (execução centralizada)
+   ↓
+Motor de Análise (Pandas + Estatística)
+   ↓
+Gemini API (NLP)
+   ↓
+Relatório Executivo
+```
 
-Principais decisões arquiteturais:
+## 🔐 Segurança e Governança
 
-- Separação entre interface e motor analítico  
-- Scanner dinâmico para modelos da API (resiliência a mudanças)  
-- Execução local (compilação .exe) para preservar dados sensíveis  
+- O sistema é executado de forma centralizada dentro da rede interna.
+- Nenhum dado sensível é armazenado externamente.
+- A chave da API é inserida no momento da execução.
+- A arquitetura prioriza controle interno e governança dos dados.
 
 ---
 
-## 🔐 Segurança e LGPD
+## ▶️ Execução
 
-- O sistema roda **localmente**
-- Nenhum dado sensível é armazenado externamente
-- A chave da API é inserida pelo usuário no momento da execução
-- O executável foi gerado com **PyInstaller** para uso interno
+Para iniciar o sistema:
+
+1. Execute o arquivo:
+
+```bash
+Ligar_Painel.bat
+```
+2. O servidor Streamlit será iniciado na máquina host.
+
+3. Usuários da rede interna podem acessar via IP + porta configurada.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Python 3**
-- **Streamlit**
-- **Pandas**
-- **Matplotlib**
-- **Google Gemini API (NLP)**
-- **PyInstaller**
+- Python 3
+- Streamlit
+- Pandas
+- Matplotlib
+- Google Gemini API (NLP)
 
 ---
 
@@ -127,19 +145,7 @@ O relatório é composto por 11 blocos:
 8. Setores de Apoio
 9. Indicadores de Qualidade
 10. Tratativas e Protocolos
-11. Matriz de Risco (incluindo Ishikawa)
-
----
-
-## 💡 Aprendizados Técnicos
-
-Durante o desenvolvimento:
-
-- Evolução de código monolítico para arquitetura modular
-- Tratamento de inconsistências de base histórica
-- Ajustes de prompt engineering para análise mais contextual
-- Implementação de fallback dinâmico para modelos de IA
-- Consolidação de boas práticas de automação analítica em ambiente hospitalar
+11. Matriz de Risco (incluindo HFMEA/Ishikawa)
 
 ---
 
@@ -147,15 +153,16 @@ Durante o desenvolvimento:
 
 Este projeto representa a convergência entre:
 
-- Engenharia de Dados  
-- Estatística Aplicada  
-- Business Analytics  
-- IA Generativa  
+- Engenharia de Dados
+- Estatística Aplicada
+- Business Analytics
+- IA Generativa
 
-Mais do que um dashboard, trata-se de um **sistema analítico automatizado aplicado a um problema real de negócio em ambiente de produção**.
+Mais do que um dashboard, trata-se de um sistema de automação analítica aplicado a um problema real em ambiente produtivo.
 
 ---
 
 Desenvolvido por **Ediney Magalhães**  
-Analytics Engineer | Estatística Aplicada | Health Analytics
+*Analytics Engineer | Estatística Aplicada | Health Analytics*
+
 
