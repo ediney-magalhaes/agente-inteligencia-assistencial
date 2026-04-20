@@ -101,3 +101,41 @@ def preparar_bloco2(df_atual, df_anterior):
     tabela['% variação'] = ((tabela['Trimestre atual'] - tabela['Trimestre anterior']) /  denominador * 100).fillna(0).round(1)
 
     return tabela
+
+# Preparar dados - Bloco 3 (Classificação notificações)
+def preparar_bloco3(df_atual, df_anterior):
+    qtde_atual = df_atual[COL_CLASSIFICACAO].value_counts()
+    qtde_anterior = df_anterior[COL_CLASSIFICACAO].value_counts()
+
+    # Criando tabela comparativa
+    tabela_comparativa = pd.DataFrame({
+        'Trimestre atual': qtde_atual,
+        'Trimestre anterior':qtde_anterior
+    }).fillna(0)
+
+    # Variações
+    denominador = tabela_comparativa['Trimestre anterior'].replace(0, float('nan'))
+    tabela_comparativa['% variação'] = ((tabela_comparativa['Trimestre atual'] - tabela_comparativa['Trimestre anterior']) / denominador * 100).fillna(0).round(1)
+
+    # Dicionário top 3
+    dicionario = {}
+
+    # Montando tabela com top 3 das classificações
+    for classificacao in df_atual[COL_CLASSIFICACAO].unique():
+
+        # Cria filtro onde a coluna de classificação é verificada com a variável classificação do for
+        df_filtrado = df_atual[df_atual[COL_CLASSIFICACAO] == classificacao]
+        
+        # Seleciona a coluna de Opção, faz a contagem de cada valor único e seleciona os 3 mais frequentes
+        contagem = df_filtrado[COL_OPCAO].value_counts().head(3)
+        
+        # Seleciona a coluna de Opção, faz o cálculo do percentual
+        percentual = df_filtrado[COL_OPCAO].value_counts(normalize=True).head(3) * 100
+
+        # Criando Data Frame
+        tabela = pd.DataFrame({'Frequência': contagem, 'Percentual': percentual})
+        
+        # Adiciona ao dicionário vazio cada classificação com sua tabela de frequência absoluta e relativa
+        dicionario[classificacao] = tabela
+
+    return tabela_comparativa, dicionario
