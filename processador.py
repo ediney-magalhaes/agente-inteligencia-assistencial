@@ -42,7 +42,7 @@ def carregar_validar(df):
     except Exception as e:
         print(f'Erro inesperado: {e}')
 
-# Preparar dados - Bloco 1
+# Preparar dados - Bloco 1 (Quantidade notificações)
 def preparar_bloco1(df):
     data_maxima = df[COL_DATA].max()
     ano_atual = data_maxima.year
@@ -84,3 +84,20 @@ def preparar_bloco1(df):
             trimestre_anterior,
             ano_anterior
     )
+
+# Preparar dados - Bloco 2 (Turnos notificações)
+def preparar_bloco2(df_atual, df_anterior):
+    qtde_atual = df_atual[COL_TURNO].value_counts()
+    qtde_anterior = df_anterior[COL_TURNO].value_counts()
+
+    # Criando tabela comparativa entre os trimestres
+    tabela = pd.DataFrame({
+        'Trimestre atual': qtde_atual,
+        'Trimestre anterior': qtde_anterior
+    }).fillna(0)
+
+    # Coluna das variações
+    denominador = tabela['Trimestre anterior'].replace(0, float('nan'))
+    tabela['% variação'] = ((tabela['Trimestre atual'] - tabela['Trimestre anterior']) /  denominador * 100).fillna(0).round(1)
+
+    return tabela
