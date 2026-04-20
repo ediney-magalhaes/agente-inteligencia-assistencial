@@ -11,23 +11,35 @@ COL_STATUS = 'Status da notificação'
 COL_PL = 'Unidade responsável pela investigação - PL'
 COL_ACR = 'Unidade responsável pela investigação - ACR'
 COL_PAC = 'Unidade responsável pela investigação - PAC'
+COL_CAT = 'Categoria do incidente'
+COL_INCIDENTE = 'Incidente'
+COL_TIPO_SETOR = 'Assistencial/ Administrativo/ Apoio'
+COL_EFETIVO = 'Escala de Efetividade'
+COL_DESCRICAO = 'Descrição do incidente'
+COL_TAXON = 'Taxonomia da OMS'
+COL_SETOR = 'Setor Responsável'
+COL_GRAU = 'Grau do dano'
+COL_OPCAO = 'Opção'
+COL_TURNO = 'Turno'
 
 # Mapeamento das colunas
 MAPEAMENTO_COLUNAS = {
     COL_DATA: [],
     COL_CLASSIFICACAO: [],
-    'Taxonomia da OMS': ['Taxonomia'],
-    'Setor Responsável': ['Responsável'],
-    'Grau do dano': [],
-    'Incidente': [],
-    'Turno': [],
-    'Descrição do incidente': [],
-    'Assistencial/ Administrativo/ Apoio': [],
+    COL_TAXON: ['Taxonomia'],
+    COL_SETOR: ['Responsável'],
+    COL_GRAU: [],
+    COL_CAT: [],
+    COL_INCIDENTE: [],
+    COL_OPCAO: [],
+    COL_TURNO: [],
+    COL_DESCRICAO: [],
+    COL_TIPO_SETOR: [],
     COL_PL: [],
     COL_ACR: [],
     COL_PAC: [],
     COL_STATUS: [],
-    'Escala de Efetividade': []
+    COL_EFETIVO: []
 }
 
 # Função para atualizar colunas conforme dataframe
