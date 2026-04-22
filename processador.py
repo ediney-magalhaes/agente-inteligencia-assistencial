@@ -82,7 +82,9 @@ def preparar_bloco1(df):
             trimestre_atual,
             ano_atual,
             trimestre_anterior,
-            ano_anterior
+            ano_anterior,
+            df_atual,
+            df_tri_anterior
     )
 
 # Preparar dados - Bloco 2 (Turnos notificações)
@@ -130,7 +132,7 @@ def preparar_bloco3(df_atual, df_anterior):
         contagem = df_filtrado[COL_OPCAO].value_counts().head(3)
         
         # Seleciona a coluna de Opção, faz o cálculo do percentual
-        percentual = df_filtrado[COL_OPCAO].value_counts(normalize=True).head(3) * 100
+        percentual = (df_filtrado[COL_OPCAO].value_counts(normalize=True).head(3) * 100).round(1)
 
         # Criando Data Frame
         tabela = pd.DataFrame({'Frequência': contagem, 'Percentual': percentual})

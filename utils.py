@@ -34,7 +34,6 @@ MAPEAMENTO_COLUNAS = {
     COL_OPCAO: [],
     COL_TURNO: [],
     COL_DESCRICAO: [],
-    COL_TIPO_SETOR: [],
     COL_PL: [],
     COL_ACR: [],
     COL_PAC: [],
@@ -45,7 +44,7 @@ MAPEAMENTO_COLUNAS = {
 # Função para atualizar colunas conforme dataframe
 def atualizacao_schema(df):
     lista = []
-
+    df.columns = df.columns.str.strip('\xa0').str.strip()
     for nome, alternativa in MAPEAMENTO_COLUNAS.items():
         if nome in df.columns:
             pass
