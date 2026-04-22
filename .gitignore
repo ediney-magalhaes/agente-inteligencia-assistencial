@@ -4,4 +4,7 @@ dist/
 build/
 *.spec
 __pycache__/
+.venv/
+venv/
 Chave API.txt
+teste.py

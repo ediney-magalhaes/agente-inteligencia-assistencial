@@ -1,120 +1,101 @@
-# 🏥 Agente de Inteligência Assistencial  
-### Automação de Relatórios de Segurança do Paciente com Python + NLP
+# Agente de Inteligência Assistencial
+
+Sistema de automação para elaboração do Relatório Trimestral de Segurança do 
+Paciente em ambiente hospitalar, desenvolvido com Python e IA generativa.
 
 ---
 
-## 📌 Contexto
+## Contexto
 
-Este projeto foi desenvolvido para otimizar a elaboração do **Relatório Trimestral de Segurança do Paciente** em unidade hospitalar.
-
-Antes da implementação, o processo envolvia:
-
-- Consolidação manual de múltiplas planilhas  
-- Cruzamentos estatísticos  
-- Construção manual de gráficos  
-- Redação técnica interpretativa  
-- Revisões sucessivas  
-
-O ciclo completo levava, em média, cerca de **30 dias de trabalho para elaborar o relatório do trimestre**.
+A elaboração do relatório trimestral envolvia consolidação manual de múltiplas 
+planilhas, cruzamentos estatísticos, construção de gráficos e redação técnica 
+interpretativa. O ciclo completo consumia aproximadamente 30 dias de trabalho.
 
 ---
 
-## 🎯 Objetivo
+## Solução
 
-Reduzir drasticamente o tempo operacional e aumentar:
+O sistema automatiza o pipeline completo de dados — da ingestão ao relatório — 
+estruturado em módulos especializados e alinhado ao modelo institucional de 
+relatório de segurança do paciente.
 
-- 📊 Consistência estatística  
-- 🔎 Padronização das análises  
-- 📈 Confiabilidade dos indicadores  
-- ⚡ Agilidade na tomada de decisão  
+O fluxo de trabalho é:
 
----
+1. Usuário exporta as planilhas do sistema MV e carrega na interface
+2. O sistema valida, padroniza e processa os dados por bloco analítico
+3. Gráficos, tabelas e análises textuais são gerados automaticamente
+4. O profissional utiliza os outputs para consolidar o relatório final
 
-## 🚀 Resultado Obtido
-
-Com o Agente de Inteligência Assistencial:
-
-- O relatório passou a ser gerado em aproximadamente **5 minutos**
-- A análise textual passou a ser **gerada automaticamente**
-- A interpretação considera **variações estatísticas e tendências históricas**
-- O processo tornou-se replicável e menos dependente de esforço manual
-
-Importante:  
-O sistema **não substitui a análise humana**, mas automatiza a etapa operacional e gera um diagnóstico técnico estruturado para validação final.
+O sistema não substitui a análise humana. Ele automatiza a etapa operacional 
+e entrega diagnóstico técnico estruturado para validação e decisão.
 
 ---
 
-## 🖥️ Interface do Sistema
+## Impacto
 
-### Tela Inicial
-Upload das bases e configuração dos parâmetros:
-
-![Tela Inicial](tela_inicial.png)
-
----
-
-### Exemplo de Análise Gerada
-Gráficos comparativos + interpretação textual automática com IA:
-
-![Exemplo de Análise](analise_gerada.png)
+- Geração dos outputs em aproximadamente 5 minutos
+- Consolidação e conclusão do relatório em 2 a 3 horas
+- Redução de aproximadamente 30 dias para menos de um dia de trabalho
+- Análise padronizada e replicável a cada trimestre
 
 ---
 
-## 🧠 Como Funciona
-
-O sistema executa:
-
-1. Ingestão de dados (Excel/CSV)
-2. Tratamento e padronização via **Pandas**
-3. Cálculo de indicadores estatísticos
-4. Geração de gráficos com **Matplotlib**
-5. Processamento textual via **Google Gemini API**
-6. Consolidação em relatório estruturado na interface
-
----
-
-## 🏗️ Arquitetura
-
-```bash
-├── app.py                # Interface Streamlit
-├── motor_analise.py      # Regras de negócio e cálculos
-├── tela_inicial.png      # Screenshot inicial
-├── analise_gerada.png    # Screenshot com análise
-└── Ligar_Painel.bat      # Script para iniciar o servidor
+## Arquitetura
 ```
-
-## 🔄 Fluxo Simplificado
-
-```text
-Usuário
-   ↓
-Servidor Streamlit (execução centralizada)
-   ↓
-Motor de Análise (Pandas + Estatística)
-   ↓
-Gemini API (NLP)
-   ↓
-Relatório Executivo
+├── app.py              # Interface Streamlit — entrada de dados e exibição
+├── processador.py      # Preparação e cálculo dos dados por bloco analítico
+├── utils.py            # Padronização e mapeamento de colunas entre versões
+├── motor_analise.py    # Regras de negócio e geração de análise via IA
+├── gerador_graficos.py # Geração dos gráficos por bloco (em desenvolvimento)
+├── Ligar_Painel.bat    # Script de inicialização do servidor local
+└── docs/               # Documentação técnica e decisões de arquitetura (ADRs)
 ```
+## Fluxo de Dados
+```
+Planilha Excel (EPIMED / MV)
+↓
+utils.py — validação e padronização de colunas
+↓
+processador.py — cálculo dos blocos analíticos
+↓
+gerador_graficos.py — visualizações por bloco
+↓
+motor_analise.py — análise textual via Gemini API
+↓
+app.py — interface Streamlit para o usuário final
+```
+## Blocos Analíticos
 
-## 🔐 Segurança e Governança
+Cada bloco corresponde a uma seção do modelo institucional de relatório:
 
-- O sistema é executado de forma centralizada dentro da rede interna.
-- Nenhum dado sensível é armazenado externamente.
-- A chave da API é inserida no momento da execução.
-- A arquitetura prioriza controle interno e governança dos dados.
+| Bloco | Conteúdo |
+|-------|----------|
+| 1 | Volume de notificações — comparativo trimestral e anual |
+| 2 | Distribuição por turno |
+| 3 | Classificação das notificações com top 3 por categoria |
+| 4 | Eventos adversos — top 3, grau do dano e status de investigação |
+| 5 | Setores notificantes |
+| 6 | Setores notificados — local de ocorrência |
+| 7 | Índices de qualidade — flebite, lesão por pressão, queda, erro de medicação |
+| 8 | Cumprimento de análise de notificações |
 
 ---
 
-## ▶️ Execução
+## Segurança e Governança
 
-Para iniciar o sistema:
+- Execução centralizada na rede interna hospitalar
+- Nenhum dado de paciente é armazenado externamente
+- Chave de API inserida em tempo de execução
+- Acesso por IP interno — sem exposição à internet
 
-1. Execute o arquivo:
+---
+
+## Execução
 
 ```bash
 Ligar_Painel.bat
 ```
+<<<<<<< HEAD
 2. O servidor Streamlit será iniciado na máquina host.
 
 3. Usuários da rede interna podem acessar via IP + porta configurada.
@@ -122,11 +103,21 @@ Ligar_Painel.bat
 ---
 
 ## 🛠️ Tecnologias Utilizadas
+=======
+
+O servidor Streamlit é iniciado localmente. Usuários da rede interna acessam 
+via IP + porta configurada.
+
+---
+
+## Tecnologias
+>>>>>>> desenvolvimento
 
 - Python 3
 - Streamlit
 - Pandas
 - Matplotlib
+<<<<<<< HEAD
 - Google Gemini API (NLP)
 
 ---
@@ -166,3 +157,18 @@ Desenvolvido por **Ediney Magalhães**
 *Analytics Engineer | Estatística Aplicada | Health Analytics*
 
 
+=======
+- Google Gemini API
+
+---
+
+## Documentação Técnica
+
+Decisões de arquitetura, justificativas e histórico de mudanças estão 
+registrados em `docs/`.
+
+---
+
+Desenvolvido por Ediney Magalhães
+Analytics Engineer | Estatístico| Data Engineer
+>>>>>>> desenvolvimento
