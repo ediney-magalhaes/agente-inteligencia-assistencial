@@ -5,6 +5,7 @@
 #---------------------------------------------------
 
 import pandas as pd
+import numpy as np
 from utils import (
     atualizacao_schema,
     texto_variacao,
@@ -141,3 +142,37 @@ def preparar_bloco3(df_atual, df_anterior):
         dicionario[classificacao] = tabela
 
     return tabela_comparativa, dicionario
+
+# Preparar dados - Bloco 4 (Eventos Adversos Notificados)
+def preparar_bloco4(df_atual, df_anterior):
+    
+    # Filtrar apenas Eventos Adversos
+    df_eventos_adversos = df_atual[(df_atual[COL_CLASSIFICACAO] == 'Evento adverso')]
+    df_eventos_adversos_tri_anterior = df_anterior[(df_anterior[COL_CLASSIFICACAO] == 'Evento adverso')]
+
+    # Top 3 dos eventos adversos
+    top3_eventos = df_eventos_adversos[COL_OPCAO].value_counts().head(3)
+
+    # Percentual top 3 eventos adversos
+    percentual_top3_eventos = (df_eventos_adversos[COL_OPCAO].value_counts(normalize=True).head(3) * 100).round(1)
+
+    # Tabela de frequência absoluta e relativa do top 3
+    tabela_top3_eventos = pd.DataFrame({'Frequência': top3_eventos, 'Percentual': percentual_top3_eventos})
+
+    # Quantidade de eventos adversos
+    qtde_eventos_tri_atual = df_eventos_adversos[COL_GRAU].value_counts()
+    qtde_eventos_tri_anterior = df_eventos_adversos_tri_anterior[COL_GRAU].value_counts()
+
+    # Criando tabela para comparação entre trimestres
+    tabela_comparativa = pd.DataFrame({'Trimestre atual': qtde_eventos_tri_atual,
+                                       'Trimestre anterior': qtde_eventos_tri_anterior}).fillna(0)
+    
+    # Cálculo da variação
+    denominador = tabela_comparativa['Trimestre anterior'].replace(0, float('nan'))
+    calculo_normal = ((tabela_comparativa['Trimestre atual'] - tabela_comparativa['Trimestre anterior']) / denominador * 100).round(1)
+    tabela_comparativa['% variação'] = np.where(tabela_comparativa['Trimestre anterior'] == 0, '-', calculo_normal)
+
+    # Filtrando o status das notificações 'Grave' e 'Óbito'
+    status_eventos = df_eventos_adversos[df_eventos_adversos[COL_GRAU].isin(['Óbito', 'Grave'])][[COL_DESCRICAO, COL_GRAU, COL_STATUS]]
+
+    return tabela_comparativa, tabela_top3_eventos, status_eventos
