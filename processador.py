@@ -176,3 +176,22 @@ def preparar_bloco4(df_atual, df_anterior):
     status_eventos = df_eventos_adversos[df_eventos_adversos[COL_GRAU].isin(['Óbito', 'Grave'])][[COL_DESCRICAO, COL_GRAU, COL_STATUS]]
 
     return tabela_comparativa, tabela_top3_eventos, status_eventos
+
+# Função para os blocos 5 e 6 do relatório
+def preparar_bloco_setores(df_atual, df_anterior, coluna):
+    # Top 3
+    qtde_tri_atual = df_atual[coluna].value_counts().head(3)
+    qtde_tri_anterior = df_anterior[coluna].value_counts().head(3)
+
+    # Tabelas
+    tab_tri_atual = pd.DataFrame({'Trimestre atual': qtde_tri_atual})
+    tab_tri_anterior = pd.DataFrame({'Trimestre anterior': qtde_tri_anterior})
+
+    # Variação
+    tab_tri_atual['(%)'] = (df_atual[coluna].value_counts(normalize=True).head(3) * 100).round(1)
+    tab_tri_anterior['(%)'] = (df_anterior[coluna].value_counts(normalize=True).head(3) * 100).round(1)
+
+    # Tabela descrições
+    tab_analise_IA = df_atual[df_atual[coluna].isin(qtde_tri_atual.index)][[coluna, COL_DESCRICAO]]
+
+    return tab_tri_atual, tab_tri_anterior, tab_analise_IA
