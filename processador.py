@@ -195,3 +195,28 @@ def preparar_bloco_setores(df_atual, df_anterior, coluna):
     tab_analise_IA = df_atual[df_atual[coluna].isin(qtde_tri_atual.index)][[coluna, COL_DESCRICAO]]
 
     return tab_tri_atual, tab_tri_anterior, tab_analise_IA
+
+# Função para o bloco 7 (Indicadores de qualidade)
+def preparar_bloco7(df_atual, df_indicadores, indicador, trim_atual, ano_atual):
+    # Dicionário trimestre
+    trimestres = {1: ['Janeiro', 'Fevereiro','Março'],
+                  2: ['Abril', 'Maio', 'Junho'],
+                  3: ['Julho', 'Agosto', 'Setembro'],
+                  4: ['Outubro', 'Novembro', 'Dezembro']}
+    
+    # Lista meses do trimestre atual
+    trimestre_atual = trimestres[trim_atual]
+
+    # Filtro do trimestre
+    df_tri_atual = df_indicadores[(df_indicadores['Ano'] == ano_atual) & (df_indicadores['Mês'].isin(trimestre_atual))]
+    df_tri_anterior = df_indicadores[(df_indicadores['Ano'] == ano_atual - 1) & (df_indicadores['Mês'].isin(trimestre_atual))]
+
+    # Filtro do período e indicador
+    df_ano_atual = df_indicadores[df_indicadores['Ano'] == ano_atual][[indicador, 'Mês']].round(2)
+    df_ano_anterior = df_indicadores[df_indicadores['Ano'] == ano_atual - 1][[indicador, 'Mês']].round(2)
+
+    # Cálculo da média nos trimestres
+    df_media_tri_atual = df_tri_atual[indicador].mean().round(2)
+    df_media_tri_anterior = df_tri_anterior[indicador].mean().round(2)
+
+    return df_ano_atual, df_ano_anterior, df_media_tri_atual, df_media_tri_anterior
