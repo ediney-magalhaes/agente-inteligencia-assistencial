@@ -29,7 +29,8 @@ from utils import (
     COL_GRAU,
     COL_OPCAO,
     COL_TURNO,
-    COL_LOCAL
+    COL_LOCAL,
+    COL_NOTA
 )
 
 # Carregar schema
@@ -245,3 +246,21 @@ def preparar_dataset_ia(df_atual):
                            COL_DESCRICAO]
     df_indicador = df_atual[colunas_necessarias]
     return df_indicador
+
+# Função para preparar dataset para IA filtrar as lesões admitidas e adquiridas
+def preparar_dataset_ia_LPP(df_atual):
+
+    colunas_necessarias = [COL_TAXON,
+                           COL_CAT,
+                           COL_CLASSIFICACAO,
+                           COL_INCIDENTE,
+                           COL_OPCAO,
+                           COL_DESCRICAO,
+                           COL_NOTA]
+    # Filtra a coluna de incidentes
+    df_filtrado = df_atual[(df_atual[COL_CAT] == 'Lesões da pele e partes moles')]
+
+    # Monta dataset apenas com as colunas necessárias
+    df_indicador = df_filtrado[colunas_necessarias]
+    return df_indicador
+

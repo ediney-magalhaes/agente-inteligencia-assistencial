@@ -22,6 +22,7 @@ COL_GRAU = 'Grau do dano'
 COL_OPCAO = 'Opção'
 COL_TURNO = 'Turno'
 COL_LOCAL = 'Local de ocorrência'
+COL_NOTA = 'Nota do Classificador (Opcional)'
 
 # Mapeamento das colunas
 MAPEAMENTO_COLUNAS = {
@@ -40,7 +41,8 @@ MAPEAMENTO_COLUNAS = {
     COL_PAC: [],
     COL_STATUS: [],
     COL_EFETIVO: [],
-    COL_LOCAL: []
+    COL_LOCAL: [],
+    COL_NOTA: []
 }
 
 # Função para atualizar colunas conforme dataframe
