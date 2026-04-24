@@ -21,6 +21,7 @@ COL_SETOR = 'Setor Responsável'
 COL_GRAU = 'Grau do dano'
 COL_OPCAO = 'Opção'
 COL_TURNO = 'Turno'
+COL_LOCAL = 'Local de ocorrência'
 
 # Mapeamento das colunas
 MAPEAMENTO_COLUNAS = {
@@ -38,7 +39,8 @@ MAPEAMENTO_COLUNAS = {
     COL_ACR: [],
     COL_PAC: [],
     COL_STATUS: [],
-    COL_EFETIVO: []
+    COL_EFETIVO: [],
+    COL_LOCAL: []
 }
 
 # Função para atualizar colunas conforme dataframe

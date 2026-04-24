@@ -28,7 +28,8 @@ from utils import (
     COL_SETOR,
     COL_GRAU,
     COL_OPCAO,
-    COL_TURNO
+    COL_TURNO,
+    COL_LOCAL
 )
 
 # Carregar schema
@@ -220,3 +221,16 @@ def preparar_bloco7(df_atual, df_indicadores, indicador, trim_atual, ano_atual):
     df_media_tri_anterior = df_tri_anterior[indicador].mean().round(2)
 
     return df_ano_atual, df_ano_anterior, df_media_tri_atual, df_media_tri_anterior
+
+# Função para indicador de Queda
+def preparar_detalhe_queda(df_atual):
+    
+    # Filtra a coluna de incidente que contém a palavra queda
+    df_quedas = df_atual[df_atual[COL_INCIDENTE].str.contains('queda', case=False, na=False)]
+
+    # Quantidades
+    qtde_grau_dano = df_quedas[COL_GRAU].value_counts()
+    qtde_tipo_queda = df_quedas[COL_OPCAO].value_counts()
+    qtde_local_queda = df_quedas[COL_LOCAL].value_counts()
+
+    return qtde_grau_dano, qtde_local_queda, qtde_tipo_queda
