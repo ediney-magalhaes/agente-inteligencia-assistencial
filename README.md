@@ -45,8 +45,8 @@ e entrega diagnóstico técnico estruturado para validação e decisão.
 ├── app.py              # Interface Streamlit — entrada de dados e exibição
 ├── processador.py      # Preparação e cálculo dos dados por bloco analítico
 ├── utils.py            # Padronização e mapeamento de colunas entre versões
-├── motor_analise.py    # Regras de negócio e geração de análise via IA
-├── gerador_graficos.py # Geração dos gráficos por bloco (em desenvolvimento)
+├── visualizador.py     # Geração dos gráficos por bloco
+├── agente_ia.py        # Triagem por IA e análises textuais via Gemini API
 ├── Ligar_Painel.bat    # Script de inicialização do servidor local
 └── docs/               # Documentação técnica e decisões de arquitetura (ADRs)
 ```
@@ -68,16 +68,21 @@ app.py — interface Streamlit para o usuário final
 
 Cada bloco corresponde a uma seção do modelo institucional de relatório:
 
-| Bloco | Conteúdo |
-|-------|----------|
-| 1 | Volume de notificações — comparativo trimestral e anual |
-| 2 | Distribuição por turno |
-| 3 | Classificação das notificações com top 3 por categoria |
-| 4 | Eventos adversos — top 3, grau do dano e status de investigação |
-| 5 | Setores notificantes |
-| 6 | Setores notificados — local de ocorrência |
-| 7 | Índices de qualidade — flebite, lesão por pressão, queda, erro de medicação |
-| 8 | Cumprimento de análise de notificações |
+| Bloco | Conteúdo | Status |
+|-------|----------|--------|
+| 1 | Volume de notificações — comparativo trimestral e anual | ✅ Pronto |
+| 2 | Distribuição por turno | ✅ Pronto |
+| 3 | Classificação das notificações com top 3 por categoria | ✅ Pronto |
+| 4 | Eventos adversos — top 3, grau do dano e status de investigação | ✅ Pronto |
+| 5 | Setores notificantes — top 3 | ✅ Pronto |
+| 6 | Setores notificados — top 3 | ✅ Pronto |
+| 7 | Índices de qualidade — taxas mensais e trimestrais | ✅ Pronto |
+| 7.1 | Queda — grau do dano, tipo e local | ✅ Pronto |
+| 7.2 | Erro de medicação — dataset para triagem IA | ✅ Pronto |
+| 7.3 | Flebite — dataset para triagem IA | ✅ Pronto |
+| 7.4 | Lesão por pressão — dataset com nota do classificador | ✅ Pronto |
+| 8 | Cumprimento de análise de notificações — taxa anual e mensal | ✅ Pronto |
+| 9 | Protocolos gerenciados — AVC, Dor Torácica, Sepse, TEV | ⏳ Pendente |
 
 ---
 
@@ -95,15 +100,6 @@ Cada bloco corresponde a uma seção do modelo institucional de relatório:
 ```bash
 Ligar_Painel.bat
 ```
-<<<<<<< HEAD
-2. O servidor Streamlit será iniciado na máquina host.
-
-3. Usuários da rede interna podem acessar via IP + porta configurada.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-=======
 
 O servidor Streamlit é iniciado localmente. Usuários da rede interna acessam 
 via IP + porta configurada.
@@ -111,7 +107,6 @@ via IP + porta configurada.
 ---
 
 ## Tecnologias
->>>>>>> desenvolvimento
 
 - Python 3
 - Streamlit
@@ -169,6 +164,11 @@ registrados em `docs/`.
 
 ---
 
+<<<<<<< HEAD
 Desenvolvido por Ediney Magalhães
 Analytics Engineer | Estatístico| Data Engineer
+>>>>>>> desenvolvimento
+=======
+### Desenvolvido por Ediney Magalhães
+### Analytics Engineer | Estatístico| Data Engineer
 >>>>>>> desenvolvimento

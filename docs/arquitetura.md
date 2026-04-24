@@ -2,7 +2,7 @@
 
 **Projeto:** Agente de Análise - Segurança do Paciente  
 **Autor:** Ediney Magalhães  
-**Última atualização:** 17/04/2026
+**Última atualização:** 24/04/2026
 
 ---
 
@@ -28,7 +28,7 @@ Planilhas EPIMED → Validação → Processamento → Visualização → IA →
 | `utils.py` | Constantes, mapeamento de colunas e funções auxiliares |
 | `processador.py` | Preparação e transformação dos dados por bloco |
 | `visualizador.py` | Geração de gráficos por bloco |
-| `agente_ia.py` | Análises textuais via API Gemini |
+| `agente_ia.py` | Triagem por IA e análises textuais via API Gemini |
 | `relatorio.py` | Montagem do documento Word final |
 
 ---
@@ -37,32 +37,47 @@ Planilhas EPIMED → Validação → Processamento → Visualização → IA →
 
 | Planilha | Conteúdo | Blocos que alimenta |
 |---|---|---|
-| Notificações (principal) | Base completa de incidentes | 1 a 5, 9, 10, 11, 15 |
-| tabela_setores.xlsx | Classificação dos setores | 6, 7, 8 |
-| indicadores.xlsx | Índices históricos de qualidade | 8 |
+| Notificações (principal) | Base completa de incidentes — histórico disponível | 1, 2, 3, 4, 5, 6, 8, 9 |
+| Indicadores.xlsx | Taxas mensais de qualidade calculadas | 7 |
 
 ---
 
 ## Mapeamento: Blocos x Modelo Relatório
 
-| Tópico | Título | Fonte |
+| Bloco | Título | Fonte | Status |
+|---|---|---|---|
+| 1 | Quantidade de Notificações | Automação | ✅ Pronto |
+| 2 | Turno de Notificações | Automação | ✅ Pronto |
+| 3 | Classificação das Notificações com Top 3 | Automação | ✅ Pronto |
+| 4 | Eventos Adversos — Top 3, Grau do Dano, Investigação | Automação | ✅ Pronto |
+| 5 | Setores Notificantes — Top 3 | Automação | ✅ Pronto |
+| 6 | Setores Notificados — Top 3 | Automação | ✅ Pronto |
+| 7 | Índices de Qualidade — Taxas mensais e trimestrais | Automação | ✅ Pronto |
+| 7.1 | Queda — Grau do dano, tipo e local | Automação | ✅ Pronto |
+| 7.2 | Erro de Medicação — Dataset para triagem IA | Automação + IA | ✅ Pronto |
+| 7.3 | Flebite — Dataset para triagem IA | Automação + IA | ✅ Pronto |
+| 7.4 | Lesão por Pressão — Dataset com nota do classificador | Automação + IA | ✅ Pronto |
+| 8 | Cumprimento de Análises — Taxa anual e mensal | Automação | ✅ Pronto |
+| 9 | Protocolos Gerenciados — AVC, Dor Torácica, Sepse, TEV | Automação + IA | ⏳ Pendente |
+| 10 | Auditoria de ROPS | Manual | ⚠️ Manual |
+| 11 | Comissão de Óbitos | Manual | ⚠️ Manual |
+| 12 | Comissão de Prontuários | Manual | ⚠️ Manual |
+| 13 | Plano de Segurança do Paciente | Manual | ⚠️ Manual |
+| 14 | Interrelação e Mapeamento de Risco | Automação | ⏳ Pendente |
+| 15 | Ações Táticas e Estratégicas | Manual | ⚠️ Manual |
+
+---
+
+## Padrões de Função no processador.py
+
+| Padrão | Quando usar | Exemplo |
 |---|---|---|
-| 1 | Objetivo e Definições | Automação |
-| 2 | Quantidade de Notificações | Automação |
-| 3 | Turno de Notificações | Análise: Automação / Gráfico: EPIMED |
-| 4 | Classificação das Notificações | Automação |
-| 5 | Eventos Adversos | Automação |
-| 6 | Setores Notificantes | Automação |
-| 7 | Setores Notificados | Automação |
-| 8 | Índices de Qualidade | Automação |
-| 9 | Cumprimento de Análises | Automação |
-| 10 | Auditoria de ROPS | ⚠️ MANUAL |
-| 11 | Protocolos Gerenciados | Automação |
-| 12 | Comissão de Óbitos | ⚠️ MANUAL |
-| 13 | Comissão de Prontuários | ⚠️ MANUAL |
-| 14 | Plano de Segurança do Paciente | ⚠️ MANUAL |
-| 15 | Interrelação e Mapeamento de Risco | Automação |
-| 16 | Ações Táticas e Estratégicas | ⚠️ MANUAL |
+| `preparar_blocoN(df_atual, df_anterior)` | Comparação trimestral | blocos 1 a 6 |
+| `preparar_blocoN(df_completo)` | Requer histórico sem filtro de trimestre | bloco 8 |
+| `preparar_bloco_setores(df, df_ant, coluna)` | Função genérica reutilizável | blocos 5 e 6 |
+| `preparar_bloco7(df, df_ind, indicador, trim, ano)` | Múltiplas fontes | bloco 7 |
+| `preparar_dataset_ia(df)` | Dataset para triagem por IA | medicação, flebite |
+| `preparar_dataset_ia_LPP(df)` | Dataset filtrado para triagem por IA | lesão por pressão |
 
 ---
 

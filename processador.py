@@ -28,7 +28,9 @@ from utils import (
     COL_SETOR,
     COL_GRAU,
     COL_OPCAO,
-    COL_TURNO
+    COL_TURNO,
+    COL_LOCAL,
+    COL_NOTA
 )
 
 # Carregar schema
@@ -176,3 +178,137 @@ def preparar_bloco4(df_atual, df_anterior):
     status_eventos = df_eventos_adversos[df_eventos_adversos[COL_GRAU].isin(['Óbito', 'Grave'])][[COL_DESCRICAO, COL_GRAU, COL_STATUS]]
 
     return tabela_comparativa, tabela_top3_eventos, status_eventos
+
+# Função para os blocos 5 e 6 do relatório
+def preparar_bloco_setores(df_atual, df_anterior, coluna):
+    # Top 3
+    qtde_tri_atual = df_atual[coluna].value_counts().head(3)
+    qtde_tri_anterior = df_anterior[coluna].value_counts().head(3)
+
+    # Tabelas
+    tab_tri_atual = pd.DataFrame({'Trimestre atual': qtde_tri_atual})
+    tab_tri_anterior = pd.DataFrame({'Trimestre anterior': qtde_tri_anterior})
+
+    # Variação
+    tab_tri_atual['(%)'] = (df_atual[coluna].value_counts(normalize=True).head(3) * 100).round(1)
+    tab_tri_anterior['(%)'] = (df_anterior[coluna].value_counts(normalize=True).head(3) * 100).round(1)
+
+    # Tabela descrições
+    tab_analise_IA = df_atual[df_atual[coluna].isin(qtde_tri_atual.index)][[coluna, COL_DESCRICAO]]
+
+    return tab_tri_atual, tab_tri_anterior, tab_analise_IA
+
+# Função para o bloco 7 (Indicadores de qualidade)
+def preparar_bloco7(df_atual, df_indicadores, indicador, trim_atual, ano_atual):
+    # Dicionário trimestre
+    trimestres = {1: ['Janeiro', 'Fevereiro','Março'],
+                  2: ['Abril', 'Maio', 'Junho'],
+                  3: ['Julho', 'Agosto', 'Setembro'],
+                  4: ['Outubro', 'Novembro', 'Dezembro']}
+    
+    # Lista meses do trimestre atual
+    trimestre_atual = trimestres[trim_atual]
+
+    # Filtro do trimestre
+    df_tri_atual = df_indicadores[(df_indicadores['Ano'] == ano_atual) & (df_indicadores['Mês'].isin(trimestre_atual))]
+    df_tri_anterior = df_indicadores[(df_indicadores['Ano'] == ano_atual - 1) & (df_indicadores['Mês'].isin(trimestre_atual))]
+
+    # Filtro do período e indicador
+    df_ano_atual = df_indicadores[df_indicadores['Ano'] == ano_atual][[indicador, 'Mês']].round(2)
+    df_ano_anterior = df_indicadores[df_indicadores['Ano'] == ano_atual - 1][[indicador, 'Mês']].round(2)
+
+    # Cálculo da média nos trimestres
+    df_media_tri_atual = df_tri_atual[indicador].mean().round(2)
+    df_media_tri_anterior = df_tri_anterior[indicador].mean().round(2)
+
+    return df_ano_atual, df_ano_anterior, df_media_tri_atual, df_media_tri_anterior
+
+# Função para indicador de Queda
+def preparar_detalhe_queda(df_atual):
+    
+    # Filtra a coluna de incidente que contém a palavra queda
+    df_quedas = df_atual[df_atual[COL_INCIDENTE].str.contains('queda', case=False, na=False)]
+
+    # Quantidades
+    qtde_grau_dano = df_quedas[COL_GRAU].value_counts()
+    qtde_tipo_queda = df_quedas[COL_OPCAO].value_counts()
+    qtde_local_queda = df_quedas[COL_LOCAL].value_counts()
+
+    return qtde_grau_dano, qtde_local_queda, qtde_tipo_queda
+
+# Função que prepara dataset para IA filtrar possíveis erro de medicação, flebite e outros casos semelhantes
+def preparar_dataset_ia(df_atual):
+    colunas_necessarias = [COL_TAXON,
+                           COL_CAT,
+                           COL_CLASSIFICACAO,
+                           COL_INCIDENTE,
+                           COL_OPCAO,
+                           COL_DESCRICAO]
+    df_indicador = df_atual[colunas_necessarias]
+    return df_indicador
+
+# Função para preparar dataset para IA filtrar as lesões admitidas e adquiridas
+def preparar_dataset_ia_LPP(df_atual):
+
+    colunas_necessarias = [COL_TAXON,
+                           COL_CAT,
+                           COL_CLASSIFICACAO,
+                           COL_INCIDENTE,
+                           COL_OPCAO,
+                           COL_DESCRICAO,
+                           COL_NOTA]
+    # Filtra a coluna de incidentes
+    df_filtrado = df_atual[(df_atual[COL_CAT] == 'Lesões da pele e partes moles')]
+
+    # Monta dataset apenas com as colunas necessárias
+    df_indicador = df_filtrado[colunas_necessarias]
+    return df_indicador
+
+# Função para cumprimento da análise das notificações
+def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem filtro
+    noti_elegiveis = [COL_PL, COL_ACR, COL_PAC]
+    
+    # Filtro de notificações elegível a tratativa
+    df_elegiveis = df_atual[(df_atual[noti_elegiveis].notna().any(axis=1))]
+
+    # Filtro onde as elegíveis foram tratadas
+    df_tratadas = df_elegiveis[(df_elegiveis[COL_STATUS].isin(['Validado', 'Concluído após a investigação']))]
+
+    # Quantidade elegíveis
+    qtde_elegiveis = df_elegiveis.groupby(df_elegiveis[COL_DATA].dt.year).size()
+
+    # Quantidade tratadas
+    qtde_tratadas = df_tratadas.groupby(df_tratadas[COL_DATA].dt.year).size()
+
+    # Taxa anual
+    taxa_anual = (qtde_tratadas / qtde_elegiveis * 100.0).round(1)
+
+    tabela_anual = pd.DataFrame({
+        'Nº notificações para responder': qtde_elegiveis,
+        'Nº notificações respondidas': qtde_tratadas,
+        'Taxa de cumprimento': taxa_anual
+    })
+
+    # Encontrando o ano atual
+    ano_recente = df_elegiveis[COL_DATA].max().year
+
+    # Filtrando pelo ano atual
+    df_elegiveis_ano_atual = df_elegiveis[(df_elegiveis[COL_DATA].dt.year == ano_recente)]
+    df_tratadas_ano_atual = df_tratadas[(df_tratadas[COL_DATA].dt.year == ano_recente)]
+
+    # Agrupando pelo mês
+    qtde_elegiveis_mensal = df_elegiveis_ano_atual.groupby(df_elegiveis_ano_atual[COL_DATA].dt.month).size()
+    qtde_tratadas_mensal = df_tratadas_ano_atual.groupby(df_tratadas_ano_atual[COL_DATA].dt.month).size()
+
+    # Cálculo da taxa de cumprimento mensal
+    taxa_mensal = (qtde_tratadas_mensal / qtde_elegiveis_mensal * 100.0).round(1)
+
+    # Tabela da taxa de cumprimento mensal
+
+    tabela_mensal = pd.DataFrame({
+        'Nº notificações para responder': qtde_elegiveis_mensal,
+        'Nº notificações respondidas': qtde_tratadas_mensal,
+        'Taxa de cumprimento': taxa_mensal
+    })
+
+    return tabela_anual, tabela_mensal
