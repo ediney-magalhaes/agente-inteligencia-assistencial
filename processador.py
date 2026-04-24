@@ -264,3 +264,51 @@ def preparar_dataset_ia_LPP(df_atual):
     df_indicador = df_filtrado[colunas_necessarias]
     return df_indicador
 
+# Função para cumprimento da análise das notificações
+def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem filtro
+    noti_elegiveis = [COL_PL, COL_ACR, COL_PAC]
+    
+    # Filtro de notificações elegível a tratativa
+    df_elegiveis = df_atual[(df_atual[noti_elegiveis].notna().any(axis=1))]
+
+    # Filtro onde as elegíveis foram tratadas
+    df_tratadas = df_elegiveis[(df_elegiveis[COL_STATUS].isin(['Validado', 'Concluído após a investigação']))]
+
+    # Quantidade elegíveis
+    qtde_elegiveis = df_elegiveis.groupby(df_elegiveis[COL_DATA].dt.year).size()
+
+    # Quantidade tratadas
+    qtde_tratadas = df_tratadas.groupby(df_tratadas[COL_DATA].dt.year).size()
+
+    # Taxa anual
+    taxa_anual = (qtde_tratadas / qtde_elegiveis * 100.0).round(1)
+
+    tabela_anual = pd.DataFrame({
+        'Nº notificações para responder': qtde_elegiveis,
+        'Nº notificações respondidas': qtde_tratadas,
+        'Taxa de cumprimento': taxa_anual
+    })
+
+    # Encontrando o ano atual
+    ano_recente = df_elegiveis[COL_DATA].max().year
+
+    # Filtrando pelo ano atual
+    df_elegiveis_ano_atual = df_elegiveis[(df_elegiveis[COL_DATA].dt.year == ano_recente)]
+    df_tratadas_ano_atual = df_tratadas[(df_tratadas[COL_DATA].dt.year == ano_recente)]
+
+    # Agrupando pelo mês
+    qtde_elegiveis_mensal = df_elegiveis_ano_atual.groupby(df_elegiveis_ano_atual[COL_DATA].dt.month).size()
+    qtde_tratadas_mensal = df_tratadas_ano_atual.groupby(df_tratadas_ano_atual[COL_DATA].dt.month).size()
+
+    # Cálculo da taxa de cumprimento mensal
+    taxa_mensal = (qtde_tratadas_mensal / qtde_elegiveis_mensal * 100.0).round(1)
+
+    # Tabela da taxa de cumprimento mensal
+
+    tabela_mensal = pd.DataFrame({
+        'Nº notificações para responder': qtde_elegiveis_mensal,
+        'Nº notificações respondidas': qtde_tratadas_mensal,
+        'Taxa de cumprimento': taxa_mensal
+    })
+
+    return tabela_anual, tabela_mensal
