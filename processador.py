@@ -235,13 +235,13 @@ def preparar_detalhe_queda(df_atual):
 
     return qtde_grau_dano, qtde_local_queda, qtde_tipo_queda
 
-# Função para preparar dataset erro de medicação
-def preparar_erro_medicacao(df_atual):
+# Função que prepara dataset para IA filtrar possíveis erro de medicação, flebite e outros casos semelhantes
+def preparar_dataset_ia(df_atual):
     colunas_necessarias = [COL_TAXON,
                            COL_CAT,
                            COL_CLASSIFICACAO,
                            COL_INCIDENTE,
                            COL_OPCAO,
                            COL_DESCRICAO]
-    df_erro_medicacao = df_atual[colunas_necessarias]
-    return df_erro_medicacao
+    df_indicador = df_atual[colunas_necessarias]
+    return df_indicador
