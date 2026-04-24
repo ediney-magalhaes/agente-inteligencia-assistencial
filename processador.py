@@ -234,3 +234,14 @@ def preparar_detalhe_queda(df_atual):
     qtde_local_queda = df_quedas[COL_LOCAL].value_counts()
 
     return qtde_grau_dano, qtde_local_queda, qtde_tipo_queda
+
+# Função para preparar dataset erro de medicação
+def preparar_erro_medicacao(df_atual):
+    colunas_necessarias = [COL_TAXON,
+                           COL_CAT,
+                           COL_CLASSIFICACAO,
+                           COL_INCIDENTE,
+                           COL_OPCAO,
+                           COL_DESCRICAO]
+    df_erro_medicacao = df_atual[colunas_necessarias]
+    return df_erro_medicacao
