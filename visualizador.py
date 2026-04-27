@@ -306,3 +306,50 @@ def gerar_grafico_bloco7_geral(medias, metas):
     fig.subplots_adjust(top=0.85)
     fig.tight_layout()
     return fig
+
+# Gráfico para cumprimento das análises
+def gerar_grafico_bloco8(tabela_anual, tabela_mensal, ano_atual):
+    fig, ax = plt.subplots(figsize=(14, 6))
+
+    # Plotando eixo principal
+    x_barras = range(len(tabela_anual))
+    ax.bar(x_barras, tabela_anual['Taxa de cumprimento'], color='#1F4E79', label='Taxa Anual')
+    
+    # Rótulos barras
+    for i, v in enumerate(tabela_anual['Taxa de cumprimento']):
+        ax.text(i, v + 2, f'{v:.1f}%', ha='center', va='bottom', fontweight='bold')
+
+    # Plotando eixo secundário
+    inicio_linha = len(x_barras) + 0.5
+    x_linha = [inicio_linha + i for i in range(len(tabela_mensal))]
+    ax.plot(x_linha, tabela_mensal['Taxa de cumprimento'], color='red', marker='o', label=f'Período mensal do ano de {ano_atual}')
+
+    # Rótulos dos meses
+    for x, y in zip(x_linha, tabela_mensal['Taxa de cumprimento']):
+        ax.text(x, y, f'{y}%', ha='center', va='bottom')    
+
+    # Rótulo do eixo X
+    labels_anos = [str(ano) for ano in tabela_anual.index]
+    meses_pt = {1:'Jan', 2:'Fev', 3:'Mar', 4:'Abr', 5:'Mai', 6:'Jun', 7:'Jul', 8:'Ago', 9:'Set', 10:'Out', 11:'Nov', 12:'Dez'}
+    labels_meses = [f"{meses_pt[m]}/{str(ano_atual)[2:]}" for m in tabela_mensal.index]
+    ax.set_xticks(list(x_barras) + list(x_linha))
+    ax.set_xticklabels(labels_anos + labels_meses, rotation=45, ha='right')
+
+    # Linha separação
+    ax.axvline(len(x_barras) - 0.25, color='gray', linestyle='--', alpha=0.5)
+    ax.set_ylim(0, 115)
+    ax.grid(True, linestyle='--', alpha=0.3)
+
+    # Configurando título
+    ax.set_title('Cumprimento das Análises de Notificações', fontsize=14, fontweight='bold', pad=30)
+
+    # Remover bordas (superior e direita)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # Adicionando legenda
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.08), ncol=2, frameon=False)
+
+    fig.subplots_adjust(top=0.85)
+    fig.tight_layout()
+    return fig
