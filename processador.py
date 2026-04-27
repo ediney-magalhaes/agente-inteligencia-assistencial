@@ -241,7 +241,18 @@ def preparar_bloco7(df_atual, df_indicadores, indicador, trim_atual, ano_atual):
     df_media_tri_atual = df_tri_atual[indicador].mean().round(2)
     df_media_tri_anterior = df_tri_anterior[indicador].mean().round(2)
 
-    return df_ano_atual, df_ano_anterior, df_media_tri_atual, df_media_tri_anterior
+    # mapear funções
+    mapa_funcoes = {
+        "Queda": preparar_detalhe_queda,
+        "Lesão de Pele": preparar_dataset_ia_LPP,
+        "Erro de medicação": preparar_dataset_ia,
+        "Flebite": preparar_dataset_ia
+    }
+
+    #DataFrame para contexto da IA
+    df_contexto_ia = mapa_funcoes[indicador](df_atual)
+
+    return df_ano_atual, df_ano_anterior, df_media_tri_atual, df_media_tri_anterior, df_contexto_ia
 
 # Função para indicador de Queda
 def preparar_detalhe_queda(df_atual):
