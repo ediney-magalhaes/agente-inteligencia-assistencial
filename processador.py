@@ -77,9 +77,17 @@ def preparar_bloco1(df):
     var_tri = ((total_atual - total_tri_anterior) / total_tri_anterior * 100) if total_tri_anterior else 0
     var_ano = ((total_atual - total_ano_anterior) / total_ano_anterior * 100) if total_ano_anterior else 0
 
+    # Contagem das notificações mês a mês
+    qtde_mensal = df.groupby([df[COL_DATA].dt.year, df[COL_DATA].dt.month]).size()
+
+    # Contagem das notificações por trimestre
+    qtde_trimestral = df.groupby([df[COL_DATA].dt.year, df[COL_DATA].dt.quarter]).size()
+
     return (total_atual,
             total_tri_anterior,
             total_ano_anterior,
+            qtde_mensal,
+            qtde_trimestral,
             var_tri,
             var_ano,
             trimestre_atual,
