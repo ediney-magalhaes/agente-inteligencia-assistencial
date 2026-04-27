@@ -193,7 +193,11 @@ def preparar_bloco4(df_atual, df_anterior):
     # Filtrando o status das notificações 'Grave' e 'Óbito'
     status_eventos = df_eventos_adversos[df_eventos_adversos[COL_GRAU].isin(['Óbito', 'Grave'])][[COL_DESCRICAO, COL_GRAU, COL_STATUS]]
 
-    return tabela_comparativa, tabela_top3_eventos, status_eventos
+    # DataFrame Contexto para IA
+    colunas_necessarias = [COL_TURNO, COL_SETOR, COL_GRAU, COL_OPCAO, COL_DESCRICAO]
+    df_contexto_ia = df_eventos_adversos[colunas_necessarias]
+
+    return tabela_comparativa, tabela_top3_eventos, status_eventos, df_contexto_ia
 
 # Função para os blocos 5 e 6 do relatório
 def preparar_bloco_setores(df_atual, df_anterior, coluna):
