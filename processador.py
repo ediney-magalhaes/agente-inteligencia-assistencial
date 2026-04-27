@@ -155,7 +155,11 @@ def preparar_bloco3(df_atual, df_anterior):
         # Adiciona ao dicionário vazio cada classificação com sua tabela de frequência absoluta e relativa
         dicionario[classificacao] = tabela
 
-    return tabela_comparativa, dicionario
+    # DataFrame de contexto para IA
+    colunas_necessarias = [COL_CLASSIFICACAO, COL_TURNO, COL_SETOR, COL_GRAU, COL_DESCRICAO]
+    df_contexto_ia = df_atual[colunas_necessarias]
+
+    return tabela_comparativa, dicionario, df_contexto_ia
 
 # Preparar dados - Bloco 4 (Eventos Adversos Notificados)
 def preparar_bloco4(df_atual, df_anterior):
