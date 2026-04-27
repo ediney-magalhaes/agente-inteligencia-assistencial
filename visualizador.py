@@ -254,3 +254,55 @@ def gerar_grafico_bloco7(df_ano_atual, df_ano_anterior, indicador, trim_atual, a
     fig.subplots_adjust(top=0.85)
     fig.tight_layout()
     return fig
+
+# Função para gráfico trimestral dos indicadores de qualidade
+def gerar_grafico_bloco7_geral(medias, metas):
+    nomes = list(medias.keys())
+
+    lista_atual = []
+    lista_anterior = []
+    # Extrair valore das médias trimestrais
+    for atual, anterior in medias.values():
+        lista_atual.append(atual)
+        lista_anterior.append(anterior)
+
+    fig, ax = plt.subplots(figsize=(14, 6))
+
+    # Configurando posição dos grupos no eixo
+    posicoes = np.arange(len(nomes))
+    largura = 0.35
+    
+    # Lista de cores e largura
+    cores = ['#2E75B6', '#1F4E79']
+    
+    # Barra trimestre atual
+    barra_atual = ax.bar(posicoes - largura / 2, lista_atual, largura, color=cores[1], label='Trimestre atual')
+
+    # Barra trimestre anterior
+    barra_anterior = ax.bar(posicoes + largura / 2, lista_anterior, largura, color=cores[0], label='Trimestre anterior')
+
+    # Rótulos
+    ax.bar_label(barra_atual, padding=3, fmt='%.2f', fontsize=9)
+    ax.bar_label(barra_anterior, padding=3, fmt='%.2f', fontsize=9)
+
+    # Configurando eixo X
+    ax.set_xticks(posicoes)
+    ax.set_xticklabels(nomes)
+
+    # Configurando título
+    ax.set_title('Índices de qualidade — Comparativo trimestral', fontsize=14, fontweight='bold', pad=30)
+
+    # Remover bordas (superior e direita)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # Adicionando legenda
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.08), ncol=2, frameon=False)
+
+    # Rótulo do eixo Y e X
+    ax.set_ylabel('Índices', fontsize=10)
+    ax.set_xlabel('Classificações', fontsize=10)
+
+    fig.subplots_adjust(top=0.85)
+    fig.tight_layout()
+    return fig
