@@ -113,7 +113,11 @@ def preparar_bloco2(df_atual, df_anterior):
     denominador = tabela['Trimestre anterior'].replace(0, float('nan'))
     tabela['% variação'] = ((tabela['Trimestre atual'] - tabela['Trimestre anterior']) /  denominador * 100).fillna(0).round(1)
 
-    return tabela
+    # Dataframe com contexto para leitura da IA
+    colunas_necessarias = [COL_TURNO, COL_CLASSIFICACAO, COL_DESCRICAO]
+    df_contexto_ia = df_atual[colunas_necessarias]
+
+    return tabela, df_contexto_ia
 
 # Preparar dados - Bloco 3 (Classificação notificações)
 def preparar_bloco3(df_atual, df_anterior):
