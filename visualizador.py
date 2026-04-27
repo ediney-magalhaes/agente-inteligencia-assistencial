@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import textwrap
 import numpy as np
 
 # Função para volume das notificações
@@ -94,6 +95,106 @@ def grafico_volume_notificacoes(qtde_mensal, qtde_trimestral, trim_atual, ano_at
 
     # Rótulo do eixo Y
     ax.set_ylabel('Nº de notificações', fontsize=10)
+
+    fig.subplots_adjust(top=0.85)
+    fig.tight_layout()
+    return fig
+
+# Função para o gráfico de comparação das classificações
+def grafico_classificacoes(tabela_classificacao, trim_atual, ano_atual):
+    # Criando a figura
+    fig, ax = plt.subplots(figsize=(14, 6))
+    
+    # Extraindo as classificações
+    classificacoes = tabela_classificacao.index
+
+    # Lista de cores e largura
+    cores = ['#2E75B6', '#1F4E79']
+    largura = 0.35
+
+    # Definindo posição das barras
+    posicoes = np.arange(len(classificacoes))
+
+    # Plotando barras do ano anterior
+    barras_ant = ax.bar(posicoes - largura/2, tabela_classificacao['Trimestre anterior'], largura, color=cores[0], label=str(ano_atual - 1))
+
+    # Configurando os rótulos
+    for barra in barras_ant:
+        altura = barra.get_height()
+        ax.text(
+            barra.get_x() + barra.get_width() / 2,
+            altura + 2,
+            str(int(altura)),
+            ha='center', va='bottom',
+            fontsize=8, fontweight='bold'
+        )
+
+    # Plotando barras do ano atual
+    barras_atual = ax.bar(posicoes + largura/2, tabela_classificacao['Trimestre atual'], largura, color=cores[1], label=str(ano_atual))
+
+    # Configurando os rótulos
+    for bar in barras_atual:
+        altura_atual = bar.get_height()
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,
+            altura_atual + 2,
+            str(int(altura_atual)),
+            ha='center', va='bottom',
+            fontsize=8, fontweight='bold'
+        )
+
+    # Configurando eixo X
+    ax.set_xticks(posicoes)
+    ax.set_xticklabels(classificacoes, rotation=15, ha='right', fontsize=8)
+
+    # Configurando título
+    ax.set_title('Número de notificações realizadas por tipo de classificação', fontsize=14, fontweight='bold', pad=30)
+
+    # Configurando subtítulo
+    #anos_texto = ' e '.join([str(a) for a in anos])
+    ax.text(0.5, 1.04, f'Comparativo do {trim_atual}º trimestre dos anos {ano_atual - 1} e {ano_atual}',
+            transform=ax.transAxes, ha='center', fontsize=9)
+    
+    # Adicionando legenda
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.01), ncol=2, frameon=False)
+
+    # Grade horizontal
+    ax.grid(axis='y', linestyle='--', alpha=0.3)
+
+    # Remover bordas (superior e direita)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # Rótulo do eixo Y
+    ax.set_ylabel('Nº de notificações', fontsize=10)
+
+    fig.subplots_adjust(top=0.85)
+    fig.tight_layout()
+    return fig
+
+# Função para gráficos top 3 por classificação
+def gerar_grafico_top3(dicionario, classificacao):
+    tabela = dicionario[classificacao].iloc[::-1]
+
+    fig, ax = plt.subplots(figsize=(14, 6))
+    ax.barh(tabela.index, tabela['Frequência'])
+
+    for patch in ax.patches:
+        valor = patch.get_width()
+        posicao_x = valor
+        posicao_y = patch.get_y() + patch.get_height() / 2
+        ax.text(posicao_x, posicao_y, str(int(valor)), ha='left', va='center')
+
+    nome_ajustado = textwrap.fill(classificacao, 40)
+    # Configurando título
+    ax.set_title(f'Top 3 notificações mais realizadas - {nome_ajustado}', fontsize=14, fontweight='bold', pad=30)
+
+    # Remover bordas (superior e direita)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # Rótulo do eixo Y
+    ax.set_ylabel('Tipo de incidentes', fontsize=10)
 
     fig.subplots_adjust(top=0.85)
     fig.tight_layout()
