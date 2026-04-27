@@ -342,4 +342,13 @@ def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem f
         'Taxa de cumprimento': taxa_mensal
     })
 
-    return tabela_anual, tabela_mensal
+    # DataFrame de notificações não tratadas para contexto da IA
+    df_nao_tratadas = df_elegiveis_ano_atual[~df_elegiveis_ano_atual.index.isin(df_tratadas_ano_atual.index)]
+
+    # Colunas para contexto
+    colunas_necessarias = [COL_SETOR, COL_CLASSIFICACAO, COL_STATUS, COL_DESCRICAO]
+
+    # DataFrame de contexto
+    df_contexto_ia = df_nao_tratadas[colunas_necessarias]
+
+    return tabela_anual, tabela_mensal, df_contexto_ia
