@@ -226,3 +226,31 @@ def gerar_grafico_bloco4_1(tabela_top3_eventos):
     fig.subplots_adjust(top=0.85)
     fig.tight_layout()
     return fig
+
+# Função para gerar gráficos: Flebite, Erro de medicação, LPP e Queda
+def gerar_grafico_bloco7(df_ano_atual, df_ano_anterior, indicador, trim_atual, ano_atual):
+    fig, ax = plt.subplots(figsize=(14, 6))
+
+    # Plotando o ano atual
+    ax.plot(df_ano_atual['Mês'], df_ano_atual[indicador], label=ano_atual)
+
+    # Plotando o ano anterior
+    ax.plot(df_ano_anterior['Mês'], df_ano_anterior[indicador], label=(ano_atual - 1))
+
+    # Configurando título
+    ax.set_title(f'Índices de {indicador}', fontsize=14, fontweight='bold', pad=30)
+
+    # Remover bordas (superior e direita)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # Adicionando legenda
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.01), ncol=2, frameon=False)
+
+    # Rótulo do eixo Y e X
+    ax.set_ylabel('Nº notificações', fontsize=10)
+    ax.set_xlabel('Período', fontsize=10)
+
+    fig.subplots_adjust(top=0.85)
+    fig.tight_layout()
+    return fig
