@@ -199,3 +199,30 @@ def gerar_grafico_top3(dicionario, classificacao):
     fig.subplots_adjust(top=0.85)
     fig.tight_layout()
     return fig
+
+# Função para gráfico Eventos Adversos
+def gerar_grafico_bloco4_1(tabela_top3_eventos):
+    tabela_ordenada = tabela_top3_eventos.iloc[::-1]
+    
+    fig, ax = plt.subplots(figsize=(14, 6))
+    ax.barh(tabela_ordenada.index, tabela_ordenada['Frequência'])
+
+    for patch in ax.patches:
+        valor = patch.get_width()
+        posicao_x = valor
+        posicao_y = patch.get_y() + patch.get_height() / 2
+        ax.text(posicao_x, posicao_y, str(int(valor)), ha='left', va='center')
+
+    # Configurando título
+    ax.set_title('Top 3 Eventos Adversos mais notificados', fontsize=14, fontweight='bold', pad=30)
+
+    # Remover bordas (superior e direita)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # Rótulo do eixo X
+    ax.set_ylabel('Tipo de eventos', fontsize=10)
+
+    fig.subplots_adjust(top=0.85)
+    fig.tight_layout()
+    return fig
