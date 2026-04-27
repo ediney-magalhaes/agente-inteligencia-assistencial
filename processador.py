@@ -77,9 +77,17 @@ def preparar_bloco1(df):
     var_tri = ((total_atual - total_tri_anterior) / total_tri_anterior * 100) if total_tri_anterior else 0
     var_ano = ((total_atual - total_ano_anterior) / total_ano_anterior * 100) if total_ano_anterior else 0
 
+    # Contagem das notificações mês a mês
+    qtde_mensal = df.groupby([df[COL_DATA].dt.year, df[COL_DATA].dt.month]).size()
+
+    # Contagem das notificações por trimestre
+    qtde_trimestral = df.groupby([df[COL_DATA].dt.year, df[COL_DATA].dt.quarter]).size()
+
     return (total_atual,
             total_tri_anterior,
             total_ano_anterior,
+            qtde_mensal,
+            qtde_trimestral,
             var_tri,
             var_ano,
             trimestre_atual,
@@ -105,7 +113,11 @@ def preparar_bloco2(df_atual, df_anterior):
     denominador = tabela['Trimestre anterior'].replace(0, float('nan'))
     tabela['% variação'] = ((tabela['Trimestre atual'] - tabela['Trimestre anterior']) /  denominador * 100).fillna(0).round(1)
 
-    return tabela
+    # Dataframe com contexto para leitura da IA
+    colunas_necessarias = [COL_TURNO, COL_CLASSIFICACAO, COL_DESCRICAO]
+    df_contexto_ia = df_atual[colunas_necessarias]
+
+    return tabela, df_contexto_ia
 
 # Preparar dados - Bloco 3 (Classificação notificações)
 def preparar_bloco3(df_atual, df_anterior):
@@ -143,7 +155,11 @@ def preparar_bloco3(df_atual, df_anterior):
         # Adiciona ao dicionário vazio cada classificação com sua tabela de frequência absoluta e relativa
         dicionario[classificacao] = tabela
 
-    return tabela_comparativa, dicionario
+    # DataFrame de contexto para IA
+    colunas_necessarias = [COL_CLASSIFICACAO, COL_TURNO, COL_SETOR, COL_GRAU, COL_DESCRICAO]
+    df_contexto_ia = df_atual[colunas_necessarias]
+
+    return tabela_comparativa, dicionario, df_contexto_ia
 
 # Preparar dados - Bloco 4 (Eventos Adversos Notificados)
 def preparar_bloco4(df_atual, df_anterior):
@@ -177,7 +193,11 @@ def preparar_bloco4(df_atual, df_anterior):
     # Filtrando o status das notificações 'Grave' e 'Óbito'
     status_eventos = df_eventos_adversos[df_eventos_adversos[COL_GRAU].isin(['Óbito', 'Grave'])][[COL_DESCRICAO, COL_GRAU, COL_STATUS]]
 
-    return tabela_comparativa, tabela_top3_eventos, status_eventos
+    # DataFrame Contexto para IA
+    colunas_necessarias = [COL_TURNO, COL_SETOR, COL_GRAU, COL_OPCAO, COL_DESCRICAO]
+    df_contexto_ia = df_eventos_adversos[colunas_necessarias]
+
+    return tabela_comparativa, tabela_top3_eventos, status_eventos, df_contexto_ia
 
 # Função para os blocos 5 e 6 do relatório
 def preparar_bloco_setores(df_atual, df_anterior, coluna):
@@ -221,7 +241,18 @@ def preparar_bloco7(df_atual, df_indicadores, indicador, trim_atual, ano_atual):
     df_media_tri_atual = df_tri_atual[indicador].mean().round(2)
     df_media_tri_anterior = df_tri_anterior[indicador].mean().round(2)
 
-    return df_ano_atual, df_ano_anterior, df_media_tri_atual, df_media_tri_anterior
+    # mapear funções
+    mapa_funcoes = {
+        "Queda": preparar_detalhe_queda,
+        "Lesão de Pele": preparar_dataset_ia_LPP,
+        "Erro de medicação": preparar_dataset_ia,
+        "Flebite": preparar_dataset_ia
+    }
+
+    #DataFrame para contexto da IA
+    df_contexto_ia = mapa_funcoes[indicador](df_atual)
+
+    return df_ano_atual, df_ano_anterior, df_media_tri_atual, df_media_tri_anterior, df_contexto_ia
 
 # Função para indicador de Queda
 def preparar_detalhe_queda(df_atual):
@@ -311,4 +342,13 @@ def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem f
         'Taxa de cumprimento': taxa_mensal
     })
 
-    return tabela_anual, tabela_mensal
+    # DataFrame de notificações não tratadas para contexto da IA
+    df_nao_tratadas = df_elegiveis_ano_atual[~df_elegiveis_ano_atual.index.isin(df_tratadas_ano_atual.index)]
+
+    # Colunas para contexto
+    colunas_necessarias = [COL_SETOR, COL_CLASSIFICACAO, COL_STATUS, COL_DESCRICAO]
+
+    # DataFrame de contexto
+    df_contexto_ia = df_nao_tratadas[colunas_necessarias]
+
+    return tabela_anual, tabela_mensal, df_contexto_ia
