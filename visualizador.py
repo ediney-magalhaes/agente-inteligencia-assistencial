@@ -308,47 +308,97 @@ def gerar_grafico_bloco7_geral(medias, metas):
     return fig
 
 # Gráfico para cumprimento das análises
-def gerar_grafico_bloco8(tabela_anual, tabela_mensal, ano_atual):
+def gerar_grafico_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal,tabela_mensal_anterior, ano_atual):
     fig, ax = plt.subplots(figsize=(14, 6))
 
-    # Plotando eixo principal
-    x_barras = range(len(tabela_anual))
-    ax.bar(x_barras, tabela_anual['Taxa de cumprimento'], color='#1F4E79', label='Taxa Anual')
+    # Extrair anos e meses
+    anos = [ano_atual - 1, ano_atual]
+    meses = tabela_mensal_anterior.index
+    trimestres = tabela_tri_anterior.index
+
+    # Configuração das posições das barras no eixo X
+    largura = 0.35
+    posicoes = np.arange(len(meses))
+    posicoes_trimestre = len(meses) + 1 + np.arange(len(trimestres))
+
+    # Lista de cores
+    cores = ['#2E75B6', '#1F4E79']
+
+    # Selecionar tabelas e valores para plotagem
+    for i, ano in enumerate(anos):
+        if i == 0:
+            tabela_mes = tabela_mensal_anterior
+            tabela_tri = tabela_tri_anterior
+        else:
+            tabela_mes = tabela_mensal
+            tabela_tri = tabela_tri_atual
+        valores = [tabela_mes['Taxa de cumprimento'].get(mes, np.nan) for mes in meses]
+        valores_tri = [tabela_tri['Taxa de cumprimento'].get(tri, np.nan) for tri in trimestres]
+        deslocamento = (i - len(anos)/2 + 0.5) * largura
+        barras = ax.bar(posicoes + deslocamento, valores, largura, color=cores[i], label=str(ano))
+        for barra in barras:
+            altura = barra.get_height()
+            if altura > 0:
+                ax.text(
+                    barra.get_x() + barra.get_width() / 2, # posição do x (centro da barra)
+                    altura + 2, # posição do y (acima da barra)
+                    f'{altura:.1f}%',
+                    ha='center', va='bottom', # alinhamento
+                    fontsize=8, fontweight='bold'
+                )
+        # Plotando os trimestres 
+            valores_tri = [tabela_tri['Taxa de cumprimento'].get(tri, np.nan) for tri in trimestres]
+            deslocamento_tri = (i - len(anos) / 2 + 0.5) * largura
+            barra_tri = ax.bar(posicoes_trimestre + deslocamento_tri, valores_tri, largura, color=cores[i])
+            for bar in barra_tri:
+                altura_tri = bar.get_height()
+                if altura_tri > 0:
+                    ax.text(
+                        bar.get_x() + bar.get_width() / 2,
+                        altura_tri + 2,
+                        f'{altura_tri:.1f}%',
+                        ha='center', va='bottom',
+                        fontsize=8, fontweight='bold'
+                    )
+
+    # dicionário dos meses
+    nomes_meses = {1:'Jan', 2:'Fev', 3:'Mar', 4:'Abr', 5:'Mai', 
+               6:'Jun', 7:'Jul', 8:'Ago', 9:'Set', 10:'Out', 
+               11:'Nov', 12:'Dez'}
     
-    # Rótulos barras
-    for i, v in enumerate(tabela_anual['Taxa de cumprimento']):
-        ax.text(i, v + 2, f'{v:.1f}%', ha='center', va='bottom', fontweight='bold')
+    # dicionário dos trimestres
+    nomes_trimestres = {1: '1º Tri', 2: '2º Tri', 3: '3º Tri', 4: '4º Tri'}
 
-    # Plotando eixo secundário
-    inicio_linha = len(x_barras) + 0.5
-    x_linha = [inicio_linha + i for i in range(len(tabela_mensal))]
-    ax.plot(x_linha, tabela_mensal['Taxa de cumprimento'], color='red', marker='o', label=f'Período mensal do ano de {ano_atual}')
+    # Nomes dos meses e trimestres
+    rotulos_meses = [nomes_meses[mes] for mes in meses]
+    rotulos_trimestres = [nomes_trimestres[tri] for tri in trimestres]
 
-    # Rótulos dos meses
-    for x, y in zip(x_linha, tabela_mensal['Taxa de cumprimento']):
-        ax.text(x, y, f'{y}%', ha='center', va='bottom')    
+    # Concatena as posições aos nomes
+    todas_posicoes = np.concatenate([posicoes, posicoes_trimestre])
+    todos_rotulos = rotulos_meses + rotulos_trimestres
 
-    # Rótulo do eixo X
-    labels_anos = [str(ano) for ano in tabela_anual.index]
-    meses_pt = {1:'Jan', 2:'Fev', 3:'Mar', 4:'Abr', 5:'Mai', 6:'Jun', 7:'Jul', 8:'Ago', 9:'Set', 10:'Out', 11:'Nov', 12:'Dez'}
-    labels_meses = [f"{meses_pt[m]}/{str(ano_atual)[2:]}" for m in tabela_mensal.index]
-    ax.set_xticks(list(x_barras) + list(x_linha))
-    ax.set_xticklabels(labels_anos + labels_meses, rotation=45, ha='right')
-
-    # Linha separação
-    ax.axvline(len(x_barras) - 0.25, color='gray', linestyle='--', alpha=0.5)
-    ax.set_ylim(0, 115)
-    ax.grid(True, linestyle='--', alpha=0.3)
+    # Configuração do eixo X
+    ax.set_xticks(todas_posicoes)
+    ax.set_xticklabels(todos_rotulos, rotation=0, fontsize=9)
 
     # Configurando título
-    ax.set_title('Cumprimento das Análises de Notificações', fontsize=14, fontweight='bold', pad=30)
+    ax.set_title('Taxa de Cumprimento das Análises das Notificações', fontsize=14, fontweight='bold', pad=30)
+    
+    # Separando meses dos trimestres (linha vertical)
+    ax.axvline(x=len(meses) + 0.5, color='gray', linestyle='--', alpha=0.5)
+
+    # Grade horizontal
+    ax.grid(axis='y', linestyle='--', alpha=0.3)
 
     # Remover bordas (superior e direita)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
 
     # Adicionando legenda
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.08), ncol=2, frameon=False)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.01), ncol=(len(anos)), frameon=False)
+
+    # Rótulo do eixo Y
+    ax.set_ylabel('Taxa', fontsize=10)
 
     fig.subplots_adjust(top=0.85)
     fig.tight_layout()
