@@ -299,29 +299,43 @@ def preparar_dataset_ia_LPP(df_atual):
 def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem filtro
     noti_elegiveis = [COL_PL, COL_ACR, COL_PAC]
     
+    # Separando os períodos
+    ano_recente = df_atual[COL_DATA].max().year
+    ano_anterior = ano_recente - 1
+
     # Filtro de notificações elegível a tratativa
     df_elegiveis = df_atual[(df_atual[noti_elegiveis].notna().any(axis=1))]
+    df_elegiveis_ano_atual = df_elegiveis[(df_elegiveis[COL_DATA].dt.year == ano_recente)]
+    df_elegiveis_ano_anterior = df_elegiveis[(df_elegiveis[COL_DATA].dt.year == ano_anterior)]
 
     # Filtro onde as elegíveis foram tratadas
     df_tratadas = df_elegiveis[(df_elegiveis[COL_STATUS].isin(['Validado', 'Concluído após a investigação']))]
+    df_tratadas_ano_atual = df_tratadas[(df_tratadas[COL_DATA].dt.year == ano_recente)]
+    df_tratadas_ano_anterior = df_tratadas[(df_tratadas[COL_DATA].dt.year == ano_anterior)]
 
-    # Quantidade elegíveis
-    qtde_elegiveis = df_elegiveis.groupby(df_elegiveis[COL_DATA].dt.year).size()
+    # Quantidade elegíveis trimestr
+    qtde_elegiveis_atual = df_elegiveis_ano_atual.groupby(df_elegiveis_ano_atual[COL_DATA].dt.quarter).size()
+    qtde_elegiveis_anterior = df_elegiveis_ano_anterior.groupby(df_elegiveis_ano_anterior[COL_DATA].dt.quarter).size()
 
     # Quantidade tratadas
-    qtde_tratadas = df_tratadas.groupby(df_tratadas[COL_DATA].dt.year).size()
+    qtde_tratadas_atual = df_tratadas_ano_atual.groupby(df_tratadas_ano_atual[COL_DATA].dt.quarter).size()
+    qtde_tratadas_anterior = df_tratadas_ano_anterior.groupby(df_tratadas_ano_anterior[COL_DATA].dt.quarter).size()
 
-    # Taxa anual
-    taxa_anual = (qtde_tratadas / qtde_elegiveis * 100.0).round(1)
+    # Taxa trimestral
+    taxa_tri_atual = (qtde_tratadas_atual / qtde_elegiveis_atual * 100.0).round(1)
+    taxa_tri_anterior = (qtde_tratadas_anterior / qtde_elegiveis_anterior * 100.0).round(1)
 
-    tabela_anual = pd.DataFrame({
-        'Nº notificações para responder': qtde_elegiveis,
-        'Nº notificações respondidas': qtde_tratadas,
-        'Taxa de cumprimento': taxa_anual
+    tabela_tri_atual = pd.DataFrame({
+        'Nº notificações para responder': qtde_elegiveis_atual,
+        'Nº notificações respondidas': qtde_tratadas_atual,
+        'Taxa de cumprimento': taxa_tri_atual
     })
 
-    # Encontrando o ano atual
-    ano_recente = df_elegiveis[COL_DATA].max().year
+    tabela_tri_anterior = pd.DataFrame({
+        'Nº notificações para responder': qtde_elegiveis_anterior,
+        'Nº notificações respondidas': qtde_tratadas_anterior,
+        'Taxa de cumprimento': taxa_tri_anterior
+    })
 
     # Filtrando pelo ano atual
     df_elegiveis_ano_atual = df_elegiveis[(df_elegiveis[COL_DATA].dt.year == ano_recente)]
@@ -330,9 +344,12 @@ def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem f
     # Agrupando pelo mês
     qtde_elegiveis_mensal = df_elegiveis_ano_atual.groupby(df_elegiveis_ano_atual[COL_DATA].dt.month).size()
     qtde_tratadas_mensal = df_tratadas_ano_atual.groupby(df_tratadas_ano_atual[COL_DATA].dt.month).size()
+    qtde_elegiveis_mensal_anterior = df_elegiveis_ano_anterior.groupby(df_elegiveis_ano_anterior[COL_DATA].dt.month).size()
+    qtde_tratadas_mensal_anterior = df_tratadas_ano_anterior.groupby(df_tratadas_ano_anterior[COL_DATA].dt.month).size()
 
     # Cálculo da taxa de cumprimento mensal
     taxa_mensal = (qtde_tratadas_mensal / qtde_elegiveis_mensal * 100.0).round(1)
+    taxa_mensal_anterior = (qtde_tratadas_mensal_anterior / qtde_elegiveis_mensal_anterior * 100.0).round(1)
 
     # Tabela da taxa de cumprimento mensal
 
@@ -340,6 +357,12 @@ def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem f
         'Nº notificações para responder': qtde_elegiveis_mensal,
         'Nº notificações respondidas': qtde_tratadas_mensal,
         'Taxa de cumprimento': taxa_mensal
+    })
+
+    tabela_mensal_anterior = pd.DataFrame({
+        'Nº notificações para responder': qtde_elegiveis_mensal_anterior,
+        'Nº notificações respondidas': qtde_tratadas_mensal_anterior,
+        'Taxa de cumprimento': taxa_mensal_anterior
     })
 
     # DataFrame de notificações não tratadas para contexto da IA
@@ -351,4 +374,4 @@ def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem f
     # DataFrame de contexto
     df_contexto_ia = df_nao_tratadas[colunas_necessarias]
 
-    return tabela_anual, tabela_mensal, df_contexto_ia
+    return tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela_mensal_anterior, df_contexto_ia
