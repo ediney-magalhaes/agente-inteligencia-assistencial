@@ -48,6 +48,9 @@ with aba1:
                 item['responsavel'] = st.text_input("Responsável", value=item['responsavel'], key=f"responsavel_{i}")
     with sub5:
         st.write("Produzir documento")
+        st.info(f"Trimestre: {st.session_state['trimestre']} | Ano: {st.session_state['ano']} | Hospital: {st.session_state['hospital']}")
+        if st.button("📄 Gerar Relatório"):
+            st.warning("Gerador ainda não implementado")
 with aba2:
     st.write("Em desenvolvimento — Fase 3")
 with aba3:
