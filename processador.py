@@ -245,7 +245,7 @@ def preparar_bloco7(df_atual, df_indicadores, indicador, trim_atual, ano_atual):
     mapa_funcoes = {
         "Queda": preparar_detalhe_queda,
         "Lesão de Pele": preparar_dataset_ia_LPP,
-        "Erro de medicação": preparar_dataset_ia,
+        "Erro de Medicação": preparar_dataset_ia,
         "Flebite": preparar_dataset_ia
     }
 

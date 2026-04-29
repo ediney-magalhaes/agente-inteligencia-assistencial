@@ -60,11 +60,13 @@ with aba1:
                 'grafico9': st.session_state["img_grafico9"],
                 'grafico10': st.session_state["img_grafico10"]
                 }
-            gerador.gerar_relatorio(st.session_state['trimestre'], st.session_state['ano'],
+            caminho_doc = gerador.gerar_relatorio(st.session_state['trimestre'], st.session_state['ano'],
                                     st.session_state['hospital'], st.session_state['arquivo_notificacoes'],
                                     st.session_state["arquivo_indicadores"], imagens,
                                     st.session_state['texto_obitos'], st.session_state['texto_prontuarios'],
                                     st.session_state['arquivo_psp'], st.session_state['acoes_taticas'])
+            with open(caminho_doc, 'rb') as f:
+                st.download_button("📥 Baixar Relatório", f, file_name="relatorio.docx")
 with aba2:
     st.write("Em desenvolvimento — Fase 3")
 with aba3:

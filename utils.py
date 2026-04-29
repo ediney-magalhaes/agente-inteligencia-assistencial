@@ -26,7 +26,7 @@ COL_LOCAL = 'Local de ocorrência'
 COL_NOTA = 'Nota do Classificador (Opcional)'
 INDICADOR_QUEDA = 'Queda'
 INDICADOR_LPP = 'Lesão de Pele'
-INDICADOR_MEDICACAO = 'Erro de medicação'
+INDICADOR_MEDICACAO = 'Erro de Medicação'
 INDICADOR_FLEBITE = 'Flebite'
 
 # Mapeamento das colunas
