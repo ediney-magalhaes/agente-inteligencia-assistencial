@@ -1,7 +1,10 @@
 from docx import Document
 import pandas as pd
 import processador
+import visualizador
 import utils
+import tempfile
+import os
 
 def gerar_relatorio(trimestre,
                     ano,
@@ -51,3 +54,124 @@ def gerar_relatorio(trimestre,
 
     # Chamada da função do bloco 7 (Erro Medicação)
     df_ano_atual_med, df_ano_anterior_med, df_media_tri_atual_med, df_media_tri_anterior_med, df_contexto_ia_med = processador.preparar_bloco7(df_atual, df_indicadores, utils.INDICADOR_MEDICACAO, trimestre, ano)
+
+    # Chamada da função do bloco 8
+    tabela_tri_atual_bloco8, tabela_tri_anterior_bloco8, tabela_mensal_bloco8, tabela_mensal_anterior_bloco8, df_contexto_ia_bloco8 = processador.preparar_bloco8(df_corrigido)
+
+    # Chamada da função visualização para o gráfico 1
+    fig1 = visualizador.grafico_volume_notificacoes(qtde_mensal, qtde_trimestral, trimestre_atual, ano_atual)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig1.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 3
+    fig2 = visualizador.grafico_classificacoes(tabela_bloco3, trimestre_atual, ano_atual)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig2.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 3.1 (Circunstância de Risco)
+    fig3 = visualizador.gerar_grafico_top3(dicionario_bloco3, 'Circunstância de Risco')
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig3.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 3.2 (Near Miss)
+    fig4 = visualizador.gerar_grafico_top3(dicionario_bloco3, 'Near Miss')
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig4.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 3.3 (Incidente Sem Dano)
+    fig5 = visualizador.gerar_grafico_top3(dicionario_bloco3, 'Incidente Sem Dano')
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig5.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 3.4 (Evento Sentinela)
+    fig6 = visualizador.gerar_grafico_top3(dicionario_bloco3, 'Evento Sentinela')
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig6.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 3.5 (Queixas Técnicas)
+    fig7 = visualizador.gerar_grafico_top3(dicionario_bloco3, 'Queixas Técnicas')
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig7.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 3.6 (Segurança Ocupacional)
+    fig8 = visualizador.gerar_grafico_top3(dicionario_bloco3, 'Segurança Ocupacional')
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig8.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 3.7 (Outra Natureza)
+    fig9 = visualizador.gerar_grafico_top3(dicionario_bloco3, 'Outra Natureza')
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig9.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 4.1 (Eventos Adversos - Top 3)
+    fig10 = visualizador.gerar_grafico_bloco4_1(tabela_top3_bloco4)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig10.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 7 (Indicadores qualidade)
+    medias = {
+    'Queda': (media_tri_atual_queda, media_tri_anterior_queda),
+    'Lesão de Pele': (df_media_tri_atual_lpp, df_media_tri_anterior_lpp),
+    'Flebite': (df_media_tri_atual_fle, df_media_tri_anterior_fle),
+    'Erro de medicação': (df_media_tri_atual_med, df_media_tri_anterior_med)
+    }
+    fig11 = visualizador.gerar_grafico_bloco7_geral(medias, None)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig11.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 7.1 (Erro de Medicação)
+    fig12 = visualizador.gerar_grafico_bloco7(df_ano_atual_med, df_ano_anterior_med,utils.INDICADOR_MEDICACAO, None, ano_atual)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig12.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 7.2 (Lesão por Pressão)
+    fig13 = visualizador.gerar_grafico_bloco7(df_ano_atual_lpp, df_ano_anterior_lpp,utils.INDICADOR_LPP, None, ano_atual)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig13.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 7.3 (Flebite)
+    fig14 = visualizador.gerar_grafico_bloco7(df_ano_atual_fle, df_ano_anterior_fle,utils.INDICADOR_FLEBITE, None, ano_atual)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig14.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 7.4 (Queda)
+    fig15 = visualizador.gerar_grafico_bloco7(df_ano_atual_queda, df_ano_anterior_queda,utils.INDICADOR_QUEDA, None, ano_atual)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig15.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
+
+    # Chamada da função visualização para o gráfico 8 (Cumprimento das Análises)
+    fig16 = visualizador.gerar_grafico_bloco8(tabela_tri_atual_bloco8, tabela_tri_anterior_bloco8, tabela_mensal_bloco8, tabela_mensal_anterior_bloco8, ano_atual)
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+        fig16.savefig(tmp.name)
+        document.add_picture(tmp.name)
+    os.remove(tmp.name)
