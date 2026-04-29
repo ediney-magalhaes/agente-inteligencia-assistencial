@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import gerador
 
 # CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(page_title="Sistema de Inteligência Assistencial", layout="wide")
@@ -50,7 +51,20 @@ with aba1:
         st.write("Produzir documento")
         st.info(f"Trimestre: {st.session_state['trimestre']} | Ano: {st.session_state['ano']} | Hospital: {st.session_state['hospital']}")
         if st.button("📄 Gerar Relatório"):
-            st.warning("Gerador ainda não implementado")
+            #st.warning("Gerador ainda não implementado")
+            imagens = {
+                'grafico2': st.session_state['img_grafico2'],
+                'grafico4_2': st.session_state['img_grafico4_2'],
+                'grafico5': st.session_state["img_grafico5"],
+                'grafico6': st.session_state["img_grafico6"],
+                'grafico9': st.session_state["img_grafico9"],
+                'grafico10': st.session_state["img_grafico10"]
+                }
+            gerador.gerar_relatorio(st.session_state['trimestre'], st.session_state['ano'],
+                                    st.session_state['hospital'], st.session_state['arquivo_notificacoes'],
+                                    st.session_state["arquivo_indicadores"], imagens,
+                                    st.session_state['texto_obitos'], st.session_state['texto_prontuarios'],
+                                    st.session_state['arquivo_psp'], st.session_state['acoes_taticas'])
 with aba2:
     st.write("Em desenvolvimento — Fase 3")
 with aba3:

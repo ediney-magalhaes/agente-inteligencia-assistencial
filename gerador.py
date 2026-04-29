@@ -4,6 +4,7 @@ import processador
 import visualizador
 import utils
 import tempfile
+from docx.shared import Inches
 import os
 
 def gerar_relatorio(trimestre,
@@ -175,3 +176,8 @@ def gerar_relatorio(trimestre,
         fig16.savefig(tmp.name)
         document.add_picture(tmp.name)
     os.remove(tmp.name)
+
+
+# Montagem do documento Word
+document.add_heading('Relatório Trimestral de Segurança do Paciente', level=0)
+document.add_heading(f'Trimestre {trimestre}, de {ano} no {hospital}', level=1)
