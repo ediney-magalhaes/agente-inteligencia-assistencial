@@ -28,3 +28,7 @@ Criar o `gerador.py` como camada de orquestração responsável por:
 - Mudanças no modelo do relatório exigem alteração apenas no `gerador.py`
 - O sistema fica preparado para gerar relatórios de diferentes trimestres 
   sem alteração no código
+
+## Bloco 9
+Não possui função própria no processador.py. Utiliza preparar_dataset_ia diretamente no agente_ia.py.
+O contexto dos quatro protocolos - AVC, Sepse, Dor Torácica e TEV - é passado via prompt para a IA identificar nas descrições dos incidentes.
