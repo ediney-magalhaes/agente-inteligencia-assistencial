@@ -65,23 +65,24 @@ CAMADA DE SAÍDA
 | Bloco | Título | Fonte | Status |
 |---|---|---|---|
 | 1 | Quantidade de Notificações | Automação | ✅ Pronto |
-| 2 | Turno de Notificações | Automação | ✅ Pronto |
+| 2 | Turno de Notificações | Manual | ⚠️ Manual |
 | 3 | Classificação das Notificações com Top 3 | Automação | ✅ Pronto |
-| 4 | Eventos Adversos — Top 3, Grau do Dano, Investigação | Automação | ✅ Pronto |
-| 5 | Setores Notificantes — Top 3 | Automação | ✅ Pronto |
-| 6 | Setores Notificados — Top 3 | Automação | ✅ Pronto |
-| 7 | Índices de Qualidade — Taxas mensais e trimestrais | Automação | ✅ Pronto |
-| 7.1 | Queda — Grau do dano, tipo e local | Automação | ✅ Pronto |
-| 7.2 | Erro de Medicação — Dataset para triagem IA | Automação + IA | ✅ Pronto |
-| 7.3 | Flebite — Dataset para triagem IA | Automação + IA | ✅ Pronto |
-| 7.4 | Lesão por Pressão — Dataset com nota do classificador | Automação + IA | ✅ Pronto |
-| 8 | Cumprimento de Análises — Taxa anual e mensal | Automação | ✅ Pronto |
+| 4.1 | Eventos Adversos — Top 3 | Automação | ✅ Pronto |
+| 4.2 | Eventos Adversos por Grau do Dano | Manual | ⚠️ Manual |
+| 5 | Setores Notificantes — Top 3 | Manual | ⚠️ Manual |
+| 6 | Setores Notificados — Top 3 | Manual | ⚠️ Manual |
+| 7 | Índices de Qualidade — Comparativo trimestral | Automação | ✅ Pronto |
+| 7.1 | Queda | Automação | ✅ Pronto |
+| 7.2 | Erro de Medicação | Automação + IA | ✅ Pronto |
+| 7.3 | Flebite | Automação + IA | ✅ Pronto |
+| 7.4 | Lesão por Pressão | Automação + IA | ✅ Pronto |
+| 8 | Cumprimento de Análises | Automação | ✅ Pronto |
 | 9 | Protocolos Gerenciados — AVC, Dor Torácica, Sepse, TEV | Automação + IA | ⏳ Pendente |
 | 10 | Auditoria de ROPS | Manual | ⚠️ Manual |
 | 11 | Comissão de Óbitos | Manual | ⚠️ Manual |
 | 12 | Comissão de Prontuários | Manual | ⚠️ Manual |
 | 13 | Plano de Segurança do Paciente | Manual | ⚠️ Manual |
-| 14 | Interrelação e Mapeamento de Risco | Automação | ⏳ Pendente |
+| 14 | Interrelação e Mapeamento de Risco | Automação + IA | ⏳ Pendente |
 | 15 | Ações Táticas e Estratégicas | Manual | ⚠️ Manual |
 
 ---
@@ -119,7 +120,7 @@ As decisões técnicas estão documentadas individualmente em `docs/decisoes/`:
 
 | Fase | Descrição | Status |
 |---|---|---|
-| 1 — Relatório automatizado | Interface Streamlit + gerador.py + documento Word final | 🔄 Em andamento |
+| 1 — Relatório automatizado | Interface Streamlit + gerador.py + documento Word final | 🔄 Em andamento — app.py completo, gerador.py com fluxo validado, estrutura do Word pendente |
 | 2 — Banco de dados | SQLite para histórico acumulado por trimestre | ⏳ Pendente |
 | 3 — Painel epidemiológico | Tendência temporal, sazonalidade, correlações, CEP | ⏳ Pendente |
 | 4 — Modelos preditivos | Previsão de volume, risco por setor | ⏳ Pendente |
