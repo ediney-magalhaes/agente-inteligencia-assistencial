@@ -2,7 +2,7 @@
 
 **Projeto:** Agente de Análise - Segurança do Paciente  
 **Autor:** Ediney Magalhães  
-**Última atualização:** 24/04/2026
+**Última atualização:** 29/04/2026
 
 ---
 
@@ -16,7 +16,25 @@ em análises, gráficos e textos prontos para composição do relatório oficial
 
 ## Fluxo de Dados
 ```
-Planilhas EPIMED → Validação → Processamento → Visualização → IA → Relatório Word
+CAMADA DE INTERFACE
+    app.py (Streamlit) — coleta dados manuais, uploads e imagens
+        ↓
+CAMADA DE ORQUESTRAÇÃO
+    gerador.py — conecta todas as camadas e monta o documento final
+        ↓
+CAMADA DE PROCESSAMENTO
+    processador.py → cálculos e transformações
+    visualizador.py → geração de gráficos
+    agente_ia.py → narrativas e triagem via LLM
+        ↓
+CAMADA DE DADOS
+    Planilhas EPIMED (entrada atual)
+    SQLite → histórico acumulado por trimestre (Fase 2)
+        ↓
+CAMADA DE SAÍDA
+    Documento Word final
+    Painel Epidemiológico (Fase 3)
+    Agente de Análise — chat com os dados (Fase 5)
 ```
 ---
 
@@ -29,7 +47,7 @@ Planilhas EPIMED → Validação → Processamento → Visualização → IA →
 | `processador.py` | Preparação e transformação dos dados por bloco |
 | `visualizador.py` | Geração de gráficos por bloco |
 | `agente_ia.py` | Triagem por IA e análises textuais via API Gemini |
-| `relatorio.py` | Montagem do documento Word final |
+| `gerador.py` | Orquestrador — recebe dados do app.py, chama processador e visualizador, monta o Word final |
 
 ---
 
@@ -88,13 +106,21 @@ As decisões técnicas estão documentadas individualmente em `docs/decisoes/`:
 - [ADR-001](decisoes/ADR-001-arquitetura-camadas.md) — Arquitetura em Camadas
 - [ADR-002](decisoes/ADR-002-modularizacao.md) — Modularização do Motor de Análise
 - [ADR-003](decisoes/ADR-003-mapeamento-colunas.md) — Mapeamento e Validação de Colunas
+- [ADR-004](decisoes/ADR-004-funcao-generica-setores.md) — Função Genérica para Análise por Setor
+- [ADR-005](decisoes/ADR-005-triagem-ia-indicadores.md) — Triagem por IA para Indicadores sem Filtro Determinístico
+- [ADR-006](decisoes/ADR-006-grafico-top3-generico.md) — Função Genérica para Gráficos Top 3 por Classificação
+- [ADR-007](decisoes/ADR-007-grafico-bloco7-duplo.md) — Estratégia de Visualização do Bloco 7 — Indicadores de Qualidade
+- [ADR-008](decisoes/ADR-008-gerador-relatorio.md) — Gerador de Relatório 
+- [ADR-009](decisoes/ADR-009-interface-streamlit.md) — Interface Streamlit e ordem de desenvolvimento
 
 ---
 
 ## Evolução Planejada
 
-| Camada | Descrição | Status |
+| Fase | Descrição | Status |
 |---|---|---|
-| 1 — Fundação | Modularização e governança | 🔄 Em andamento |
-| 2 — Dados | Persistência com SQLite | ⏳ Pendente |
-| 3 — Inteligência | Modelos estatísticos e agente de IA | ⏳ Pendente |
+| 1 — Relatório automatizado | Interface Streamlit + gerador.py + documento Word final | 🔄 Em andamento |
+| 2 — Banco de dados | SQLite para histórico acumulado por trimestre | ⏳ Pendente |
+| 3 — Painel epidemiológico | Tendência temporal, sazonalidade, correlações, CEP | ⏳ Pendente |
+| 4 — Modelos preditivos | Previsão de volume, risco por setor | ⏳ Pendente |
+| 5 — Agente de IA | Chat com os dados, narrativas automáticas, alertas | ⏳ Pendente |
