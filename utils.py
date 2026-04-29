@@ -18,11 +18,16 @@ COL_EFETIVO = 'Escala de Efetividade'
 COL_DESCRICAO = 'Descrição do incidente'
 COL_TAXON = 'Taxonomia da OMS'
 COL_SETOR = 'Setor Responsável'
+COL_SETOR_NOTIFICANTE = 'Setor notificante'
 COL_GRAU = 'Grau do dano'
 COL_OPCAO = 'Opção'
 COL_TURNO = 'Turno'
 COL_LOCAL = 'Local de ocorrência'
 COL_NOTA = 'Nota do Classificador (Opcional)'
+INDICADOR_QUEDA = 'Queda'
+INDICADOR_LPP = 'Lesão de Pele'
+INDICADOR_MEDICACAO = 'Erro de medicação'
+INDICADOR_FLEBITE = 'Flebite'
 
 # Mapeamento das colunas
 MAPEAMENTO_COLUNAS = {
@@ -30,6 +35,7 @@ MAPEAMENTO_COLUNAS = {
     COL_CLASSIFICACAO: [],
     COL_TAXON: ['Taxonomia'],
     COL_SETOR: ['Responsável'],
+    COL_SETOR_NOTIFICANTE: [],
     COL_GRAU: [],
     COL_CAT: [],
     COL_INCIDENTE: [],
