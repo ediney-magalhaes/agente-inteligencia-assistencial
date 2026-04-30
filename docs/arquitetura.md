@@ -77,12 +77,12 @@ CAMADA DE SAÍDA
 | 7.3 | Flebite | Automação + IA | ✅ Pronto |
 | 7.4 | Lesão por Pressão | Automação + IA | ✅ Pronto |
 | 8 | Cumprimento de Análises | Automação | ✅ Pronto |
-| 9 | Protocolos Gerenciados — AVC, Dor Torácica, Sepse, TEV | Automação + IA | ⏳ Pendente |
+| 9 | Protocolos Gerenciados — AVC, Dor Torácica, Sepse, TEV | Automação + IA | ✅ Pronto |
 | 10 | Auditoria de ROPS | Manual | ⚠️ Manual |
 | 11 | Comissão de Óbitos | Manual | ⚠️ Manual |
 | 12 | Comissão de Prontuários | Manual | ⚠️ Manual |
 | 13 | Plano de Segurança do Paciente | Manual | ⚠️ Manual |
-| 14 | Interrelação e Mapeamento de Risco | Automação + IA | ⏳ Pendente |
+| 14 | Interrelação e Mapeamento de Risco | Automação + IA | ✅ Pronto |
 | 15 | Ações Táticas e Estratégicas | Manual | ⚠️ Manual |
 
 ---
@@ -113,6 +113,8 @@ As decisões técnicas estão documentadas individualmente em `docs/decisoes/`:
 - [ADR-007](decisoes/ADR-007-grafico-bloco7-duplo.md) — Estratégia de Visualização do Bloco 7 — Indicadores de Qualidade
 - [ADR-008](decisoes/ADR-008-gerador-relatorio.md) — Gerador de Relatório 
 - [ADR-009](decisoes/ADR-009-interface-streamlit.md) — Interface Streamlit e ordem de desenvolvimento
+- [ADR-010](decisoes/ADR-010-integracao-gemini-api.md) — Integração com Gemini API e Gerenciamento de Segredos
+- [ADR-011](decisoes/ADR-011-execucao-sob-demanda-ia.md) — Execução sob Demanda das Análises de IA
 
 ---
 
