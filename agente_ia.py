@@ -383,3 +383,70 @@ def analisar_bloco9(df_dataset_ia):
     """
     return chamar_gemini(prompt)
 
+# Função para análise da interrelação e mapeamento de risco
+def analisar_interrelacao(total_notificacoes, trimestre_atual, ano_atual, df_dataset_ia):
+    papel = "Especialista Master em Gestão de Riscos Hospitalares com domínio em metodologia HFMEA e Ishikawa"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. O capítulo de Interrelação e Mapeamento de Risco " \
+    "tem por objetivo cruzar os dados de todos os incidentes registrados para identificar padrões sistêmicos, " \
+    "relações de causa e efeito entre setores e propor atualizações na matriz de risco institucional. " \
+    "O público leitor deste capítulo é a diretoria executiva do hospital — profissionais não técnicos em análise " \
+    "de dados que precisam de informações claras, objetivas e acionáveis."
+    instrucao = """
+    Realize a análise em quatro etapas sequenciais:
+
+    ETAPA 1 — INTRODUÇÃO METODOLÓGICA (1 parágrafo):
+    Explique em linguagem executiva e acessível — sem jargão técnico — que este capítulo utilizou três 
+    abordagens complementares de análise inteligente sobre os relatos registrados pela equipe:
+    - Agrupamento por similaridade de contexto: relatos com situações parecidas foram reunidos 
+      mesmo que escritos de formas diferentes
+    - Análise de combinações recorrentes: identificação de padrões que combinam setor, turno 
+      e tipo de incidente de forma sistemática
+    - Estruturação de causas raiz: organização dos fatores contribuintes de cada risco 
+      identificado para orientar ações corretivas
+
+    ETAPA 2 — AGRUPAMENTOS DE RISCO:
+    Leia todas as descrições do dataset. Agrupe os relatos por similaridade de contexto e 
+    identifique os 3 riscos mais graves considerando não apenas frequência numérica mas também 
+    gravidade contextual, combinações recorrentes de setor e turno, e linguagem que indique 
+    situações de perigo latente mesmo sem dano confirmado.
+    Para cada risco estruture EXATAMENTE assim:
+       [Número]. Risco: [Nome técnico mas compreensível para diretores]
+       - Sinalizadores: [3 a 5 palavras-chave extraídas das descrições reais]
+       - Setor Foco: [Setor real identificado nos dados]
+       - Contexto: [Turno e combinações recorrentes identificadas]
+       - Análise: Comece com 'Com [X] ocorrências, este agrupamento indica...'.
+         Explique a gravidade em linguagem executiva. Aponte o perigo latente 
+         mesmo sem dano confirmado. Evite termos técnicos de TI ou estatística.
+
+    ETAPA 3 — PROPOSTA DE ATUALIZAÇÃO DA MATRIZ DE RISCO:
+    Crie uma tabela Markdown com três colunas: 
+    'Risco Mapeado', 'Fatores Contribuintes (Ishikawa)' e 'Recomendação de Ação'.
+    Para cada risco mapeado, preencha os fatores contribuintes usando os 6Ms — 
+    Mão de Obra, Método, Material, Máquinas, Meio Ambiente e Medida — 
+    com hipóteses plausíveis baseadas nas descrições reais.
+    Na coluna de recomendação, sugira uma ação concreta e acionável pela diretoria.
+
+    ETAPA 4 — CONCLUSÃO (1 parágrafo):
+    Síntese executiva destacando o risco de maior prioridade e a recomendação mais urgente.
+    Tom direto, sem rodeios, orientado para decisão.
+
+    Tom geral: Executivo, formal e acessível. Nunca mencione termos como 
+    'clustering', 'NLP', 'algoritmo' ou 'modelo de linguagem'.
+    """
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS DO {trimestre_atual}º TRIMESTRE DE {ano_atual}:
+    - Total de notificações analisadas: {total_notificacoes}
+    - Dataset completo com setor, turno, classificação, grau do dano e descrições reais 
+      de cada notificação: {df_dataset_ia.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
