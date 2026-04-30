@@ -179,3 +179,50 @@ def analisar_bloco_setores(tab_tri_atual, tab_tri_anterior, tab_analise_IA, seto
     """
     return chamar_gemini(prompt)
 
+# Função para análise do gráfico 7 (Indicadores qualidade)
+def analisar_bloco7_geral(medias):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
+    "As notificações seguem a taxonomia de classificação definida pela OMS."
+    instrucao = "analisar o volume e variações de notificações do trimestre do ano anterior e desse ano quanto a incidência de cada" \
+    "evento adverso: erro de medicação, lesão, queda e flebite."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Médias dos índices: {str(medias)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
+# Função para análise do gráfico 3.1 a 3.7 (Nº notificações por classificação)
+def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia):
+    dados = dicionario[classificacao].to_string(index=False)
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
+    "As notificações seguem a taxonomia de classificação definida pela OMS."
+    instrucao = "analisar os três principais tipos de notificações por cada classificação e usar a tabela de contexto para compreensão dos casos."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Tabela comparativa de notificações por classificações e variação: {dados}
+    - Classificação analisada: {classificacao}
+    - Dataset com turnos, classificação, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
