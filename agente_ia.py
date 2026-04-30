@@ -229,3 +229,98 @@ def analisar_bloco7_queda(qtde_grau_dano, qtde_local_queda, qtde_tipo_queda, df_
     {instrucao}
     """
     return chamar_gemini(prompt)
+
+# Função para análise do gráfico de Lesão por Pressão (LPP)
+def analisar_bloco7_lpp(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises " \
+    "quantitativas e qualitativas sobre a cultura de segurança do paciente. " \
+    "Lesão por Pressão (LPP) pode ser classificada como ADMITIDA — quando o paciente já chegou ao hospital com a lesão — " \
+    "ou ADQUIRIDA — quando a lesão surgiu durante a internação. Apenas as lesões ADQUIRIDAS são de responsabilidade " \
+    "do hospital e devem ser consideradas como indicador de qualidade assistencial."
+    instrucao = "Realize a análise em duas etapas sequenciais: " \
+    "ETAPA 1 — Leia cada registro do Dataset de contexto. Avalie a coluna de nota do classificador e a descrição " \
+    "de cada caso para determinar se a lesão é ADMITIDA ou ADQUIRIDA. " \
+    "ETAPA 2 — Com base na sua classificação da Etapa 1, analise o volume de lesões ADQUIRIDAS, " \
+    "sua evolução mensal e a variação entre o trimestre atual e o anterior. " \
+    "Destaque se houve aumento ou redução e aponte os casos de maior gravidade identificados nas descrições."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Média do trimestre atual: {df_media_tri_atual}
+    - Média do trimestre anterior: {df_media_tri_anterior}
+    - Evolução mensal do indicador: {df_mensal.to_string(index=False)}
+    - Dataset com nota do classificador e descrição de cada caso: {df_indicador.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
+# Função para análise do gráfico de Flebite
+def analisar_bloco7_flebite(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises " \
+    "quantitativas e qualitativas sobre a cultura de segurança do paciente. " \
+    "Flebite é a inflamação de uma veia, frequentemente associada à punção venosa periférica. " \
+    "É um indicador de qualidade assistencial relacionado à técnica de inserção e manutenção de acessos venosos."
+    instrucao = "Analise os casos de flebite notificados no trimestre. " \
+    "Avalie a evolução mensal das taxas e a variação entre o trimestre atual e o anterior. " \
+    "Utilize o Dataset de contexto para identificar os setores com maior ocorrência, " \
+    "o grau de gravidade dos casos e possíveis padrões nas descrições que indiquem causa raiz. " \
+    "Destaque se houve aumento ou redução e aponte recomendações baseadas nos padrões identificados."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Média do trimestre atual: {df_media_tri_atual}
+    - Média do trimestre anterior: {df_media_tri_anterior}
+    - Evolução mensal do indicador: {df_mensal.to_string(index=False)}
+    - Dataset com setor, grau do incidente e descrição de cada caso: {df_indicador.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
+
+# Função para análise do gráfico de Erro de Medicação
+def analisar_bloco7_medicacao(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises " \
+    "quantitativas e qualitativas sobre a cultura de segurança do paciente. " \
+    "Erro de medicação abrange toda a cadeia do medicamento — prescrição, dispensação, preparo e administração. " \
+    "É um dos indicadores mais críticos de segurança do paciente pois pode causar danos diretos e imediatos."
+    instrucao = "Analise os casos de erro de medicação notificados no trimestre. " \
+    "Avalie a evolução mensal das taxas e a variação entre o trimestre atual e o anterior. " \
+    "Utilize o Dataset de contexto para identificar em qual etapa da cadeia do medicamento os erros estão " \
+    "concentrados — armazenamento, recebimento, prescrição, dispensação, preparo ou administração — e os setores mais afetados. " \
+    "Identifique padrões nas descrições que indiquem causa raiz e destaque casos de maior gravidade. " \
+    "Aponte recomendações focadas na etapa da cadeia com maior concentração de erros."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Média do trimestre atual: {df_media_tri_atual}
+    - Média do trimestre anterior: {df_media_tri_anterior}
+    - Evolução mensal do indicador: {df_mensal.to_string(index=False)}
+    - Dataset com setor, grau do incidente e descrição de cada caso: {df_indicador.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
