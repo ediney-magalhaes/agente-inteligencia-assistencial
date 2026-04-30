@@ -355,3 +355,31 @@ def analisar_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela
     """
     return chamar_gemini(prompt)
 
+# Função para análise do bloco 9 (Protocolos Gerenciados)
+def analisar_bloco9(df_dataset_ia):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. O hospital possui quatro protocolos gerenciados " \
+    "assistenciais ativos: AVC (Acidente Vascular Cerebral), Sepse, Dor Torácica e TEV (Tromboembolismo Venoso). " \
+    "Esses protocolos definem fluxos assistenciais padronizados para identificação precoce e tratamento adequado " \
+    "dessas condições clínicas críticas. Falhas no seguimento dos protocolos podem resultar em danos graves ao paciente."
+    instrucao = "Leia cada registro do Dataset e identifique quais notificações se relacionam com os quatro " \
+    "protocolos gerenciados: AVC, Sepse, Dor Torácica e TEV. Use as descrições, classificações e opções " \
+    "registradas para fazer essa identificação. " \
+    "Para cada protocolo identificado, analise: volume de casos, gravidade dos incidentes, " \
+    "setores de ocorrência e possíveis falhas no seguimento do protocolo indicadas nas descrições. " \
+    "Se nenhum caso for identificado para algum protocolo, registre explicitamente essa ausência."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Dataset com taxonomia, categoria, classificação, incidente, opção e descrição das notificações: {df_dataset_ia.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
