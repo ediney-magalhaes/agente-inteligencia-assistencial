@@ -101,16 +101,15 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia):
     """
     return chamar_gemini(prompt)
 
-# Função para análise do gráfico 3 (Nº notificações por classificação)
-def analisar_bloco3(tabela_comparativa, df_contexto_ia):
+# Função para análise do gráfico 3.1 a 3.7 (Nº notificações por classificação)
+def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia):
+    dados = dicionario[classificacao].to_string(index=False)
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
     contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
     "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
-    instrucao = "analisar o volume e as variações das notificações do trimestre atual e anterior de acordo com as classificações. Usar a tabela de contexto" \
-    "para identificar o motivo das variações segundo o grau do incidente, setor de ocorrência, turno e as descrições de cada notificação" \
-    "para encontrar possíveis relações e estabelecer alguma causa e efeito."
+    instrucao = "analisar os três principais tipos de notificações por cada classificação e usar a tabela de contexto para compreensão dos casos."
     prompt = f"""
     Você é {papel}.
 
@@ -118,10 +117,12 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia):
     {contexto}
 
     DADOS:
-    - Tabela comparativa de notificações por classificações e variação: {tabela_comparativa.to_string(index=False)}
+    - Tabela comparativa de notificações por classificações e variação: {dados}
+    - Classificação analisada: {classificacao}
     - Dataset com turnos, classificação, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
     """
     return chamar_gemini(prompt)
+
