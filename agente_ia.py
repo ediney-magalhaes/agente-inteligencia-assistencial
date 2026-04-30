@@ -202,15 +202,15 @@ def analisar_bloco7_geral(medias):
     """
     return chamar_gemini(prompt)
 
-# Função para análise do gráfico 3.1 a 3.7 (Nº notificações por classificação)
-def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia):
-    dados = dicionario[classificacao].to_string(index=False)
+# Função para análise do gráfico de Queda
+def analisar_bloco7_queda(qtde_grau_dano, qtde_local_queda, qtde_tipo_queda, df_indicador, df_media_tri_atual, df_media_tri_anterior):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
     contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
     "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
-    instrucao = "analisar os três principais tipos de notificações por cada classificação e usar a tabela de contexto para compreensão dos casos."
+    instrucao = "analisar os casos de notificações de queda, avaliando o volume por local e tipo da queda. Utilize o " \
+    "Dataset de contexto para compreender cada caso. Avalie as médias entre os trimestres e suas variações"
     prompt = f"""
     Você é {papel}.
 
@@ -218,9 +218,12 @@ def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia):
     {contexto}
 
     DADOS:
-    - Tabela comparativa de notificações por classificações e variação: {dados}
-    - Classificação analisada: {classificacao}
-    - Dataset com turnos, classificação, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
+    - Tabela grau das quedas: {qtde_grau_dano.to_string(index=False)}
+    - Tabela local das quedas: {qtde_local_queda.to_string(index=False)}
+    - Tabela tipo das quedas: {qtde_tipo_queda.to_string(index=False)}
+    - Média do trimestre atual: {df_media_tri_atual.to_string(index=False)}
+    - Média do trimestre anterior: {df_media_tri_anterior.to_string(index=False)}
+    - Dataset com taxonomia, categoria, classificação, incidente, opção e descrição das notificações: {df_indicador.to_string(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
