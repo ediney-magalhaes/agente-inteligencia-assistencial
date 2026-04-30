@@ -153,3 +153,29 @@ def analisar_bloco4(tabela_comparativa, tabela_top3_eventos, status_eventos, df_
     """
     return chamar_gemini(prompt)
 
+# Função para análise dos gráficos 5 e 6 (Nº notificações por notificante e notificado)
+def analisar_bloco_setores(tab_tri_atual, tab_tri_anterior, tab_analise_IA, setor):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
+    "As notificações seguem a taxonomia de classificação definida pela OMS."
+    instrucao = "analisar o volume de notificações por setor notificante e por setor notificado para identificar setores proativos" \
+    "e locais de ocorrências dos incidentes."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Tipo de setor analisado: {setor}
+    - Tabela do trimestre atual com volume de notificações por tipo de setor e variação: {tab_tri_atual.to_string(index=False)}
+    - Tabela do trimestre anterior com volume de notificações por tipo de setor e variação: {tab_tri_anterior.to_string(index=False)}
+    - Dataset com setor (notificante ou notificado) e a descrição das notificações: {tab_analise_IA.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
