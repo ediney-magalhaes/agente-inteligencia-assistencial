@@ -324,3 +324,34 @@ def analisar_bloco7_medicacao(df_media_tri_atual, df_media_tri_anterior, df_mens
     """
     return chamar_gemini(prompt)
 
+# Função para análise do gráfico 8 (Cumprimento de análises)
+def analisar_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela_mensal_anterior, df_contexto_ia):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. O cumprimento de análise mede se as notificações " \
+    "registradas foram devidamente investigadas e analisadas pelos setores responsáveis dentro do prazo estabelecido. " \
+    "Notificações não analisadas representam falha no ciclo de gestão da segurança do paciente."
+    instrucao = "Analise o cumprimento das análises de notificações no trimestre atual em comparação ao anterior. " \
+    "Identifique os setores com maior índice de atraso ou não cumprimento. " \
+    "Avalie a evolução mensal e aponte se houve melhora ou piora ao longo do trimestre. " \
+    "Utilize o Dataset de contexto para identificar quais notificações estão pendentes de análise " \
+    "e destacar os setores mais críticos. Analise o uso de Protocolo de Londres, ACR e Pareceres. Critique a subutilização" \
+    "de ferramentas estruturadas (PL, ACR) usando sua quantidade."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Tabela de cumprimento do trimestre atual: {tabela_tri_atual.to_string(index=False)}
+    - Tabela de cumprimento do trimestre anterior: {tabela_tri_anterior.to_string(index=False)}
+    - Evolução mensal do trimestre atual: {tabela_mensal.to_string(index=False)}
+    - Evolução mensal do trimestre anterior: {tabela_mensal_anterior.to_string(index=False)}
+    - Dataset com notificações pendentes de análise: {df_contexto_ia.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
