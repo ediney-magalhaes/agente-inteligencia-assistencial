@@ -48,3 +48,30 @@ def analisar_bloco1(total_atual, total_tri_anterior, var_tri, qtde_mensal, qtde_
     {instrucao}
     """
     return chamar_gemini(prompt)
+
+# Função para análise do gráfico 2 (Nº notificações por turno)
+def analisar_bloco2(tabela, df_contexto_ia):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
+    "Os colaboradores realizam as notificações em diversos horários e esse registro fica gravado no sistema de notificações Epimed."
+    instrucao = "analisar o volume das notificações de acordo com os turnos em que foram registrados. Identificar indicíos onde" \
+    "os eventos podem estar ocorrendo ou a equipe tem tempo livre para fazer registro! Utilizar a tabela com as descrições detalhadas" \
+    "de cada notificação por turno e sua classificação. Usando as descrições realizadas pelos notificadores para encontrar os incidentes" \
+    "de maior gravidade e ocorrência em cada turno." \
+    "Analisar também o volume e a variação do número de notificações (aumento ou redução) em cada turno do trimestre atual e o anterior."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Tabela comparativa de notificações por tunos e trimestres: {tabela.to_string(index=False)}
+    - Dataset com turnos, classificação e descrição das notificações: {df_contexto_ia.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
