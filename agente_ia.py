@@ -126,3 +126,30 @@ def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia):
     """
     return chamar_gemini(prompt)
 
+# Função para análise do gráfico 4 (Nº eventos adversos notificados)
+def analisar_bloco4(tabela_comparativa, tabela_top3_eventos, status_eventos, df_contexto_ia):
+    papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
+    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
+    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
+    "As notificações seguem a taxonomia de classificação definida pela OMS."
+    instrucao = "analisar o volume e as variações dos eventos adversos por grau de dano e os três principais tipos de notificações por grau." \
+    "Usar o Dataset para compreender os motivos avaliando turno, setor de ocorrência, grau do dano, detalhe da classificação por Opção" \
+    "assim como as descrições de cada caso."
+    prompt = f"""
+    Você é {papel}.
+
+    CONTEXTO:
+    {contexto}
+
+    DADOS:
+    - Tabela comparativa de notificações por classificações e variação: {tabela_comparativa.to_string(index=False)}
+    - Tabela com top 3 dos eventos: {tabela_top3_eventos.to_string(index=False)}
+    - Dataset com status dos danos e contexto: {status_eventos.to_string(index=False)}
+    - Dataset com turnos, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
+
+    INSTRUÇÃO:
+    {instrucao}
+    """
+    return chamar_gemini(prompt)
+
