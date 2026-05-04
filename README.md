@@ -7,27 +7,15 @@ Paciente em ambiente hospitalar, desenvolvido com Python e IA generativa.
 
 ## Contexto
 
-A elaboração do relatório trimestral envolvia consolidação manual de múltiplas 
-planilhas, cruzamentos estatísticos, construção de gráficos e redação técnica 
-interpretativa. O ciclo completo consumia aproximadamente 30 dias de trabalho.
+A elaboração do relatório trimestral envolvia consolidação manual de múltiplas planilhas, cruzamentos estatísticos, construção de gráficos e redação técnica interpretativa. O ciclo completo consumia aproximadamente 30 dias de trabalho.
 
 ---
 
 ## Solução
 
-O sistema automatiza o pipeline completo de dados — da ingestão ao relatório — 
-estruturado em módulos especializados e alinhado ao modelo institucional de 
-relatório de segurança do paciente.
+O sistema automatiza o pipeline completo de dados — da ingestão à análise — estruturado em módulos especializados e alinhado ao modelo institucional de relatório de segurança do paciente.
 
-O fluxo de trabalho é:
-
-1. Usuário exporta as planilhas do sistema MV e carrega na interface
-2. O sistema valida, padroniza e processa os dados por bloco analítico
-3. Gráficos, tabelas e análises textuais são gerados automaticamente
-4. O profissional utiliza os outputs para consolidar o relatório final
-
-O sistema não substitui a análise humana. Ele automatiza a etapa operacional 
-e entrega diagnóstico técnico estruturado para validação e decisão.
+O sistema não substitui a análise humana. Ele automatiza a etapa operacional e entrega diagnóstico técnico estruturado para validação e decisão.
 
 ---
 
@@ -41,57 +29,47 @@ e entrega diagnóstico técnico estruturado para validação e decisão.
 ---
 
 ## Arquitetura
+```mermaid
+flowchart TD
+    A[Planilhas EPIMED / MV] --> B[utils.py\nValidação e padronização]
+    B --> C[processador.py\nCálculo dos blocos analíticos]
+    C --> D[visualizador.py\nGeração de gráficos]
+    C --> E[agente_ia.py\nAnálise textual via Gemini]
+    D --> F[resultados.py\nExibição na interface]
+    E --> F
+    F --> G[app.py\nInterface Streamlit]
 ```
-├── app.py              # Interface Streamlit — entrada de dados e exibição
-├── processador.py      # Preparação e cálculo dos dados por bloco analítico
-├── utils.py            # Padronização e mapeamento de colunas entre versões
-├── visualizador.py     # Geração dos gráficos por bloco
-├── agente_ia.py        # Triagem por IA e análises textuais via Gemini API
-├── Ligar_Painel.bat    # Script de inicialização do servidor local
-└── docs/               # Documentação técnica e decisões de arquitetura (ADRs)
-```
+
 ## Fluxo de Dados
-```
-Planilha Excel (EPIMED / MV)
-↓
-utils.py — validação e padronização de colunas
-↓
-processador.py — cálculo dos blocos analíticos
-↓
-gerador_graficos.py — visualizações por bloco
-↓
-motor_analise.py — análise textual via Gemini API
-↓
-app.py — interface Streamlit para o usuário final
-```
+
+1. Usuário exporta as planilhas do sistema MV e carrega na interface
+2. O sistema valida, padroniza e processa os dados por bloco analítico
+3. Gráficos e tabelas são gerados automaticamente
+4. O profissional aciona a análise de IA por seção sob demanda
+5. Os outputs subsidiam a consolidação do relatório oficial
+
 ## Blocos Analíticos
 
-Cada bloco corresponde a uma seção do modelo institucional de relatório:
+O sistema cobre 10 seções do modelo institucional de relatório:
 
-| Bloco | Conteúdo | Status |
-|-------|----------|--------|
-| 1 | Volume de notificações — comparativo trimestral e anual | ✅ Pronto |
-| 2 | Distribuição por turno | ✅ Pronto |
-| 3 | Classificação das notificações com top 3 por categoria | ✅ Pronto |
-| 4 | Eventos adversos — top 3, grau do dano e status de investigação | ✅ Pronto |
-| 5 | Setores notificantes — top 3 | ✅ Pronto |
-| 6 | Setores notificados — top 3 | ✅ Pronto |
-| 7 | Índices de qualidade — taxas mensais e trimestrais | ✅ Pronto |
-| 7.1 | Queda — grau do dano, tipo e local | ✅ Pronto |
-| 7.2 | Erro de medicação — dataset para triagem IA | ✅ Pronto |
-| 7.3 | Flebite — dataset para triagem IA | ✅ Pronto |
-| 7.4 | Lesão por pressão — dataset com nota do classificador | ✅ Pronto |
-| 8 | Cumprimento de análise de notificações — taxa anual e mensal | ✅ Pronto |
-| 9 | Protocolos gerenciados — AVC, Dor Torácica, Sepse, TEV | ⏳ Pendente |
+| Seção | Conteúdo |
+|-------|----------|
+| Gráfico 1 | Volume de notificações — comparativo trimestral e anual |
+| Gráfico 2 | Distribuição por turno com análise textual |
+| Gráfico 3 | Classificação das notificações com top 3 por categoria |
+| Gráfico 4 | Eventos adversos — top 3, grau do dano e investigações |
+| Gráfico 5 | Setores notificantes — top 3 com análise |
+| Gráfico 6 | Setores notificados — top 3 com análise |
+| Gráfico 7 | Índices de qualidade — erro de medicação, LPP, flebite e queda |
+| Gráfico 8 | Cumprimento de análise de notificações |
+| Seção 5 | Protocolos gerenciados — AVC, Dor Torácica, Sepse, TEV |
+| Seção 10 | Interrelação e mapeamento de risco institucional |
 
 ---
 
 ## Segurança e Governança
 
-- Execução centralizada na rede interna hospitalar
-- Nenhum dado de paciente é armazenado externamente
-- Chave de API inserida em tempo de execução
-- Acesso por IP interno — sem exposição à internet
+O sistema opera exclusivamente na rede interna hospitalar. Nenhum dado trafega para servidores externos. A decisão de manter execução local foi tomada em conformidade com os requisitos da LGPD para dados sensíveis de saúde.
 
 ---
 
@@ -108,11 +86,9 @@ via IP + porta configurada.
 
 ## Tecnologias
 
-- Python 3
-- Streamlit
-- Pandas
-- Matplotlib
-- Google Gemini API
+- Python 3 — Pandas, Matplotlib, Streamlit
+- Google Gemini API — análise textual e triagem por IA
+- python-dotenv — gestão segura de credenciais
 
 ---
 

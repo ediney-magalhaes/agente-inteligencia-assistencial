@@ -17,10 +17,10 @@ em análises, gráficos e textos prontos para composição do relatório oficial
 ## Fluxo de Dados
 ```
 CAMADA DE INTERFACE
-    app.py (Streamlit) — coleta dados manuais, uploads e imagens
+    app.py (Streamlit) — uploads e configuração
         ↓
 CAMADA DE ORQUESTRAÇÃO
-    gerador.py — conecta todas as camadas e monta o documento final
+    resultados.py — conecta processamento e exibição
         ↓
 CAMADA DE PROCESSAMENTO
     processador.py → cálculos e transformações
@@ -32,7 +32,7 @@ CAMADA DE DADOS
     SQLite → histórico acumulado por trimestre (Fase 2)
         ↓
 CAMADA DE SAÍDA
-    Documento Word final
+    Interface Streamlit — resultados por seção
     Painel Epidemiológico (Fase 3)
     Agente de Análise — chat com os dados (Fase 5)
 ```
@@ -47,7 +47,7 @@ CAMADA DE SAÍDA
 | `processador.py` | Preparação e transformação dos dados por bloco |
 | `visualizador.py` | Geração de gráficos por bloco |
 | `agente_ia.py` | Triagem por IA e análises textuais via API Gemini |
-| `gerador.py` | Orquestrador — recebe dados do app.py, chama processador e visualizador, monta o Word final |
+| `resultados.py` | Exibição dos resultados por seção na interface Streamlit |
 
 ---
 
@@ -115,7 +115,9 @@ As decisões técnicas estão documentadas individualmente em `docs/decisoes/`:
 - [ADR-009](decisoes/ADR-009-interface-streamlit.md) — Interface Streamlit e ordem de desenvolvimento
 - [ADR-010](decisoes/ADR-010-integracao-gemini-api.md) — Integração com Gemini API e Gerenciamento de Segredos
 - [ADR-011](decisoes/ADR-011-execucao-sob-demanda-ia.md) — Execução sob Demanda das Análises de IA
-
+- [ADR-012](decisoes/ADR-012-modulo-resultados.md) — Módulo de Exibição de Resultados
+- [ADR-013](decisoes/ADR-013-deploy-rede-local.md) — Deploy em Rede Local
+- [ADR-014](decisoes/ADR-014-simplificacao-interface.md) — Simplificação da Interface
 ---
 
 ## Evolução Planejada
