@@ -232,10 +232,12 @@ def gerar_grafico_bloco7(df_ano_atual, df_ano_anterior, indicador, trim_atual, a
     fig, ax = plt.subplots(figsize=(14, 6))
 
     # Plotando o ano atual
-    ax.plot(df_ano_atual['Mês'], df_ano_atual[indicador], label=ano_atual)
+    ax.plot(df_ano_atual['Mês'], df_ano_atual[indicador],
+            label=ano_atual, color='#1F4E79', marker='o', linewidth=2)
 
     # Plotando o ano anterior
-    ax.plot(df_ano_anterior['Mês'], df_ano_anterior[indicador], label=(ano_atual - 1))
+    ax.plot(df_ano_anterior['Mês'], df_ano_anterior[indicador],
+            label=(ano_atual - 1), color='#2E75B6', marker='o', linewidth=2)
 
     # Configurando título
     ax.set_title(f'Índices de {indicador}', fontsize=14, fontweight='bold', pad=30)

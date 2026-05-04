@@ -34,8 +34,9 @@ from utils import (
 )
 
 # Carregar schema
-def carregar_validar(df):
+def carregar_validar(arquivo):
     try:
+        df = pd.read_excel(arquivo, sheet_name=0)
         df_corrigido, lista_ausentes = atualizacao_schema(df)
         if lista_ausentes:
             raise ValueError(f'Colunas ausentes: {lista_ausentes}')
@@ -44,6 +45,7 @@ def carregar_validar(df):
             return df_corrigido
     except Exception as e:
         print(f'Erro inesperado: {e}')
+        raise
 
 # Preparar dados - Bloco 1 (Quantidade notificações)
 def preparar_bloco1(df):
@@ -375,3 +377,16 @@ def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem f
     df_contexto_ia = df_nao_tratadas[colunas_necessarias]
 
     return tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela_mensal_anterior, df_contexto_ia
+
+def preparar_bloco9(df_atual):
+    colunas_necessarias = [COL_TAXON, COL_CAT, COL_CLASSIFICACAO, 
+                           COL_INCIDENTE, COL_OPCAO, COL_DESCRICAO]
+    df_dataset_ia = df_atual[colunas_necessarias]
+    return df_dataset_ia
+
+def preparar_bloco10(df_atual):
+    total_notificacoes = len(df_atual)
+    colunas_necessarias = [COL_SETOR, COL_TURNO, COL_CLASSIFICACAO, 
+                           COL_GRAU, COL_DESCRICAO]
+    df_dataset_ia = df_atual[colunas_necessarias]
+    return total_notificacoes, df_dataset_ia
