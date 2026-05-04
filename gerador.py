@@ -65,8 +65,8 @@ def gerar_relatorio(trimestre,
     # BLOCO 1 — PREPARAÇÃO DOS DADOS
     # =========================================================================
 
-    df_notificacoes = pd.read_excel(arquivo_notificacoes)
-    df_indicadores = pd.read_excel(arquivo_indicadores)
+    df_notificacoes = arquivo_notificacoes if isinstance(arquivo_notificacoes, pd.DataFrame) else pd.read_excel(arquivo_notificacoes)
+    df_indicadores = arquivo_indicadores if isinstance(arquivo_indicadores, pd.DataFrame) else pd.read_excel(arquivo_indicadores)
     df_corrigido = processador.carregar_validar(df_notificacoes)
 
     # Processamento por bloco
@@ -109,30 +109,38 @@ def gerar_relatorio(trimestre,
     # BLOCO 2 — GERAÇÃO DOS TEXTOS DE ANÁLISE (agente_ia.py)
     # =========================================================================
 
-    texto_b1  = agente_ia.analisar_bloco1(trimestre_atual, ano_atual, total_atual,
-                                           total_tri_anterior, total_ano_anterior,
-                                           var_tri, var_ano, qtde_mensal)
+    texto_b1 = agente_ia.analisar_bloco1(total_atual, total_tri_anterior, var_tri, qtde_mensal, qtde_trimestral)
 
-    texto_b2  = agente_ia.analisar_bloco2(trimestre_atual, ano_atual, contexto_ia_bloco2)
+    texto_b2 = agente_ia.analisar_bloco2(tabela_bloco2, contexto_ia_bloco2)
 
-    texto_b3  = agente_ia.analisar_bloco3(trimestre_atual, ano_atual, contexto_ia_bloco3)
+    texto_b3 = agente_ia.analisar_bloco3(tabela_bloco3, contexto_ia_bloco3)
 
-    texto_b4  = agente_ia.analisar_bloco4(trimestre_atual, ano_atual, contexto_ia_bloco4)
+    texto_b4 = agente_ia.analisar_bloco4(tabela_bloco4, tabela_top3_bloco4, status_eventos_bloco4, contexto_ia_bloco4)
 
-    texto_b5  = agente_ia.analisar_bloco5(trimestre_atual, ano_atual, ctx_ia_b5)
+    texto_b5 = agente_ia.analisar_bloco_setores(tab_atual_b5, tab_anterior_b5, ctx_ia_b5, utils.COL_SETOR_NOTIFICANTE)
 
-    texto_b6  = agente_ia.analisar_bloco6(trimestre_atual, ano_atual, ctx_ia_b6)
+    texto_b6 = agente_ia.analisar_bloco_setores(tab_atual_b6, tab_anterior_b6, ctx_ia_b6, utils.COL_SETOR)
 
-    texto_med = agente_ia.analisar_bloco7_medicacao(trimestre_atual, ano_atual, df_ctx_med)
-    texto_lpp = agente_ia.analisar_bloco7_lpp(trimestre_atual, ano_atual, df_ctx_lpp)
-    texto_fle = agente_ia.analisar_bloco7_flebite(trimestre_atual, ano_atual, df_ctx_fle)
-    texto_que = agente_ia.analisar_bloco7_queda(trimestre_atual, ano_atual,
-                                                  grau_dano_queda, local_queda, tipo_queda)
+    texto_b7_geral = agente_ia.analisar_bloco7_geral(medias)
 
-    texto_b8  = agente_ia.analisar_bloco8(trimestre_atual, ano_atual, df_ctx_b8)
+    texto_que = agente_ia.analisar_bloco7_queda(grau_dano_queda, local_queda, tipo_queda, df_ctx_queda, media_tri_atual_queda, media_tri_anterior_queda)
 
-    texto_interrelacao = agente_ia.analisar_interrelacao(
-        trimestre_atual, ano_atual, df_atual, total_atual)
+    texto_lpp = agente_ia.analisar_bloco7_lpp(df_media_tri_atual_lpp, df_media_tri_anterior_lpp, df_ano_atual_lpp, df_contexto_ia_lpp)
+
+    texto_fle = agente_ia.analisar_bloco7_flebite(df_media_tri_atual_fle, df_media_tri_anterior_fle, df_ano_atual_fle, df_contexto_ia_fle)
+
+    texto_med = agente_ia.analisar_bloco7_medicacao(df_media_tri_atual_med, df_media_tri_anterior_med, df_ano_atual_med, df_contexto_ia_med)
+
+    medias = {
+        'Queda':            (media_tri_atual_queda,    media_tri_anterior_queda),
+        'Lesão de Pele':    (df_media_tri_atual_lpp,   df_media_tri_anterior_lpp),
+        'Flebite':          (df_media_tri_atual_fle,   df_media_tri_anterior_fle),
+        'Erro de medicação':(df_media_tri_atual_med,   df_media_tri_anterior_med),
+    }
+
+    texto_b8 = agente_ia.analisar_bloco8(tabela_tri_atual_b8, tabela_tri_anterior_b8, tabela_mensal_b8, tabela_mensal_anterior_b8, df_ctx_b8)
+
+    texto_interrelacao = agente_ia.analisar_interrelacao(total_atual, trimestre_atual, ano_atual, df_atual)
 
     # =========================================================================
     # BLOCO 3 — MONTAGEM DO DOCUMENTO (ordem do Modelo Relatório)
@@ -241,12 +249,7 @@ def gerar_relatorio(trimestre,
 
     # --- GRÁFICO 7 — Indicadores de Qualidade ---
     _secao(document, f'Gráfico 7: Índices de flebite, lesão por pressão, queda e erros de medicação. Brasília, {ano_atual}.')
-    medias = {
-        'Queda':            (media_tri_atual_queda,    media_tri_anterior_queda),
-        'Lesão de Pele':    (df_media_tri_atual_lpp,   df_media_tri_anterior_lpp),
-        'Flebite':          (df_media_tri_atual_fle,   df_media_tri_anterior_fle),
-        'Erro de medicação':(df_media_tri_atual_med,   df_media_tri_anterior_med),
-    }
+    
     fig7 = visualizador.gerar_grafico_bloco7_geral(medias, None)
     _inserir_grafico(document, fig7)
     _fonte(document)
