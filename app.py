@@ -1,6 +1,8 @@
 import streamlit as st
+import traceback
 import pandas as pd
-import gerador
+import processador
+import resultados
 
 # CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(page_title="Sistema de Inteligência Assistencial", layout="wide")
@@ -11,7 +13,7 @@ st.title("🏥Sistema de Inteligência Assistencial")
 # Criar abas de navegação
 aba1, aba2, aba3 = st.tabs(["📋 Relatório", "📊 Painel Epidemiológico", "🤖 Agente IA"])
 with aba1:
-    sub1, sub2, sub3, sub4, sub5 = st.tabs(["⚙️ Configuração", "📁 Dados EPIMED", "🖼️ Imagens", "📝 Inserir Dados", "📄 Gerar Relatório"])
+    sub1, sub2, sub3, sub4, sub5 = st.tabs(["⚙️ Configuração", "📁 Dados EPIMED", "🖼️ Imagens", "📝 Inserir Dados", "📄 Resultados"])
     with sub1:
         st.write("Configuração")
         st.session_state['trimestre'] = st.selectbox("Trimestre", [1, 2, 3, 4])
@@ -21,6 +23,28 @@ with aba1:
         st.write("Dados")
         st.session_state["arquivo_notificacoes"] = st.file_uploader("Planilha de Notificações", type=["xlsx"])
         st.session_state["arquivo_indicadores"] = st.file_uploader("Planilha de Indicadores", type=["xlsx"])
+        if st.session_state["arquivo_notificacoes"] and st.session_state["arquivo_indicadores"]:
+            if st.button("⚙️ Processar Dados"):
+                with st.spinner("Processando dados..."):
+                    try:
+                        df_validado = processador.carregar_validar(
+                            st.session_state["arquivo_notificacoes"]
+                        )
+                        st.session_state['bloco1'] = processador.preparar_bloco1(df_validado)
+                        st.session_state['bloco2'] = processador.preparar_bloco2(df_validado)
+                        st.session_state['bloco3'] = processador.preparar_bloco3(df_validado)
+                        st.session_state['bloco4'] = processador.preparar_bloco4(df_validado)
+                        st.session_state['bloco5'] = processador.preparar_bloco_setores(df_validado, 'notificante')
+                        st.session_state['bloco6'] = processador.preparar_bloco_setores(df_validado, 'notificado')
+                        st.session_state['bloco7'] = processador.preparar_bloco7(df_validado, st.session_state["arquivo_indicadores"])
+                        st.session_state['bloco8'] = processador.preparar_bloco8(df_validado)
+                        st.session_state['bloco9'] = processador.preparar_bloco9(df_validado)
+                        st.session_state['bloco10'] = processador.preparar_bloco10(df_validado)
+                        st.session_state['dados_processados'] = True
+                        st.success("Dados processados com sucesso.")
+                    except Exception as e:
+                        st.error("Erro ao processar os dados.")
+                        st.code(traceback.format_exc())
     with sub3:
         st.write("Upload gráficos")
         st.session_state["img_grafico2"] = st.file_uploader("Gráfico do Turno das Notificações", type=["png", "jpg", "jpeg"])
@@ -48,25 +72,10 @@ with aba1:
             with col3:
                 item['responsavel'] = st.text_input("Responsável", value=item['responsavel'], key=f"responsavel_{i}")
     with sub5:
-        st.write("Produzir documento")
-        st.info(f"Trimestre: {st.session_state['trimestre']} | Ano: {st.session_state['ano']} | Hospital: {st.session_state['hospital']}")
-        if st.button("📄 Gerar Relatório"):
-            #st.warning("Gerador ainda não implementado")
-            imagens = {
-                'grafico2': st.session_state['img_grafico2'],
-                'grafico4_2': st.session_state['img_grafico4_2'],
-                'grafico5': st.session_state["img_grafico5"],
-                'grafico6': st.session_state["img_grafico6"],
-                'grafico9': st.session_state["img_grafico9"],
-                'grafico10': st.session_state["img_grafico10"]
-                }
-            caminho_doc = gerador.gerar_relatorio(st.session_state['trimestre'], st.session_state['ano'],
-                                    st.session_state['hospital'], st.session_state['arquivo_notificacoes'],
-                                    st.session_state["arquivo_indicadores"], imagens,
-                                    st.session_state['texto_obitos'], st.session_state['texto_prontuarios'],
-                                    st.session_state['arquivo_psp'], st.session_state['acoes_taticas'])
-            with open(caminho_doc, 'rb') as f:
-                st.download_button("📥 Baixar Relatório", f, file_name="relatorio.docx")
+        if not st.session_state.get('dados_processados'):
+            st.info("Processe os dados na aba 'Dados EPIMED' para visualizar os resultados.")
+        else:
+            resultados.exibir(st.session_state)
 with aba2:
     st.write("Em desenvolvimento — Fase 3")
 with aba3:
