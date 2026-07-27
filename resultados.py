@@ -42,7 +42,7 @@ def exibir(session_state):
         'Incidente sem dano',
         'Never event/Evento sentinela (ANVISA/JCI)',
         'Queixa técnica',
-        'Segurança do trabalho',
+        'Segurança do Trabalho',
         'Outra natureza'
     ]
     for classificacao in ordem_classificacoes:
