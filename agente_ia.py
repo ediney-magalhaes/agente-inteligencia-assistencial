@@ -71,7 +71,7 @@ def analisar_bloco2(tabela, df_contexto_ia):
     {contexto}
 
     DADOS:
-    - Tabela comparativa de notificações por tunos e trimestres: {tabela.to_string(index=False)}
+    - Tabela comparativa de notificações por tunos e trimestres: {tabela.to_string()}
     - Dataset com turnos, classificação e descrição das notificações: {df_contexto_ia.to_string(index=False)}
 
     INSTRUÇÃO:
@@ -96,7 +96,7 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia):
     {contexto}
 
     DADOS:
-    - Tabela comparativa de notificações por classificações e variação: {tabela_comparativa.to_string(index=False)}
+    - Tabela comparativa de notificações por classificações e variação: {tabela_comparativa.to_string()}
     - Dataset com turnos, classificação, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
 
     INSTRUÇÃO:
@@ -106,7 +106,7 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia):
 
 # Função para análise do gráfico 3.1 a 3.7 (Nº notificações por classificação)
 def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia):
-    dados = dicionario[classificacao].to_string(index=False)
+    dados = dicionario[classificacao].to_string()
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
     contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
     "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
@@ -146,8 +146,8 @@ def analisar_bloco4(tabela_comparativa, tabela_top3_eventos, status_eventos, df_
     {contexto}
 
     DADOS:
-    - Tabela comparativa de notificações por classificações e variação: {tabela_comparativa.to_string(index=False)}
-    - Tabela com top 3 dos eventos: {tabela_top3_eventos.to_string(index=False)}
+    - Tabela comparativa de notificações por classificações e variação: {tabela_comparativa.to_string()}
+    - Tabela com top 3 dos eventos: {tabela_top3_eventos.to_string()}
     - Dataset com status dos danos e contexto: {status_eventos.to_string(index=False)}
     - Dataset com turnos, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
 
@@ -173,8 +173,8 @@ def analisar_bloco_setores(tab_tri_atual, tab_tri_anterior, tab_analise_IA, seto
 
     DADOS:
     - Tipo de setor analisado: {setor}
-    - Tabela do trimestre atual com volume de notificações por tipo de setor e variação: {tab_tri_atual.to_string(index=False)}
-    - Tabela do trimestre anterior com volume de notificações por tipo de setor e variação: {tab_tri_anterior.to_string(index=False)}
+    - Tabela do trimestre atual com volume de notificações por tipo de setor e variação: {tab_tri_atual.to_string()}
+    - Tabela do trimestre anterior com volume de notificações por tipo de setor e variação: {tab_tri_anterior.to_string()}
     - Dataset com setor (notificante ou notificado) e a descrição das notificações: {tab_analise_IA.to_string(index=False)}
 
     INSTRUÇÃO:
@@ -347,10 +347,10 @@ def analisar_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela
     {contexto}
 
     DADOS:
-    - Tabela de cumprimento do trimestre atual: {tabela_tri_atual.to_string(index=False)}
-    - Tabela de cumprimento do trimestre anterior: {tabela_tri_anterior.to_string(index=False)}
-    - Evolução mensal do trimestre atual: {tabela_mensal.to_string(index=False)}
-    - Evolução mensal do trimestre anterior: {tabela_mensal_anterior.to_string(index=False)}
+    - Tabela de cumprimento do trimestre atual: {tabela_tri_atual.to_string()}
+    - Tabela de cumprimento do trimestre anterior: {tabela_tri_anterior.to_string()}
+    - Evolução mensal do trimestre atual: {tabela_mensal.to_string()}
+    - Evolução mensal do trimestre anterior: {tabela_mensal_anterior.to_string()}
     - Dataset com notificações pendentes de análise: {df_contexto_ia.to_string(index=False)}
 
     INSTRUÇÃO:
