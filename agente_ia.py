@@ -224,8 +224,8 @@ def analisar_bloco7_queda(qtde_grau_dano, qtde_local_queda, qtde_tipo_queda, df_
     - Tabela grau das quedas: {qtde_grau_dano.to_string(index=False)}
     - Tabela local das quedas: {qtde_local_queda.to_string(index=False)}
     - Tabela tipo das quedas: {qtde_tipo_queda.to_string(index=False)}
-    - Média do trimestre atual: {df_media_tri_atual.to_string(index=False)}
-    - Média do trimestre anterior: {df_media_tri_anterior.to_string(index=False)}
+    - Média do trimestre atual: {df_media_tri_atual}
+    - Média do trimestre anterior: {df_media_tri_anterior}
     - Dataset com taxonomia, categoria, classificação, incidente, opção e descrição das notificações: {df_indicador.to_string(index=False)}
 
     INSTRUÇÃO:
