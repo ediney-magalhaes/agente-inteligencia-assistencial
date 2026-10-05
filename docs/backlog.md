@@ -21,12 +21,14 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 |---|---|---|---|
 | COR-01 | Estado da sessão e reprocessamento | E-01, E-13 | Resultados antigos persistem ao reprocessar; figuras nunca fechadas |
 | COR-02 | Período único e comparações | E-02, E-04, E-07 | Trimestre e ano vêm de fontes diferentes; ambiguidade de "trimestre anterior"; datas inválidas somem |
-| COR-03 | Cálculos e gráficos | E-05, E-09, E-10, E-11, E-12 | Gráfico 1, base zero, top-3 independentes, metas ignoradas, gráfico do bloco 8 desenhado dentro do laço mensal |
+| COR-03 | Cálculos e gráficos | E-05, E-09, E-10, E-11, E-12, E-23, E-24 | Gráfico 1, base zero, top-3 independentes, metas ignoradas, gráfico do bloco 8 desenhado dentro do laço mensal, rótulo do eixo Y do bloco 7, trimestre sem tratadas no bloco 8 |
 | COR-04 | Análise de queda | E-03 | Entrada errada para a análise de queda (tabela mensal no lugar do conjunto de dados) |
 | COR-05 | Robustez e erros | E-06, E-14, E-15, E-19 | Falha da API vira "análise"; colunas opcionais obrigatórias; leitura direta da planilha; traceback exposto |
 | COR-06 | Higiene de código | E-16, E-17, E-18 | Prompts, caminho morto, funções sem uso |
 | COR-07 | Privacidade do envio à API | E-08 | Revisão pendente. Detalhes mantidos fora do repositório. Exige ADR |
-| COR-08 | Verificações com dados reais | V-01 a V-07 | Dependem de conferência do usuário com os dados |
+| COR-08 | Verificações com dados reais | V-01 a V-07 | **Concluídas em 05/10/2026.** Resultados em `estado-atual-e-erros.md` |
+| COR-09 | Colunas dos Gráficos 5 e 6 | E-20, E-21 | Gráfico 5 deve agrupar por Setor notificante e o 6 por Setor Responsável. Correção pequena |
+| COR-10 | Valor trimestral dos indicadores | E-22 | Soma dos eventos sobre soma dos pacientes-dia. Só é possível com ING-01 e CAL-01 |
 
 ---
 
@@ -40,6 +42,8 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | ING-04 | Rotina de exportação mensal e trimestral recorrente | D | ING-02 |
 | ING-05 | Contrato de dados e validação em níveis (estrutura, tipo/nulos, domínio), com severidade (erro × aviso) | D, E-07, E-14 | — |
 | ING-06 | Leitura de planilha por nome da aba e colunas configuráveis | E-14, E-15 | ING-05 |
+| ING-07 | Glossário dos status do EPIMED, validação de consistência (status "Concluído sem necessidade de investigação" ou "Concluída – Outra natureza" com unidade responsável preenchida gera aviso) e alerta de status novo ou com grafia diferente | V-01 | ING-05 |
+| ING-08 | Janela de 2 anos (atual e anterior) como parâmetro explícito, com aviso quando o export tiver outro número de anos | V-05 | ING-05 |
 
 ## 3. Armazenamento
 
@@ -64,7 +68,7 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | ID | Item | Origem | Depende de |
 |---|---|---|---|
 | CAL-01 | Taxa de incidência com pacientes-dia (por 1.000) | D | ING-01 |
-| CAL-02 | Razão das somas × média das taxas mensais: decidir e documentar | V-03 | CAL-01 |
+| CAL-02 | Razão das somas × média das taxas mensais. **Decidido em 05/10/2026:** o valor oficial é a razão das somas. Implementar e documentar (junto com COR-10) | V-03 | CAL-01 |
 | CAL-03 | Variação com incerteza (não só diferença percentual) | D | CAL-01 |
 | CAL-04 | Cobertura do "Modelo Relatório": conferir tópico a tópico | Projeto | — |
 

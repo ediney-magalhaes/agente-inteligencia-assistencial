@@ -3,6 +3,7 @@
 > Criado em 01/10/2026. Deriva de `backlog.md` (o quê) e de `estado-atual-e-erros.md` (ponto de partida).
 > Este documento define **a ordem** e o **critério de pronto** de cada fase. Não tem datas: o ritmo depende do tempo disponível, e cada fase só começa quando a anterior cumpre seu critério.
 > Mudanças de ordem devem ser registradas no `CHANGELOG.md`.
+> **Última atualização do status:** 05/10/2026.
 
 ---
 
@@ -58,16 +59,20 @@ Trilhas transversais (começam cedo e continuam): **Qualidade**, **Segurança e 
 
 **Objetivo:** ter o terreno definido antes de mexer no código.
 
-| Item | Descrição |
-|---|---|
-| Operação do 3º trimestre | Gerar o relatório com o sistema atual seguindo os cuidados da seção 3 de `estado-atual-e-erros.md`. **Sem alterar o código antes de entregar** |
-| Linha de base | Marcar o estado atual no git (tag) antes de qualquer correção |
-| DOC-01, DOC-02, DOC-03 | Publicar este roadmap, iniciar o `CHANGELOG.md` com versionamento, escrever ADR-015 (estrutura documental) |
-| DOC-04, DOC-05 | Ligar `arquitetura.md` ao roadmap e preencher a seção 4 do estado atual |
-| COR-08 (V-01 a V-07) | Conferir com dados reais; resultado alimenta TRA-01 |
-| Confirmar no export | Identificador da notificação (ING-02) e datas de intervenção (ARM-05) |
-| SEG-01 / COR-07 / DOC-06 | Decidir onde o texto é processado e registrar em ADR (conteúdo sensível fora do repositório público) |
-| IMP-02 | Investigar por que o app "desconfigura" quando acessado por outro computador. Pode ser causa simples e resolver a dor imediata |
+Os itens abaixo não formam uma sequência: a coluna **Status** diz onde estamos. Legenda: Pendente, Em andamento, Concluído (com data).
+
+| Item | Descrição | Status |
+|---|---|---|
+| Operação do 3º trimestre | Gerar o relatório com o sistema atual seguindo os cuidados da seção 3 de `estado-atual-e-erros.md`. **Sem alterar o código antes de entregar** | Em andamento (prazo 10/10) |
+| Linha de base | Marcar o estado atual no git (tag) antes de qualquer correção | Concluído (05/10): tag `baseline-pre-fase1` no commit `299ab61` |
+| DOC-01 | Publicar este roadmap e o backlog | Concluído (05/10): commit `c339cfb` |
+| DOC-02, DOC-03 | Iniciar o `CHANGELOG.md` com versionamento e escrever ADR-015 (estrutura documental) | Pendente |
+| DOC-04 | Ligar `arquitetura.md` ao roadmap | Pendente |
+| DOC-05 | Preencher a seção 4 do estado atual | Em andamento: arquivo atualizado, falta o commit |
+| COR-08 (V-01 a V-07) | Conferir com dados reais; resultado alimenta TRA-01 | Concluído (05/10): resultados em `estado-atual-e-erros.md`. Geraram os erros E-20 a E-24 |
+| Confirmar no export | Identificador da notificação (ING-02) e datas de intervenção (ARM-05) | Pendente |
+| SEG-01 / COR-07 / DOC-06 | Decidir onde o texto é processado e registrar em ADR (conteúdo sensível fora do repositório público) | Pendente |
+| IMP-02 | Investigar por que o app "desconfigura" quando acessado por outro computador. Pode ser causa simples e resolver a dor imediata | Pendente |
 
 **Critério de pronto:** relatório do 3º trimestre entregue; tag de linha de base criada; V-01 a V-07 respondidas; identificador e datas confirmados no export; ADR-015 e ADR de SEG-01 escritos; roadmap e backlog publicados.
 
@@ -79,7 +84,7 @@ Ordem interna (sprints):
 
 1. **Rede de segurança**: QUA-03 (logs e tratamento de erros) e QUA-01 (testes que registram o comportamento atual e depois o comportamento correto).
 2. **Período e estado**: COR-02, COR-01. Período único como parâmetro (TRA-02) e definições de V-01 (TRA-01).
-3. **Cálculos e gráficos**: COR-03, COR-04, CAL-04 (cobertura do Modelo Relatório, tópico a tópico).
+3. **Cálculos e gráficos**: COR-03, COR-04, COR-09 (colunas dos Gráficos 5 e 6), CAL-04 (cobertura do Modelo Relatório, tópico a tópico).
 4. **Erros de execução**: E-06 e E-19 (de COR-05), COR-06. E-14 e E-15 ficam para a Fase 2.
 5. **Automação da conferência**: QUA-02 e QUA-04 (integração contínua).
 6. **IA atual mensurável**: IA-09 (saída estruturada), QUA-05 (verificação dos números citados), QUA-06 (casos de referência), IA-12 (revisão humana antes de aprovar).
@@ -96,7 +101,7 @@ Ordem interna (sprints):
 
 | Bloco | Itens |
 |---|---|
-| Contrato e leitura | ING-05, ING-06, TRA-03 (inclui E-14 e E-15), contrato de dados com severidade erro × aviso |
+| Contrato e leitura | ING-05, ING-06, ING-07, ING-08, TRA-03 (inclui E-14 e E-15), contrato de dados com severidade erro × aviso |
 | Banco | ARM-01 (SQLite em camadas, ADR-001), caminhos e configuração em arquivo externo |
 | Fontes | ING-01 (planilha de indicadores como denominador oficial), ING-02 (identificador) |
 | Histórico | ING-03 (carga desde 04/2020), ING-04 (rotina de exportação mensal e trimestral), ARM-02 (histórico de mudanças de status) |
@@ -113,7 +118,7 @@ Ordem interna (sprints):
 
 | Bloco | Itens |
 |---|---|
-| Cálculos | CAL-01 (taxa por pacientes-dia), CAL-02 (razão das somas × média das taxas), CAL-03 (variação com incerteza) |
+| Cálculos | CAL-01 (taxa por pacientes-dia), CAL-02 (razão das somas, já decidida como valor oficial) com COR-10, CAL-03 (variação com incerteza) |
 | Descrever | MOD-01 (tendência, sazonalidade, correlação) |
 | Sinal × ruído | MOD-02 (cartas de controle, funnel plot, aumento anormal) |
 | Produto | MOD-07 (painel) |
