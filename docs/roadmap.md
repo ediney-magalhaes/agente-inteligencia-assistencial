@@ -68,9 +68,9 @@ Os itens abaixo não formam uma sequência: a coluna **Status** diz onde estamos
 | DOC-01 | Publicar este roadmap e o backlog | Concluído (05/10): commit `c339cfb` |
 | DOC-02, DOC-03 | Iniciar o `CHANGELOG.md` com versionamento e escrever ADR-015 (estrutura documental) | Pendente |
 | DOC-04 | Ligar `arquitetura.md` ao roadmap | Pendente |
-| DOC-05 | Preencher a seção 4 do estado atual | Em andamento: arquivo atualizado, falta o commit |
+| DOC-05 | Preencher a seção 4 do estado atual | Concluído (05/10): commit `132fb73` |
 | COR-08 (V-01 a V-07) | Conferir com dados reais; resultado alimenta TRA-01 | Concluído (05/10): resultados em `estado-atual-e-erros.md`. Geraram os erros E-20 a E-24 |
-| Confirmar no export | Identificador da notificação (ING-02) e datas de intervenção (ARM-05) | Pendente |
+| Confirmar no export | Identificador da notificação (ING-02) e fonte das ações definidas nas tratativas (ARM-05) | Concluído (05/10): ID confirmado (único e estável) e fonte das ações identificada: o relatório consolidado da investigação do EPIMED, que entra como segunda fonte (ING-10) |
 | SEG-01 / COR-07 / DOC-06 | Decidir onde o texto é processado e registrar em ADR (conteúdo sensível fora do repositório público) | Pendente |
 | IMP-02 | Investigar por que o app "desconfigura" quando acessado por outro computador. Pode ser causa simples e resolver a dor imediata | Pendente |
 
@@ -101,11 +101,11 @@ Ordem interna (sprints):
 
 | Bloco | Itens |
 |---|---|
-| Contrato e leitura | ING-05, ING-06, ING-07, ING-08, TRA-03 (inclui E-14 e E-15), contrato de dados com severidade erro × aviso |
+| Contrato e leitura | ING-05, ING-06, ING-07, ING-08, ING-09 (minimização de dados), TRA-03 (inclui E-14 e E-15), contrato de dados com severidade erro × aviso |
 | Banco | ARM-01 (SQLite em camadas, ADR-001), caminhos e configuração em arquivo externo |
-| Fontes | ING-01 (planilha de indicadores como denominador oficial), ING-02 (identificador) |
+| Fontes | ING-01 (planilha de indicadores como denominador oficial), ING-02 (identificador), ING-10 (consolidado da investigação) |
 | Histórico | ING-03 (carga desde 04/2020), ING-04 (rotina de exportação mensal e trimestral), ARM-02 (histórico de mudanças de status) |
-| Derivados | ARM-03 (taxa no fechamento × atual), ARM-04 (tempo até a conclusão), ARM-05 (datas de intervenção) |
+| Derivados | ARM-03 (taxa no fechamento × atual), ARM-04 (tempo até a conclusão), ARM-05 (planos de ação ligados às notificações) |
 | Operação | IMP-05 (backup do banco) |
 
 **Pontos de decisão (ADR):** modelo de histórico (como guardar a mudança de status), estrutura dos esquemas por camada, política de recarga.

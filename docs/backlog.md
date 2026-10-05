@@ -37,13 +37,15 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | ID | Item | Origem | Depende de |
 |---|---|---|---|
 | ING-01 | Planilha de indicadores (pacientes-dia e internações) como **fonte oficial do denominador** | D | — |
-| ING-02 | Identificador estável da notificação na exportação do EPIMED | D | Verificar no export real |
+| ING-02 | Identificador estável da notificação na exportação do EPIMED. **Confirmado em 05/10/2026:** coluna `ID`, única em cada exportação e a mesma em todas as exportações. Serve de chave do histórico | D | — |
 | ING-03 | Carga inicial do histórico (desde 04/2020) | D, Fase 2 | ING-02, ARM-01 |
 | ING-04 | Rotina de exportação mensal e trimestral recorrente | D | ING-02 |
 | ING-05 | Contrato de dados e validação em níveis (estrutura, tipo/nulos, domínio), com severidade (erro × aviso) | D, E-07, E-14 | — |
 | ING-06 | Leitura de planilha por nome da aba e colunas configuráveis | E-14, E-15 | ING-05 |
 | ING-07 | Glossário dos status do EPIMED, validação de consistência (status "Concluído sem necessidade de investigação" ou "Concluída – Outra natureza" com unidade responsável preenchida gera aviso) e alerta de status novo ou com grafia diferente | V-01 | ING-05 |
 | ING-08 | Janela de 2 anos (atual e anterior) como parâmetro explícito, com aviso quando o export tiver outro número de anos | V-05 | ING-05 |
+| ING-09 | Minimização de dados: descartar na ingestão as colunas com identificadores diretos do paciente e as que o sistema não usa, antes de qualquer armazenamento | D (conferência do export) | ING-05, SEG-01 |
+| ING-10 | **Segunda fonte:** relatório consolidado da investigação do EPIMED (plano de ação, fatores contribuintes, Protocolo de Londres, força da intervenção RCA², efetividade). **Granularidade verificada em 05/10/2026:** o ID se repete, com uma linha por fator contribuinte (exemplo com 4 linhas para o mesmo ID, repetindo os campos da investigação). Repetição também por ação do plano: a confirmar. Contar linhas não conta notificações, e a Fase 2 precisa separar a investigação, os fatores e as ações. O texto livre de fatores e comentários traz informação sensível (condição do paciente e conduta de profissionais) e exige anonimização antes de qualquer envio externo (SEG-02). Pode alimentar também a seção 11 do Modelo, hoje não coberta | D | ING-02, ING-09 |
 
 ## 3. Armazenamento
 
@@ -52,8 +54,8 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | ARM-01 | SQLite com camadas raw / tratada / consolidada (ADR-001) | Fase 2 | ING-02 |
 | ARM-02 | Histórico de mudanças por notificação (o status muda meses depois) | D | ARM-01, ING-02 |
 | ARM-03 | Taxa "no fechamento do trimestre" × taxa "atual" | D | ARM-02 |
-| ARM-04 | Indicador de tempo até a conclusão da notificação | D | ARM-02 |
-| ARM-05 | Mapear no export as datas das intervenções e ações táticas | D | Conferir a planilha |
+| ARM-04 | Indicador de tempo até a conclusão da notificação e de cada etapa da tratativa (as colunas Encaminhada, Em andamento, Elaborada, Aprovada e Finalizada de cada ferramenta são datas). Ressalva: fechamento em lote (várias etapas na mesma data) pode distorcer o tempo | D | ARM-02 |
+| ARM-05 | **Resolvido em 05/10/2026:** as intervenções para a inferência causal são as **ações definidas pelos gestores nas tratativas** de qualquer notificação. A fonte existe: o relatório **consolidado da investigação** do EPIMED traz, ligados ao ID, o plano de ação (descrição, responsável, data inicial, prazo, novo prazo, data de conclusão, progresso), a força da intervenção (RCA²) e a Escala de Efetividade. Falta carregá-lo (ING-10) e relacioná-lo às notificações. O acompanhamento ao fim do relatório (fechamento da reunião de análise, sem datas nem identificador) é um registro separado, útil como insumo do RAG (IA-02) | D | ING-10 |
 
 ## 4. Tratamento
 
@@ -80,8 +82,8 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | MOD-02 | **Separar sinal de ruído**: cartas de controle (CEP, gráficos c/u), funnel plot por setor, detecção de aumento anormal | D | MOD-01 |
 | MOD-03 | **Explicar fatores**: regressão logística (dano grave), modelos de contagem (Poisson / binomial negativa), risco por setor, NPR | D | MOD-01 |
 | MOD-04 | **Prever**: média móvel, suavização exponencial, Prophet | D, Fase 4 | MOD-01 |
-| MOD-05 | **Inferência causal**: série temporal interrompida, diferenças em diferenças, para avaliar ações táticas | D | ARM-05, MOD-01 |
-| MOD-06 | Revisar com os dados reais se cabem outros métodos | D | Fase de construção |
+| MOD-05 | **Inferência causal**: série temporal interrompida, diferenças em diferenças, para avaliar as ações definidas nas tratativas | D | ARM-05, ING-10, MOD-01 |
+| MOD-06 | Revisar com os dados reais se cabem outros métodos. Candidatos vistos no export em 05/10/2026: análise de tempo até o evento (prazo e conclusão das tratativas), análise do fluxo das etapas da investigação, uso da matriz de prioridade do EPIMED (probabilidade, gravidade, grau de prioridade) e da Escala de Efetividade, idade e sexo como covariáveis nos modelos de fatores. Do consolidado da investigação: força da intervenção (RCA²) como intensidade da ação, fatores contribuintes, completude do Protocolo de Londres e atraso ou reprogramação de prazos (prazo × novo prazo) | D | Fase de construção |
 | MOD-07 | Painel epidemiológico (aba 2 do app) | Fase 3 | MOD-01, MOD-02 |
 
 ## 7. Agente de IA
@@ -89,7 +91,7 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | ID | Item | Origem | Depende de |
 |---|---|---|---|
 | IA-01 | **Contexto histórico**: Gemini recebe trimestres anteriores e resultados dos modelos | D | ARM-01, MOD-02 |
-| IA-02 | **RAG local** sobre análises e relatórios anteriores | D | ARM-01, IA-05 |
+| IA-02 | **RAG local** sobre análises e relatórios anteriores e, depois, sobre planos de ação e fatores contribuintes (permite perguntar que ações já foram tomadas para eventos parecidos e como foram avaliadas) | D | ARM-01, IA-05, ING-10 |
 | IA-03 | **Agente com ferramentas** (funções controladas, sem SQL livre) | D | IA-01, SEG-03 |
 | IA-04 | **Agente conversacional** (aba 3 do app) | D, Fase 5 | IA-02, IA-03 |
 | IA-05 | Embeddings e busca semântica (sentence-transformers; ChromaDB, FAISS ou extensão do SQLite) | D | ARM-01 |
