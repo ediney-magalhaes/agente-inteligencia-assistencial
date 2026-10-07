@@ -29,7 +29,7 @@ def chamar_gemini(prompt):
         except Exception as e:
             logger.warning(f'Modelo {ia} não disponível! Erro {e}')
     logger.error(f'Os modelos {lista_modelos} falharam!')
-    return "Todos os modelos tentados falharam na chamada! Tenta novamente."
+    raise RuntimeError("Todos os modelos tentados falharam na chamada!")
 
 # Função para análise do gráfico 1 (Nº notificações)
 def analisar_bloco1(total_atual, total_tri_anterior, var_tri, qtde_mensal, qtde_trimestral):
