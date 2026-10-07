@@ -68,7 +68,7 @@ Os itens abaixo não formam uma sequência: a coluna **Status** diz onde estamos
 | DOC-01 | Publicar este roadmap e o backlog | Concluído (05/10): commit `c339cfb` |
 | DOC-03 | Escrever ADR-015 (estrutura documental) | Concluído (05/10): commit `4db5a82` |
 | DOC-02 | Definir o versionamento (ADR própria) e iniciar o `CHANGELOG.md` | Concluído (05/10): ADR-017 e `CHANGELOG.md` |
-| DOC-04 | Ligar `arquitetura.md` ao roadmap | Pendente |
+| DOC-04 | Ligar `arquitetura.md` ao roadmap | Concluído (07/10) |
 | DOC-05 | Preencher a seção 4 do estado atual | Concluído (05/10): commit `132fb73` |
 | COR-08 (V-01 a V-07) | Conferir com dados reais; resultado alimenta TRA-01 | Concluído (05/10): resultados em `estado-atual-e-erros.md`. Geraram os erros E-20 a E-24 |
 | Confirmar no export | Identificador da notificação (ING-02) e fonte das ações definidas nas tratativas (ARM-05) | Concluído (05/10): ID confirmado (único e estável) e fonte das ações identificada: o relatório consolidado da investigação do EPIMED, que entra como segunda fonte (ING-10) |

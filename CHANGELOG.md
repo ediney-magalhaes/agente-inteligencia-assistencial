@@ -21,6 +21,9 @@ estrutura documental (ADR-015).
 - Roadmap passou a ter a coluna Status na Fase 0
 - ADR-015: estrutura da documentação
 - ADR-017: versionamento e CHANGELOG
+- `arquitetura.md` deixou de manter a tabela de evolução planejada e
+  passou a apontar para o roadmap e o backlog (DOC-04). A lista de ADRs
+  inclui agora as ADRs 015 a 017
 - ADR-016: onde o texto das notificações é processado (API externa com
   anonimização como ponto de partida e arquitetura híbrida como alvo)
 
