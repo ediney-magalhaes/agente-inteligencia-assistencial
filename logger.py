@@ -2,17 +2,16 @@ import logging
 
 from pathlib import Path
 
-# guardar resultado
-logger = logging.getLogger(__name__)
+# função de configuração do loggin
+def configurar_logging():
 
-# caminho para o pasta logs
-Path('log').mkdir(exist_ok=True)
+    # caminho para o pasta logs
+    Path('log').mkdir(exist_ok=True)
 
-# configuração
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.FileHandler("log/relatorio.log"), logging.StreamHandler()]
-)
+    # configuração
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
+        handlers=[logging.FileHandler("log/relatorio.log"), logging.StreamHandler()]
+    )
 
-logger.info("teste")

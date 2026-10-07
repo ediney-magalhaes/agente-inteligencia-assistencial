@@ -4,6 +4,11 @@ import pandas as pd
 import processador
 import resultados
 
+from logger import configurar_logging
+
+# chamando a função de logging
+configurar_logging()
+
 # CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(page_title="Sistema de Inteligência Assistencial", layout="wide")
 

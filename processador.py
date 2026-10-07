@@ -6,6 +6,8 @@
 
 import pandas as pd
 import numpy as np
+import logging
+
 from utils import (
     atualizacao_schema,
     texto_variacao,
@@ -33,9 +35,12 @@ from utils import (
     COL_NOTA
 )
 
+logger = logging.getLogger(__name__)
+
 # Carregar schema
 def carregar_validar(arquivo):
     try:
+        logger.info('Iniciando leitura da planilha de notificações')
         df = pd.read_excel(arquivo, sheet_name=0)
         df_corrigido, lista_ausentes = atualizacao_schema(df)
         if lista_ausentes:
@@ -44,7 +49,7 @@ def carregar_validar(arquivo):
             df_corrigido [COL_DATA]= pd.to_datetime(df_corrigido[COL_DATA], errors='coerce')
             return df_corrigido
     except Exception as e:
-        print(f'Erro inesperado: {e}')
+        logger.exception('Leitura da planilha falhou!')
         raise
 
 # Preparar dados - Bloco 1 (Quantidade notificações)
