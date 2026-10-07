@@ -24,7 +24,8 @@ def chamar_gemini(prompt):
                 model = ia,
                 contents=prompt
             )
-            
+            if not resposta.text:
+                raise ValueError("A resposta retornou vazia!")
             return resposta.text
         except Exception as e:
             logger.warning(f'Modelo {ia} não disponível! Erro {e}')
