@@ -1,6 +1,10 @@
 import os
+import logging
+
 from google import genai
 from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
 
 # Carrega variáveis de ambiente
 load_dotenv()
@@ -23,7 +27,8 @@ def chamar_gemini(prompt):
             
             return resposta.text
         except Exception as e:
-            print(f'Modelo {ia} não disponível! Erro {e}')
+            logger.warning(f'Modelo {ia} não disponível! Erro {e}')
+    logger.error(f'Os modelos {lista_modelos} falharam!')
     return "Todos os modelos tentados falharam na chamada! Tenta novamente."
 
 # Função para análise do gráfico 1 (Nº notificações)
