@@ -1,6 +1,9 @@
 import streamlit as st
 import visualizador
 import agente_ia
+import logging
+
+logger = logging.getLogger(__name__)
 
 # função para otimização das mensagens de erros nos gráficos
 def otimizacao_graficos(texto_botao, chave, funcao_analise, *argumentos):
@@ -10,6 +13,9 @@ def otimizacao_graficos(texto_botao, chave, funcao_analise, *argumentos):
                 st.session_state[chave] = funcao_analise(*argumentos)
         except RuntimeError:
             st.error('A análise não foi gerada. Clique no botão para tentar de novo!')
+        except Exception:
+            logger.exception(f'O bloco {chave} falhou!')
+            raise
     if chave in st.session_state:
         st.write(st.session_state[chave])
 
