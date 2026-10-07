@@ -63,7 +63,7 @@ Os itens abaixo não formam uma sequência: a coluna **Status** diz onde estamos
 
 | Item | Descrição | Status |
 |---|---|---|
-| Operação do 3º trimestre | Gerar o relatório com o sistema atual seguindo os cuidados da seção 3 de `estado-atual-e-erros.md`. **Sem alterar o código antes de entregar** | Em andamento (prazo 10/10) |
+| Operação do 3º trimestre | Gerar o relatório com o sistema atual seguindo os cuidados da seção 3 de `estado-atual-e-erros.md`. **Sem alterar o código antes de entregar** | Em andamento (prazo 10/10). Roda em paralelo à Fase 1 e **deve usar o código da tag `baseline-pre-fase1`**, nunca o da branch `desenvolvimento` com correções da Fase 1 |
 | Linha de base | Marcar o estado atual no git (tag) antes de qualquer correção | Concluído (05/10): tag `baseline-pre-fase1` no commit `299ab61` |
 | DOC-01 | Publicar este roadmap e o backlog | Concluído (05/10): commit `c339cfb` |
 | DOC-03 | Escrever ADR-015 (estrutura documental) | Concluído (05/10): commit `4db5a82` |
@@ -73,7 +73,9 @@ Os itens abaixo não formam uma sequência: a coluna **Status** diz onde estamos
 | COR-08 (V-01 a V-07) | Conferir com dados reais; resultado alimenta TRA-01 | Concluído (05/10): resultados em `estado-atual-e-erros.md`. Geraram os erros E-20 a E-24 |
 | Confirmar no export | Identificador da notificação (ING-02) e fonte das ações definidas nas tratativas (ARM-05) | Concluído (05/10): ID confirmado (único e estável) e fonte das ações identificada: o relatório consolidado da investigação do EPIMED, que entra como segunda fonte (ING-10) |
 | SEG-01 / COR-07 / DOC-06 | Decidir onde o texto é processado e registrar em ADR (conteúdo sensível fora do repositório público) | Concluído (07/10): ADR-016 aprovada (ponto de partida: API externa com anonimização e registro; alvo: híbrido) |
-| IMP-02 | Investigar por que o app "desconfigura" quando acessado por outro computador. Pode ser causa simples e resolver a dor imediata | Pendente: aguarda print da tela desconfigurada, navegador e endereço usado por quem acessa |
+| IMP-02 | Investigar por que o app "desconfigura" quando acessado por outro computador. Pode ser causa simples e resolver a dor imediata | Adiado (07/10): sem prazo. Retomar quando houver o print da tela desconfigurada, o navegador e o endereço usado por quem acessa |
+
+**Situação em 07/10/2026:** a Fase 0 foi encerrada por ora. Ficam em aberto a operação do 3º trimestre (prazo 10/10, em paralelo) e o IMP-02 (adiado). A Fase 1 começa sem esperar por eles, desde que o relatório use a tag de linha de base.
 
 **Critério de pronto:** relatório do 3º trimestre entregue; tag de linha de base criada; V-01 a V-07 respondidas; identificador e datas confirmados no export; ADR-015 e ADR de SEG-01 escritos; roadmap e backlog publicados.
 

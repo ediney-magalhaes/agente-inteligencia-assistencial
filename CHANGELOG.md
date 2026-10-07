@@ -21,6 +21,9 @@ estrutura documental (ADR-015).
 - Roadmap passou a ter a coluna Status na Fase 0
 - ADR-015: estrutura da documentação
 - ADR-017: versionamento e CHANGELOG
+- Roadmap: Fase 0 encerrada por ora (07/10). A Fase 1 começa em paralelo
+  à entrega do relatório do 3º trimestre, que deve usar o código da tag
+  `baseline-pre-fase1`. IMP-02 adiado
 - `arquitetura.md` deixou de manter a tabela de evolução planejada e
   passou a apontar para o roadmap e o backlog (DOC-04). A lista de ADRs
   inclui agora as ADRs 015 a 017
