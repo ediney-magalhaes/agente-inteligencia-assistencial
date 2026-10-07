@@ -2,7 +2,7 @@
 
 **Projeto:** Agente de Análise - Segurança do Paciente  
 **Autor:** Ediney Magalhães  
-**Última atualização:** 29/04/2026
+**Última atualização:** 07/10/2026
 
 ---
 
@@ -118,14 +118,14 @@ As decisões técnicas estão documentadas individualmente em `docs/decisoes/`:
 - [ADR-012](decisoes/ADR-012-modulo-resultados.md) — Módulo de Exibição de Resultados
 - [ADR-013](decisoes/ADR-013-deploy-rede-local.md) — Deploy em Rede Local
 - [ADR-014](decisoes/ADR-014-simplificacao-interface.md) — Simplificação da Interface
+- [ADR-015](decisoes/ADR-015-estrutura-da-documentacao.md) — Estrutura da Documentação
+- [ADR-016](decisoes/ADR-016-processamento-do-texto-das-notificacoes.md) — Onde o Texto das Notificações é Processado
+- [ADR-017](decisoes/ADR-017-versionamento-e-changelog.md) — Versionamento e CHANGELOG
+
 ---
 
 ## Evolução Planejada
 
-| Fase | Descrição | Status |
-|---|---|---|
-| 1 — Relatório automatizado | Interface Streamlit + gerador.py + documento Word final | 🔄 Em andamento — app.py completo, gerador.py com fluxo validado, estrutura do Word pendente |
-| 2 — Banco de dados | SQLite para histórico acumulado por trimestre | ⏳ Pendente |
-| 3 — Painel epidemiológico | Tendência temporal, sazonalidade, correlações, CEP | ⏳ Pendente |
-| 4 — Modelos preditivos | Previsão de volume, risco por setor | ⏳ Pendente |
-| 5 — Agente de IA | Chat com os dados, narrativas automáticas, alertas | ⏳ Pendente |
+A evolução do sistema (fases, ordem, status e critérios de pronto) fica no
+[roadmap](roadmap.md). O que ainda precisa ser feito, item a item, está no
+[backlog](backlog.md). Esta página descreve apenas a arquitetura atual.
