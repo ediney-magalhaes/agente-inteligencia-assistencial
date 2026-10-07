@@ -3,11 +3,14 @@ import traceback
 import pandas as pd
 import processador
 import resultados
+import logging
 
 from logger import configurar_logging
 
 # chamando a função de logging
 configurar_logging()
+
+logger = logging.getLogger(__name__)
 
 # CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(page_title="Sistema de Inteligência Assistencial", layout="wide")
@@ -65,6 +68,7 @@ with aba1:
                         st.session_state['dados_processados'] = True
                         st.success("Dados processados com sucesso.")
                     except Exception as e:
+                        logger.exception("Falha no processamento dos dados")
                         st.error("Erro ao processar os dados.")
                         st.code(traceback.format_exc())
     with sub5:
