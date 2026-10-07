@@ -125,7 +125,7 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 
 | ID | Item | Origem | Depende de |
 |---|---|---|---|
-| SEG-01 | Decisão arquitetural sobre onde o texto das notificações é processado (API externa × local) → **ADR** | D, COR-07 | — |
+| SEG-01 | Decisão arquitetural sobre onde o texto das notificações é processado (API externa × local) → **ADR**. **Decidido em 07/10/2026 (ADR-016):** ponto de partida = API externa com anonimização e registro do que é enviado; alvo = híbrido (só dados agregados vão à API e o texto livre fica em modelo local) | D, COR-07 | — |
 | SEG-02 | Anonimização antes de qualquer envio externo (Presidio ou spaCy pt) | D | SEG-01 |
 | SEG-03 | Defesa contra injeção de prompt (texto livre das notificações no prompt) | D | — |
 | SEG-04 | Log de auditoria do que sai para APIs externas | D | QUA-03 |

@@ -72,7 +72,7 @@ Os itens abaixo não formam uma sequência: a coluna **Status** diz onde estamos
 | DOC-05 | Preencher a seção 4 do estado atual | Concluído (05/10): commit `132fb73` |
 | COR-08 (V-01 a V-07) | Conferir com dados reais; resultado alimenta TRA-01 | Concluído (05/10): resultados em `estado-atual-e-erros.md`. Geraram os erros E-20 a E-24 |
 | Confirmar no export | Identificador da notificação (ING-02) e fonte das ações definidas nas tratativas (ARM-05) | Concluído (05/10): ID confirmado (único e estável) e fonte das ações identificada: o relatório consolidado da investigação do EPIMED, que entra como segunda fonte (ING-10) |
-| SEG-01 / COR-07 / DOC-06 | Decidir onde o texto é processado e registrar em ADR (conteúdo sensível fora do repositório público) | Pendente |
+| SEG-01 / COR-07 / DOC-06 | Decidir onde o texto é processado e registrar em ADR (conteúdo sensível fora do repositório público) | Concluído (07/10): ADR-016 aprovada (ponto de partida: API externa com anonimização e registro; alvo: híbrido) |
 | IMP-02 | Investigar por que o app "desconfigura" quando acessado por outro computador. Pode ser causa simples e resolver a dor imediata | Pendente: aguarda print da tela desconfigurada, navegador e endereço usado por quem acessa |
 
 **Critério de pronto:** relatório do 3º trimestre entregue; tag de linha de base criada; V-01 a V-07 respondidas; identificador e datas confirmados no export; ADR-015 e ADR de SEG-01 escritos; roadmap e backlog publicados.
