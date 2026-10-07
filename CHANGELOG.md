@@ -9,6 +9,29 @@ estrutura documental (ADR-015).
 
 ## [Não lançado]
 
+### Adicionado
+
+- Registro de execução em arquivo e no terminal, com data, hora, nível
+  e origem de cada mensagem. A pasta de logs fica fora do git
+- Erros na leitura da planilha, no processamento dos blocos e nos
+  botões de análise passaram a ser registrados no log, com o nome do
+  bloco que falhou
+- Falha de cada modelo do Gemini passou a ser registrada como aviso, e
+  a falha de todos os modelos como erro
+
+### Alterado
+
+- Os 13 botões de análise por IA passaram a usar uma função única de
+  chamada e tratamento de erro, sem mudança visual para o usuário
+
+### Corrigido
+
+- Quando todos os modelos do Gemini falhavam, uma frase de erro entrava
+  no relatório como se fosse a análise. Agora o usuário vê um aviso e
+  nada é guardado
+- Resposta vazia do Gemini aparecia na tela como análise. Agora é
+  tratada como falha do modelo, e o sistema tenta o próximo
+
 ### Documentação
 
 - Registrado o resultado das verificações V-01 a V-07 em
