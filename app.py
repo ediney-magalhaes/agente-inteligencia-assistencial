@@ -1,5 +1,4 @@
 import streamlit as st
-import traceback
 import pandas as pd
 import processador
 import resultados
@@ -67,10 +66,12 @@ with aba1:
                         st.session_state['bloco10'] = processador.preparar_bloco10(df_atual)
                         st.session_state['dados_processados'] = True
                         st.success("Dados processados com sucesso.")
+                    except ValueError as e:
+                        logger.exception("Planilha com colunas ausentes")
+                        st.error(f'Problema na planilha: {e}')
                     except Exception as e:
                         logger.exception("Falha no processamento dos dados")
                         st.error("Erro ao processar os dados.")
-                        st.code(traceback.format_exc())
     with sub5:
         if not st.session_state.get('dados_processados'):
             st.info("Processe os dados na aba 'Dados EPIMED' para visualizar os resultados.")
