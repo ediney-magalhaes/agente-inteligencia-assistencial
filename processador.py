@@ -39,18 +39,14 @@ logger = logging.getLogger(__name__)
 
 # Carregar schema
 def carregar_validar(arquivo):
-    try:
-        logger.info('Iniciando leitura da planilha de notificações')
-        df = pd.read_excel(arquivo, sheet_name=0)
-        df_corrigido, lista_ausentes = atualizacao_schema(df)
-        if lista_ausentes:
-            raise ValueError(f'Colunas ausentes: {lista_ausentes}')
-        else:
-            df_corrigido [COL_DATA]= pd.to_datetime(df_corrigido[COL_DATA], errors='coerce')
-            return df_corrigido
-    except Exception as e:
-        logger.exception('Leitura da planilha falhou!')
-        raise
+    logger.info('Iniciando leitura da planilha de notificações')
+    df = pd.read_excel(arquivo, sheet_name=0)
+    df_corrigido, lista_ausentes = atualizacao_schema(df)
+    if lista_ausentes:
+        raise ValueError(f'Colunas ausentes: {lista_ausentes}')
+    else:
+        df_corrigido [COL_DATA]= pd.to_datetime(df_corrigido[COL_DATA], errors='coerce')
+        return df_corrigido
 
 # Preparar dados - Bloco 1 (Quantidade notificações)
 def preparar_bloco1(df):
