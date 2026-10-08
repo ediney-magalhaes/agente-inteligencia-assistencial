@@ -57,6 +57,19 @@ estrutura documental (ADR-015).
   inclui agora as ADRs 015 a 017
 - ADR-016: onde o texto das notificações é processado (API externa com
   anonimização como ponto de partida e arquitetura híbrida como alvo)
+- Roadmap reescrito (08/10): a Fase 1 passou a seguir o caminho do dado
+  pelos arquivos, em seis blocos, e a anonimização (SEG-02, SEG-04,
+  ING-09) abre a fase. A integração contínua é o primeiro item
+- Estratégia de testes alterada: cada correção nasce com o teste do valor
+  correto, no mesmo commit. Não haverá teste que registre o comportamento
+  errado
+- E-22 (taxa oficial por pacientes-dia), CAL-01 e CAL-02 passaram da
+  Fase 3 para a Fase 1, com a coluna `Paciente-dia` da planilha de
+  indicadores. E-15 passou da Fase 2 para a Fase 1
+- Implantação decidida em nuvem (Cloud Run, login por conta Google
+  corporativa), no lugar do servidor na rede do hospital. A ADR-013 será
+  substituída pela ADR-018. IMP-02 encerrado
+- Novos itens no backlog: CAL-05, CAL-06, IMP-06 e IMP-07
 
 ## [0.1.0] - 05/10/2026
 
