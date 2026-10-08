@@ -89,7 +89,7 @@ A coluna **Sprint** mostra a ordem interna. A coluna **Status** diz onde estamos
 
 | Sprint | Item | Descrição | Status |
 |---|---|---|---|
-| 1. Rede de segurança | QUA-03 | Logs e tratamento de erros (substitui print e traceback ao usuário) | Em andamento. Feito em 07/10 (commits `cf39143` a `c7db36e`): logging em arquivo e terminal; erros registrados em `app.py`, `processador.py`, `agente_ia.py` e `resultados.py`; falha total ou resposta vazia do Gemini não entra mais no relatório como análise. Em aberto: o traceback ainda é exibido ao usuário (E-19); o erro de `carregar_validar` é registrado duas vezes (decidir a camada) |
+| 1. Rede de segurança | QUA-03 | Logs e tratamento de erros (substitui print e traceback ao usuário) | Concluído (08/10): logging em arquivo e terminal; erros registrados em `app.py`, `agente_ia.py` e `resultados.py`, cada um uma única vez; traceback fora da tela do usuário; falha total ou resposta vazia do Gemini não entra mais no relatório como análise. Commits `cf39143` a `e7ad5fd` |
 | 1. Rede de segurança | QUA-01 | Testes automatizados das funções de cálculo: primeiro registram o comportamento atual, depois o correto | Pendente (próximo) |
 | 2. Período e estado | COR-02 | Período único e comparações (E-02, E-04, E-07): trimestre e ano de fontes diferentes, ambiguidade de "trimestre anterior", datas inválidas que somem | Pendente |
 | 2. Período e estado | COR-01 | Estado da sessão e reprocessamento (E-01, E-13): resultados e análises de IA antigos persistem ao reprocessar; figuras nunca fechadas | Pendente |
@@ -99,7 +99,7 @@ A coluna **Sprint** mostra a ordem interna. A coluna **Status** diz onde estamos
 | 3. Cálculos e gráficos | COR-04 | Análise de queda (E-03): entrada errada, com tabela mensal no lugar do conjunto de dados | Pendente |
 | 3. Cálculos e gráficos | COR-09 | Colunas dos Gráficos 5 e 6 (E-20, E-21): o 5 deve agrupar por Setor notificante e o 6 por Setor Responsável | Pendente |
 | 3. Cálculos e gráficos | CAL-04 | Cobertura do Modelo Relatório, conferida tópico a tópico | Pendente |
-| 4. Erros de execução | COR-05 (E-06 e E-19) | Robustez e erros: falha da API vira "análise" (E-06) e traceback exposto (E-19). E-14 e E-15 ficam para a Fase 2 | Em andamento. E-06 parcial: a frase de erro já não entra no relatório; falta nova tentativa com espera e informar a troca de modelo. E-19 pendente |
+| 4. Erros de execução | COR-05 (E-06 e E-19) | Robustez e erros: falha da API vira "análise" (E-06) e traceback exposto (E-19). E-14 e E-15 ficam para a Fase 2 | Em andamento. E-19 concluído (08/10). E-06 parcial: a frase de erro já não entra no relatório; falta nova tentativa com espera e informar a troca de modelo |
 | 4. Erros de execução | COR-06 | Higiene de código (E-16, E-17, E-18): prompts sem espaço, caminho morto de imagens, funções sem uso | Pendente |
 | 5. Automação | QUA-02 | Conferência automática entre os números do relatório e as planilhas de origem | Pendente. Depende de QUA-01 |
 | 5. Automação | QUA-04 | Integração contínua gratuita (GitHub Actions) rodando os testes a cada push | Pendente. Depende de QUA-01 |
