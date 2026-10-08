@@ -31,6 +31,11 @@ estrutura documental (ADR-015).
   nada é guardado
 - Resposta vazia do Gemini aparecia na tela como análise. Agora é
   tratada como falha do modelo, e o sistema tenta o próximo
+- O traceback técnico deixou de ser exibido ao usuário. Erro de planilha
+  com colunas ausentes mostra quais colunas faltam; os demais erros
+  mostram uma mensagem genérica, e o detalhe fica no log (E-19)
+- O erro de leitura da planilha era registrado duas vezes no log. Agora
+  é registrado uma única vez
 
 ### Documentação
 
