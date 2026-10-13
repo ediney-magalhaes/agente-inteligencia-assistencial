@@ -46,7 +46,8 @@ def carregar_validar(arquivo):
         raise ValueError(f'Colunas ausentes: {lista_ausentes}')
     else:
         df_corrigido [COL_DATA]= pd.to_datetime(df_corrigido[COL_DATA], errors='coerce')
-        return df_corrigido
+        df_mapeamento_colunas = df_corrigido[list(MAPEAMENTO_COLUNAS)]
+        return df_mapeamento_colunas
 
 # Preparar dados - Bloco 1 (Quantidade notificações)
 def preparar_bloco1(df):
