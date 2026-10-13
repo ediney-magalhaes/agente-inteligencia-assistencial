@@ -1,0 +1,60 @@
+#---------------------------------------------------
+# Script que realiza a anonimização dos dados pessoais
+# Criado por: Ediney Magalhães
+# Data: 13/10/2026
+#---------------------------------------------------
+
+import re
+
+# constantes
+PADRAO_CPF = r'\d{3}\.?\d{3}\.?\d{3}-?\d{2}'
+PADRAO_TELEFONE = r'\(?\d{2}\)? ?9?\d{4}-?\d{4}'
+PADRAO_EMAIL = r'[\w.+-]+@[\w-]+\.[\w.]+'
+PADRAO_NUMERO = r'\d{6,}|\d{4}-\d{4}'
+
+# gatilhos de 'pronomes' para nomes de pessoas
+GATILHOS = [
+    'filh[oa]',
+    'espos[oa]',
+    'marido',
+    'm[ãa]e',
+    'pai',
+    'irm[ãa]o?',
+    'net[oa]',
+    'cuidadora?',
+    'acompanhante',
+    'dra?',
+    'doutora?',
+    'enfermeir[oa]',
+    't[eé]cnic[oa]',
+    'sra?',
+]
+
+# lista de palavras 'pré' nomes
+PALAVRAS_COMUNS = [
+    'que', 'de', 'da', 'do', 'das', 'dos', 'e', 'a', 'o',
+    'com', 'sem', 'em', 'na', 'no', 'para', 'por', 'ao',
+    'foi', 'est[aá]', 'estava', 'n[aã]o',
+    'informou', 'relatou', 'disse', 'referiu',
+]
+
+#
+NAO_COMUM = r'(?!(?:' + '|'.join(PALAVRAS_COMUNS) + r')\b)'
+
+# idenfiticação de nomes nas frases
+PADRAO_NOME = r'\b(?:' + '|'.join(GATILHOS) + r')\b' + r'\.?' + r'\s+' + NAO_COMUM + r'\w+' + r'(?:\s+' + NAO_COMUM + r'\w+)?'
+
+# camadas regex
+CAMADAS = [
+    (PADRAO_CPF, '[CPF]'),
+    (PADRAO_TELEFONE, '[TELEFONE]'),
+    (PADRAO_EMAIL, '[EMAIL]'),
+    (PADRAO_NUMERO, '[NUMERO]'),
+    (PADRAO_NOME, '[NOME]')
+]
+
+#
+def anonimizar_texto(texto):
+    for padrao, rotulo in CAMADAS:
+        texto = re.sub(padrao, rotulo, texto, flags=re.IGNORECASE)
+    return texto
