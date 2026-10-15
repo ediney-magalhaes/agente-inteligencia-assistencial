@@ -29,3 +29,11 @@ def test_nao_altera_texto_sem_dado_pessoal():
     texto = 'A filha informou que o paciente caiu no banheiro'
     resultado =  anonimizar_texto(texto)
     assert resultado == texto
+
+def test_remove_nome_sem_gatilho():
+    texto = 'PACIENTE RELATA QUE MARIA DA SILVA CAIU NO BANHEIRO'
+    resultado = anonimizar_texto(texto)
+    assert 'MARIA' not in resultado
+    assert 'SILVA' not in resultado
+    assert '[NOME]' in resultado
+    assert 'CAIU' in resultado

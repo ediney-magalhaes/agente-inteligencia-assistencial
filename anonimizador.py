@@ -5,6 +5,10 @@
 #---------------------------------------------------
 
 import re
+import spacy
+
+# carrega modelo
+NLP = spacy.load('pt_core_news_sm')
 
 # constantes
 PADRAO_CPF = r'\d{3}\.?\d{3}\.?\d{3}-?\d{2}'
@@ -57,4 +61,21 @@ CAMADAS = [
 def anonimizar_texto(texto):
     for padrao, rotulo in CAMADAS:
         texto = re.sub(padrao, rotulo, texto, flags=re.IGNORECASE)
+    for inicio, fim in sorted(localizar_nomes(texto), reverse=True):
+        texto = texto[:inicio] + '[NOME]' + texto[fim:]
     return texto
+
+def localizar_nomes(texto):
+    doc = NLP(texto.title())
+    doc_min = NLP(texto.lower())
+    if len(doc) != len(doc_min):
+        raise ValueError('Textos distintos!')
+    trechos = []
+    for ent in doc.ents:
+        if ent.label_ == 'PER':
+            indices = [i for i in range(ent.start, ent.end) if doc_min[i].pos_ == 'PROPN']
+            if indices:
+                inicio = doc[indices[0]].idx
+                fim = doc[indices[-1]].idx + len(doc[indices[-1]])
+                trechos.append((inicio, fim))
+    return trechos
