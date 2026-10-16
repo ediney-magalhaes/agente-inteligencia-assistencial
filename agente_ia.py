@@ -61,10 +61,9 @@ def analisar_bloco1(total_atual, total_tri_anterior, var_tri, qtde_mensal, qtde_
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico 2 (Nº notificações por turno)
-def analisar_bloco2(tabela, df_contexto_ia):
+def analisar_bloco2(tabela, df_contexto_ia, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "Os colaboradores realizam as notificações em diversos horários e esse registro fica gravado no sistema de notificações Epimed."
     instrucao = "analisar o volume das notificações de acordo com os turnos em que foram registrados. Identificar indicíos onde" \

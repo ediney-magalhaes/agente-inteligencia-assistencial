@@ -46,7 +46,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Gráfico 2",
         "ia_b2",
         agente_ia.analisar_bloco2,
-        b2[0], b2[1]
+        b2[0], b2[1], hospital
     )
     st.divider()
 
