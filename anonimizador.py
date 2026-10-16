@@ -6,6 +6,9 @@
 
 import re
 import spacy
+import logging
+
+logger = logging.getLogger(__name__)
 
 # carrega modelo
 NLP = spacy.load('pt_core_news_sm')
@@ -57,12 +60,17 @@ CAMADAS = [
     (PADRAO_NOME, '[NOME]')
 ]
 
-#
+# função para anonimização 
 def anonimizar_texto(texto):
+    contagem = {}
     for padrao, rotulo in CAMADAS:
-        texto = re.sub(padrao, rotulo, texto, flags=re.IGNORECASE)
-    for inicio, fim in sorted(localizar_nomes(texto), reverse=True):
+        texto, qtde = re.subn(padrao, rotulo, texto, flags=re.IGNORECASE)
+        contagem[rotulo] = qtde
+    trechos = localizar_nomes(texto)
+    for inicio, fim in sorted(trechos, reverse=True):
         texto = texto[:inicio] + '[NOME]' + texto[fim:]
+    contagem['NOME-SPACY'] = len(trechos)
+    logger.info(f'Itens removidos por camada: {contagem} - o tamanho final do texto foi de {len(texto)} caracteres.')
     return texto
 
 def localizar_nomes(texto):

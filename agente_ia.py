@@ -3,6 +3,7 @@ import logging
 
 from google import genai
 from dotenv import load_dotenv
+from anonimizador import anonimizar_texto
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,7 @@ cliente = genai.Client(api_key=GEMINI_API_KEY)
 
 # Função padrão de chamada da API
 def chamar_gemini(prompt):
+    prompt = anonimizar_texto(prompt)
     lista_modelos = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro']
     for ia in lista_modelos:
         try:

@@ -1,3 +1,5 @@
+import logging
+
 from anonimizador import anonimizar_texto
 
 def test_remove_cpf():
@@ -37,3 +39,10 @@ def test_remove_nome_sem_gatilho():
     assert 'SILVA' not in resultado
     assert '[NOME]' in resultado
     assert 'CAIU' in resultado
+
+def test_log_nao_contem_texto(caplog):
+    with caplog.at_level(logging.INFO):
+        resultado = anonimizar_texto('Paciente CPF 123.456.789-09, filho Pedro Lima ligou')
+    assert 'Pedro' not in caplog.text
+    assert '123.456.789-09' not in caplog.text
+    assert '[CPF]' in caplog.text
