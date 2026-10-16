@@ -22,6 +22,7 @@ def otimizacao_graficos(texto_botao, chave, funcao_analise, *argumentos):
 def exibir(session_state):
     tri = session_state['trimestre']
     ano = session_state['ano']
+    hospital = session_state['hospital']
 
     # Gráfico 1 — Quantidade de Notificações
     st.markdown("## Gráfico 1 — Quantidade de Notificações")
@@ -31,7 +32,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Gráfico 1",
         "ia_b1",
         agente_ia.analisar_bloco1,
-        b1[0], b1[1], b1[5], b1[3], b1[4]
+        b1[0], b1[1], b1[5], b1[3], b1[4], hospital
     )
     st.divider()
 

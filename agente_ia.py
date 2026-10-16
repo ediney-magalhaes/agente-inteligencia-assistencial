@@ -4,6 +4,7 @@ import logging
 from google import genai
 from dotenv import load_dotenv
 from anonimizador import anonimizar_texto
+from prompts import frase_apresentacao
 
 logger = logging.getLogger(__name__)
 
@@ -35,10 +36,9 @@ def chamar_gemini(prompt, bloco='não informado'):
     raise RuntimeError("Todos os modelos tentados falharam na chamada!")
 
 # Função para análise do gráfico 1 (Nº notificações)
-def analisar_bloco1(total_atual, total_tri_anterior, var_tri, qtde_mensal, qtde_trimestral):
+def analisar_bloco1(total_atual, total_tri_anterior, var_tri, qtde_mensal, qtde_trimestral, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas."
     instrucao = "realizar a comparação entre os meses do ano atual, os meses do ano anterior e o trimestre avaliado. Nesse" \
     "momento a análise deve focar exclusivamente na variação do número de notificações (aumento ou redução) e possíveis tendências."
