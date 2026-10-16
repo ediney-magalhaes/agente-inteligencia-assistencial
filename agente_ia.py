@@ -17,8 +17,8 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 cliente = genai.Client(api_key=GEMINI_API_KEY)
 
 # Função padrão de chamada da API
-def chamar_gemini(prompt):
-    prompt = anonimizar_texto(prompt)
+def chamar_gemini(prompt, bloco='não informado'):
+    prompt = anonimizar_texto(prompt, bloco)
     lista_modelos = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro']
     for ia in lista_modelos:
         try:

@@ -43,6 +43,10 @@ PALAVRAS_COMUNS = [
     'com', 'sem', 'em', 'na', 'no', 'para', 'por', 'ao',
     'foi', 'est[aá]', 'estava', 'n[aã]o',
     'informou', 'relatou', 'disse', 'referiu',
+    'mas', 'ou', 'porém', 'se', 'como', 'mais', 'muito',
+    'também', 'já', 'ainda', 'um', 'uma', 'aos', 'às', 'nos',
+    'nas', 'pelo', 'pela', 'pelos', 'pelas', 'sobre', 'entre',
+    'até', 'após', 'quando', 'onde', 'tem', 'teve', 'era', 'ficou',
 ]
 
 #
@@ -61,7 +65,7 @@ CAMADAS = [
 ]
 
 # função para anonimização 
-def anonimizar_texto(texto):
+def anonimizar_texto(texto, origem='não informada'):
     contagem = {}
     for padrao, rotulo in CAMADAS:
         texto, qtde = re.subn(padrao, rotulo, texto, flags=re.IGNORECASE)
@@ -70,7 +74,7 @@ def anonimizar_texto(texto):
     for inicio, fim in sorted(trechos, reverse=True):
         texto = texto[:inicio] + '[NOME]' + texto[fim:]
     contagem['NOME-SPACY'] = len(trechos)
-    logger.info(f'Itens removidos por camada: {contagem} - o tamanho final do texto foi de {len(texto)} caracteres.')
+    logger.info(f'Origem: {origem}. Itens removidos por camada: {contagem} - o tamanho final do texto foi de {len(texto)} caracteres.')
     return texto
 
 def localizar_nomes(texto):

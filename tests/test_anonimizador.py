@@ -46,3 +46,8 @@ def test_log_nao_contem_texto(caplog):
     assert 'Pedro' not in caplog.text
     assert '123.456.789-09' not in caplog.text
     assert '[CPF]' in caplog.text
+
+def test_nao_altera_instrucao_do_prompt():
+    texto = 'Nome técnico mas compreensível para diretores'
+    resultado = anonimizar_texto(texto)
+    assert resultado == texto
