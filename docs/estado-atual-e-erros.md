@@ -2,12 +2,13 @@
 
 **Projeto:** Agente de Inteligência Assistencial
 **Data do levantamento:** 01/10/2026
-**Última atualização:** 08/10/2026 (situação dos erros E-06 e E-19 após o QUA-03; destino de cada erro no roadmap)
+**Última atualização:** 16/10/2026 (Bloco 1 da Fase 1: E-08 mitigado; integração contínua)
 **Base do levantamento:** `app.py`, `resultados.py`, `processador.py`, `agente_ia.py`, `visualizador.py` e `utils.py` (versões enviadas em 01/10/2026) e histórico de sessões até 27/07/2026.
 
 **Legenda de situação**
 - **Confirmado:** o comportamento decorre do código lido ou foi confirmado com dado real.
 - **A verificar:** depende de dado real ou de decisão.
+- **Mitigado:** o risco foi reduzido por medida técnica, com limites registrados em ADR.
 
 ---
 
@@ -61,7 +62,7 @@ Numeração conforme o documento Modelo Relatório (o modelo não tem tópico 8)
 
 ADR-001 a ADR-014 em `docs/decisoes/`. As mais relevantes para este levantamento: ADR-005 (triagem de indicadores por IA), ADR-011 (IA sob demanda), ADR-013 (execução na rede local) e ADR-014 (simplificação da interface). A ADR-008 descreve o gerador de Word, descartado em 04/05; a decisão do bloco 9 registrada nela segue vigente e o status da ADR merece revisão.
 
-Documentação: README, `arquitetura.md`, ADRs, este documento, `backlog.md` e `roadmap.md` (criados em 01/10/2026). Existem `CHANGELOG.md` (ADR-017) e `tests/` (poucos testes, sem integração contínua ainda). A ADR-013 (rede local) será substituída pela ADR-018 (nuvem), conforme o roadmap.
+Documentação: README, `arquitetura.md`, ADRs, este documento, `backlog.md` e `roadmap.md` (criados em 01/10/2026). Existem `CHANGELOG.md` (ADR-017) e `tests/` (testes automatizados, rodando no GitHub Actions a cada push desde 13/10). A ADR-013 (rede local) será substituída pela ADR-018 (nuvem), conforme o roadmap.
 
 ### 1.6 Evolução planejada
 
@@ -79,7 +80,7 @@ Execução local com acesso pela rede interna (`Ligar_Painel.bat`). Ramos `main`
 
 | ID | Onde | Problema | Situação |
 |---|---|---|---|
-| E-08 | `agente_ia.py` | Revisão de privacidade e conformidade do envio de dados à API pendente. Detalhes mantidos fora do repositório. Exige ADR | A verificar |
+| E-08 | `agente_ia.py` | Revisão de privacidade e conformidade do envio de dados à API pendente. Detalhes mantidos fora do repositório. Exige ADR | Mitigado tecnicamente (16/10): anonimização em camadas, falha fechada e log de auditoria. ADR-019 |
 
 ### 2.2 Alto
 
@@ -135,7 +136,7 @@ Execução local com acesso pela rede interna (`Ligar_Painel.bat`). Ramos `main`
 
 | Bloco da Fase 1 | Erros |
 |---|---|
-| 1. Privacidade e integração contínua | E-08 |
+| 1. Privacidade e integração contínua | E-08 (mitigado em 16/10) |
 | 2. `processador.py`, `utils.py` e configuração | E-02, E-04 (dados), E-07, E-09, E-10, E-15, E-18 (parte), E-22, E-24 (cálculo) |
 | 3. `visualizador.py` | E-04 (legendas), E-05, E-11, E-12, E-13, E-23, E-24 (gráfico) |
 | 4. `agente_ia.py` | E-03 (função), E-04 (prompts), E-06, E-16, E-18 (parte) |

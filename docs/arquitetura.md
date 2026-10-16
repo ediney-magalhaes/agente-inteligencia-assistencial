@@ -121,6 +121,7 @@ As decisões técnicas estão documentadas individualmente em `docs/decisoes/`:
 - [ADR-015](decisoes/ADR-015-estrutura-da-documentacao.md) — Estrutura da Documentação
 - [ADR-016](decisoes/ADR-016-processamento-do-texto-das-notificacoes.md) — Onde o Texto das Notificações é Processado
 - [ADR-017](decisoes/ADR-017-versionamento-e-changelog.md) — Versionamento e CHANGELOG
+- [ADR-019](decisoes/ADR-019-anonimizacao-do-texto-antes-do-envio.md) — Anonimização do Texto Antes do Envio à API Externa
 
 ---
 

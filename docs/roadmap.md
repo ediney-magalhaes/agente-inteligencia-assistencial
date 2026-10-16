@@ -114,11 +114,11 @@ Arquivos: módulo novo de anonimização, `agente_ia.py` (somente a função `ch
 
 | Ordem | Item | Descrição | Status |
 |---|---|---|---|
-| 1 | QUA-04 | Integração contínua gratuita (GitHub Actions) rodando `pytest` a cada push, com `requirements-dev.txt` | Pendente |
-| 2 | ING-09 | Descartar, na leitura, as colunas com identificadores diretos do paciente e as que o sistema não usa | Pendente |
-| 3 | SEG-02 | Anonimização do texto livre antes de qualquer envio (Presidio ou spaCy em português), aplicada em `chamar_gemini` sobre o prompt completo. Se a anonimização falhar, **nada é enviado**. Testes com texto fictício (o repositório é público) | Pendente |
-| 4 | SEG-04 | Log de auditoria do que sai para a API: horário, bloco, tamanho e quantidade de itens removidos, sem gravar o texto | Pendente. Depende de QUA-03 (concluído) |
-| 5 | COR-07 (E-08) | Fechar a revisão de privacidade do envio com base nos itens acima. Detalhes fora do repositório | Pendente |
+| 1 | QUA-04 | Integração contínua gratuita (GitHub Actions) rodando `pytest` a cada push, com `requirements-dev.txt` | Concluído (13/10): CI em .github/workflows/testes.yml, com pytest a cada push |
+| 2 | ING-09 | Descartar, na leitura, as colunas com identificadores diretos do paciente e as que o sistema não usa | Concluído (13/10): a leitura mantém só as colunas de MAPEAMENTO_COLUNAS, com teste |
+| 3 | SEG-02 | Anonimização do texto livre antes de qualquer envio (Presidio ou spaCy em português), aplicada em `chamar_gemini` sobre o prompt completo. Se a anonimização falhar, **nada é enviado**. Testes com texto fictício (o repositório é público) | Concluído (16/10): anonimizador.py em camadas (regex, gatilhos e spaCy), aplicado em chamar_gemini, com falha fechada e testes fictícios. ADR-019 |
+| 4 | SEG-04 | Log de auditoria do que sai para a API: horário, bloco, tamanho e quantidade de itens removidos, sem gravar o texto | Concluído (16/10): log com origem, itens removidos por camada e tamanho, sem o texto, protegido por teste. A origem (bloco) passa a ser informada pelas funções analisar_* no Bloco 4 |
+| 5 | COR-07 (E-08) | Fechar a revisão de privacidade do envio com base nos itens acima. Detalhes fora do repositório | Concluído (16/10): ADR-019 aprovada. Detalhes fora do repositório |
 
 #### Bloco 2 — `processador.py`, `utils.py` e configuração
 
@@ -157,6 +157,7 @@ Arquivos: `processador.py`, `utils.py`, arquivo de configuração novo, `tests/`
 | 5 | COR-06 (E-18) | Ligar ou remover as funções de análise sem chamador | Pendente |
 | 6 | CAL-06 | Seções 5 e 10 no formato do Modelo: protocolos informam apenas se houve evento relacionado; seção 10 com controles existentes, classificação O × D × G = NPR e proposta do NQSP, sem repetir o que já foi analisado | Pendente |
 | 7 | IA-09 | Saída estruturada (Pydantic) das análises | Pendente |
+| 8 | SEG-04 (origem) | Cada função analisar_* passa o nome do bloco a chamar_gemini, para o log de auditoria identificar a origem do envio | Pendente |
 
 #### Bloco 5 — `app.py` e `resultados.py`
 

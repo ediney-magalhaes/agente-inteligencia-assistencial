@@ -18,11 +18,23 @@ estrutura documental (ADR-015).
   bloco que falhou
 - Falha de cada modelo do Gemini passou a ser registrada como aviso, e
   a falha de todos os modelos como erro
+- Anonimização do texto antes de qualquer envio ao Gemini, em camadas
+  (CPF, telefone, e-mail, números longos, nomes por palavra-gatilho e
+  por modelo de linguagem em português). Se a anonimização falhar,
+  nada é enviado (SEG-02)
+- Log de auditoria de cada envio à API, com a origem, a quantidade de
+  itens removidos por camada e o tamanho do texto, sem gravar o texto
+  (SEG-04)
+- Integração contínua no GitHub Actions: os testes rodam a cada push
+  (QUA-04)
 
 ### Alterado
 
 - Os 13 botões de análise por IA passaram a usar uma função única de
   chamada e tratamento de erro, sem mudança visual para o usuário
+- A leitura da planilha passou a manter só as colunas usadas pelo
+  sistema, descartando as demais antes de qualquer processamento
+  (ING-09)
 
 ### Corrigido
 
@@ -70,6 +82,8 @@ estrutura documental (ADR-015).
   corporativa), no lugar do servidor na rede do hospital. A ADR-013 será
   substituída pela ADR-018. IMP-02 encerrado
 - Novos itens no backlog: CAL-05, CAL-06, IMP-06 e IMP-07
+- ADR-019: anonimização do texto antes do envio à API externa. O E-08
+  ficou mitigado tecnicamente. Bloco 1 da Fase 1 concluído (16/10)
 
 ## [0.1.0] - 05/10/2026
 

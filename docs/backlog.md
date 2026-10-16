@@ -25,7 +25,7 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | COR-04 | Análise de queda | E-03 | Entrada errada para a análise de queda (tabela mensal no lugar do conjunto de dados) |
 | COR-05 | Robustez e erros | E-06, E-14, E-15, E-19 | Falha da API vira "análise"; colunas opcionais obrigatórias; leitura direta da planilha; traceback exposto. **E-19 concluído (08/10). E-06 no Bloco 4 da Fase 1. E-15 no Bloco 2 da Fase 1. E-14 fica para a Fase 2** |
 | COR-06 | Higiene de código | E-16, E-17, E-18 | Prompts, caminho morto, funções sem uso |
-| COR-07 | Privacidade do envio à API | E-08 | Revisão pendente. Detalhes mantidos fora do repositório. Exige ADR. **Fase 1, Bloco 1, depois de SEG-02 e SEG-04** |
+| COR-07 | Privacidade do envio à API | E-08 | **Concluída (16/10):** ADR-019 Detalhes mantidos fora do repositório. Exige ADR. **Fase 1, Bloco 1, depois de SEG-02 e SEG-04** |
 | COR-08 | Verificações com dados reais | V-01 a V-07 | **Concluídas em 05/10/2026.** Resultados em `estado-atual-e-erros.md` |
 | COR-09 | Colunas dos Gráficos 5 e 6 | E-20, E-21 | Gráfico 5 deve agrupar por Setor notificante e o 6 por Setor Responsável. Correção pequena |
 | COR-10 | Valor trimestral dos indicadores | E-22 | Soma dos eventos sobre soma dos pacientes-dia. **Fase 1, Bloco 2**: a coluna `Paciente-dia` já está na planilha de indicadores (01/2021 a 06/2026), então ING-01 e CAL-01 entram junto |
@@ -44,7 +44,7 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | ING-06 | Leitura de planilha por nome da aba e colunas configuráveis | E-14, E-15 | ING-05 |
 | ING-07 | Glossário dos status do EPIMED, validação de consistência (status "Concluído sem necessidade de investigação" ou "Concluída – Outra natureza" com unidade responsável preenchida gera aviso) e alerta de status novo ou com grafia diferente | V-01 | ING-05 |
 | ING-08 | Janela de 2 anos (atual e anterior) como parâmetro explícito, com aviso quando o export tiver outro número de anos | V-05 | ING-05 |
-| ING-09 | Minimização de dados: descartar na ingestão as colunas com identificadores diretos do paciente e as que o sistema não usa, antes de qualquer armazenamento. **Fase 1, Bloco 1**, com lista fixa de colunas; o contrato de dados completo (ING-05) fica para a Fase 2 | D (conferência do export) | SEG-01 (concluído) |
+| ING-09 | Minimização de dados: descartar na ingestão as colunas com identificadores diretos do paciente e as que o sistema não usa, antes de qualquer armazenamento. **Fase 1, Bloco 1**, com lista fixa de colunas; o contrato de dados completo (ING-05) fica para a Fase 2 **Concluído (13/10):** a leitura mantém só as colunas de MAPEAMENTO_COLUNAS | D (conferência do export) | SEG-01 (concluído) |
 | ING-10 | **Segunda fonte:** relatório consolidado da investigação do EPIMED (plano de ação, fatores contribuintes, Protocolo de Londres, força da intervenção RCA², efetividade). **Granularidade verificada em 05/10/2026:** o ID se repete, com uma linha por fator contribuinte (exemplo com 4 linhas para o mesmo ID, repetindo os campos da investigação). Repetição também por ação do plano: a confirmar. Contar linhas não conta notificações, e a Fase 2 precisa separar a investigação, os fatores e as ações. O texto livre de fatores e comentários traz informação sensível (condição do paciente e conduta de profissionais) e exige anonimização antes de qualquer envio externo (SEG-02). Pode alimentar também a seção 11 do Modelo, hoje não coberta | D | ING-02, ING-09 |
 
 ## 3. Armazenamento
@@ -114,7 +114,7 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | QUA-01 | Testes automatizados das funções de cálculo. Os testes nascem junto com cada correção, com o valor correto, no mesmo commit (sem teste que registre o erro). **Fase 1, todos os blocos; fecha no Bloco 6** | D | — |
 | QUA-02 | Conferência automática entre números do relatório e planilhas de origem | D | QUA-01 |
 | QUA-03 | Logs estruturados e tratamento de erros (substitui print e traceback ao usuário) | D, E-19 | — |
-| QUA-04 | Integração contínua gratuita (GitHub Actions) rodando os testes a cada push. **Primeiro item da Fase 1 (Bloco 1)** | D | QUA-01 (já existe o primeiro teste) |
+| QUA-04 | Integração contínua gratuita (GitHub Actions) rodando os testes a cada push. **Primeiro item da Fase 1 (Bloco 1)** **Concluído (13/10):** workflow em .github/workflows/testes.yml| D | QUA-01 (já existe o primeiro teste) |
 | QUA-05 | Verificação das afirmações do LLM contra as tabelas (números, setores, períodos) | D | IA-09 |
 | QUA-06 | Conjunto de casos de referência para avaliação | D | — |
 | QUA-07 | Monitorar drift de entrada (distribuição das notificações) e de saída (medidas do texto), com distância de Wasserstein | D | ARM-01, QUA-06 |
@@ -128,9 +128,9 @@ Detalhes e evidências em `estado-atual-e-erros.md`.
 | ID | Item | Origem | Depende de |
 |---|---|---|---|
 | SEG-01 | Decisão arquitetural sobre onde o texto das notificações é processado (API externa × local) → **ADR**. **Decidido em 07/10/2026 (ADR-016):** ponto de partida = API externa com anonimização e registro do que é enviado; alvo = híbrido (só dados agregados vão à API e o texto livre fica em modelo local) | D, COR-07 | — |
-| SEG-02 | Anonimização antes de qualquer envio externo (Presidio ou spaCy pt), aplicada na função `chamar_gemini`; se falhar, nada é enviado. **Fase 1, Bloco 1** | D | SEG-01 |
+| SEG-02 | Anonimização antes de qualquer envio externo (Presidio ou spaCy pt), aplicada na função `chamar_gemini`; se falhar, nada é enviado. **Fase 1, Bloco 1** **Concluído (16/10):** módulo anonimizador.py, ADR-019 | D | SEG-01 |
 | SEG-03 | Defesa contra injeção de prompt (texto livre das notificações no prompt) | D | — |
-| SEG-04 | Log de auditoria do que sai para APIs externas (sem gravar o texto). **Fase 1, Bloco 1** | D | QUA-03 (concluído) |
+| SEG-04 | Log de auditoria do que sai para APIs externas (sem gravar o texto). **Fase 1, Bloco 1** **Concluído (16/10):** log com origem, contagens e tamanho. A origem real (bloco) entra no Bloco 4 | D | QUA-03 (concluído) |
 
 ## 10. Implantação
 
