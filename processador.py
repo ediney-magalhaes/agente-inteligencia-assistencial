@@ -84,20 +84,21 @@ def preparar_bloco1(df, trimestre_atual, ano_atual):
     # Contagem das notificações por trimestre
     qtde_trimestral = df.groupby([df[COL_DATA].dt.year, df[COL_DATA].dt.quarter]).size()
 
-    return (total_atual,
-            total_tri_anterior,
-            total_ano_anterior,
-            qtde_mensal,
-            qtde_trimestral,
-            var_tri,
-            var_ano,
-            trimestre_atual,
-            ano_atual,
-            trimestre_anterior,
-            ano_anterior,
-            df_atual,
-            df_tri_anterior
-    )
+    return {
+        'total_atual': total_atual,
+        'total_tri_anterior': total_tri_anterior,
+        'total_ano_anterior': total_ano_anterior,
+        'qtde_mensal': qtde_mensal,
+        'qtde_trimestral': qtde_trimestral,
+        'var_tri': var_tri,
+        'var_ano': var_ano,
+        'trimestre_atual': trimestre_atual,
+        'ano_atual': ano_atual,
+        'trimestre_anterior': trimestre_anterior,
+        'ano_anterior': ano_anterior,
+        'df_atual': df_atual,
+        'df_tri_anterior': df_tri_anterior
+    }
 
 # Preparar dados - Bloco 2 (Turnos notificações)
 def preparar_bloco2(df_atual, df_anterior):

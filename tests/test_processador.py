@@ -13,7 +13,7 @@ def test_variacao_com_base_zero():
     resultado = preparar_bloco1(df, 3, 2026)
 
     # comportamento atual
-    assert resultado[5] == 0
+    assert resultado['var_tri'] == 0
 
 # verifica colunas padrão para análise
 def test_descarta_coluna_fora_da_lista(tmp_path):

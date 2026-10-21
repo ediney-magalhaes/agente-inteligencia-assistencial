@@ -27,12 +27,12 @@ def exibir(session_state):
     # Gráfico 1 — Quantidade de Notificações
     st.markdown("## Gráfico 1 — Quantidade de Notificações")
     b1 = session_state['bloco1']
-    st.pyplot(visualizador.grafico_volume_notificacoes(b1[3], b1[4], b1[7], b1[8]))
+    st.pyplot(visualizador.grafico_volume_notificacoes(b1['qtde_mensal'], b1['qtde_trimestral'], tri, ano))
     otimizacao_graficos(
         "🤖 Gerar Análise IA — Gráfico 1",
         "ia_b1",
         agente_ia.analisar_bloco1,
-        b1[0], b1[1], b1[5], b1[3], b1[4], hospital
+        b1['total_atual'], b1['total_tri_anterior'], b1['var_tri'], b1['qtde_mensal'], b1['qtde_trimestral'], hospital
     )
     st.divider()
 

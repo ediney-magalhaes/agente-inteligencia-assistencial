@@ -49,8 +49,8 @@ with aba1:
                         ano = st.session_state['ano']
 
                         st.session_state['bloco1'] = processador.preparar_bloco1(df_validado, tri, ano)
-                        df_atual = st.session_state['bloco1'][11]
-                        df_anterior = st.session_state['bloco1'][12]
+                        df_atual = st.session_state['bloco1']['df_atual']
+                        df_anterior = st.session_state['bloco1']['df_tri_anterior']
 
                         st.session_state['bloco2'] = processador.preparar_bloco2(df_atual, df_anterior)
                         st.session_state['bloco3'] = processador.preparar_bloco3(df_atual, df_anterior)
