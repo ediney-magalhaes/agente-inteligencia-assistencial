@@ -61,7 +61,7 @@ with aba1:
                         st.session_state['bloco7_medicacao'] = processador.preparar_bloco7(df_atual, df_indicadores, 'Erro de Medicação', tri, ano)
                         st.session_state['bloco7_flebite'] = processador.preparar_bloco7(df_atual, df_indicadores, 'Flebite', tri, ano)
 
-                        st.session_state['bloco8'] = processador.preparar_bloco8(df_validado)
+                        st.session_state['bloco8'] = processador.preparar_bloco8(df_validado, ano)
                         st.session_state['bloco9'] = processador.preparar_bloco9(df_atual)
                         st.session_state['bloco10'] = processador.preparar_bloco10(df_atual)
                         st.session_state['dados_processados'] = True

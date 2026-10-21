@@ -297,11 +297,10 @@ def preparar_dataset_ia_LPP(df_atual):
     return df_indicador
 
 # Função para cumprimento da análise das notificações
-def preparar_bloco8(df_atual): # parâmetro precisa ser dataframe completo sem filtro
+def preparar_bloco8(df_atual, ano_recente): # parâmetro precisa ser dataframe completo sem filtro
     noti_elegiveis = [COL_PL, COL_ACR, COL_PAC]
     
     # Separando os períodos
-    ano_recente = df_atual[COL_DATA].max().year
     ano_anterior = ano_recente - 1
 
     # Filtro de notificações elegível a tratativa
