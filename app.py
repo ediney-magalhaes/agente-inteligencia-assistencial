@@ -37,6 +37,9 @@ with aba1:
 
         if st.session_state.get("arquivo_notificacoes") and st.session_state.get("arquivo_indicadores"):
             if st.button("⚙️ Processar Dados"):
+                if not st.session_state['hospital'].strip():
+                    st.error("Preencha o nome do hospital na aba Configuração.")
+                    st.stop
                 with st.spinner("Processando dados..."):
                     try:
                         df_validado = processador.carregar_validar(
