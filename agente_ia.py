@@ -87,10 +87,9 @@ def analisar_bloco2(tabela, df_contexto_ia, hospital):
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico 3 (Nº notificações por classificação)
-def analisar_bloco3(tabela_comparativa, df_contexto_ia):
+def analisar_bloco3(tabela_comparativa, df_contexto_ia, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar o volume e as variações das notificações do trimestre atual e anterior de acordo com as classificações. Usar a tabela de contexto" \
@@ -112,11 +111,10 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia):
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico 3.1 a 3.7 (Nº notificações por classificação)
-def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia):
+def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia, hospital):
     dados = dicionario[classificacao].to_string()
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar os três principais tipos de notificações por cada classificação e usar a tabela de contexto para compreensão dos casos."
@@ -137,10 +135,9 @@ def analisar_top3_bloco3(dicionario, classificacao, df_contexto_ia):
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico 4 (Nº eventos adversos notificados)
-def analisar_bloco4(tabela_comparativa, tabela_top3_eventos, status_eventos, df_contexto_ia):
+def analisar_bloco4(tabela_comparativa, tabela_top3_eventos, status_eventos, df_contexto_ia, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar o volume e as variações dos eventos adversos por grau de dano e os três principais tipos de notificações por grau." \
@@ -164,10 +161,9 @@ def analisar_bloco4(tabela_comparativa, tabela_top3_eventos, status_eventos, df_
     return chamar_gemini(prompt)
 
 # Função para análise dos gráficos 5 e 6 (Nº notificações por notificante e notificado)
-def analisar_bloco_setores(tab_tri_atual, tab_tri_anterior, tab_analise_IA, setor):
+def analisar_bloco_setores(tab_tri_atual, tab_tri_anterior, tab_analise_IA, setor, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar o volume de notificações por setor notificante e por setor notificado para identificar setores proativos" \
@@ -190,10 +186,9 @@ def analisar_bloco_setores(tab_tri_atual, tab_tri_anterior, tab_analise_IA, seto
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico 7 (Indicadores qualidade)
-def analisar_bloco7_geral(medias):
+def analisar_bloco7_geral(medias, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar o volume e variações de notificações do trimestre do ano anterior e desse ano quanto a incidência de cada" \
@@ -213,10 +208,11 @@ def analisar_bloco7_geral(medias):
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico de Queda
-def analisar_bloco7_queda(qtde_grau_dano, qtde_local_queda, qtde_tipo_queda, df_indicador, df_media_tri_atual, df_media_tri_anterior):
+def analisar_bloco7_queda(qtde_grau_dano, qtde_local_queda, qtde_tipo_queda,
+                          df_indicador, df_media_tri_atual, df_media_tri_anterior,
+                          hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises quantitativas" \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar os casos de notificações de queda, avaliando o volume por local e tipo da queda. Utilize o " \
@@ -241,10 +237,9 @@ def analisar_bloco7_queda(qtde_grau_dano, qtde_local_queda, qtde_tipo_queda, df_
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico de Lesão por Pressão (LPP)
-def analisar_bloco7_lpp(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador):
+def analisar_bloco7_lpp(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises " \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises " \
     "quantitativas e qualitativas sobre a cultura de segurança do paciente. " \
     "Lesão por Pressão (LPP) pode ser classificada como ADMITIDA — quando o paciente já chegou ao hospital com a lesão — " \
     "ou ADQUIRIDA — quando a lesão surgiu durante a internação. Apenas as lesões ADQUIRIDAS são de responsabilidade " \
@@ -273,10 +268,9 @@ def analisar_bloco7_lpp(df_media_tri_atual, df_media_tri_anterior, df_mensal, df
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico de Flebite
-def analisar_bloco7_flebite(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador):
+def analisar_bloco7_flebite(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises " \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises " \
     "quantitativas e qualitativas sobre a cultura de segurança do paciente. " \
     "Flebite é a inflamação de uma veia, frequentemente associada à punção venosa periférica. " \
     "É um indicador de qualidade assistencial relacionado à técnica de inserção e manutenção de acessos venosos."
@@ -304,10 +298,9 @@ def analisar_bloco7_flebite(df_media_tri_atual, df_media_tri_anterior, df_mensal
 
 
 # Função para análise do gráfico de Erro de Medicação
-def analisar_bloco7_medicacao(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador):
+def analisar_bloco7_medicacao(df_media_tri_atual, df_media_tri_anterior, df_mensal, df_indicador, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. Esse relatório tem por objetivo trazer análises " \
+    contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises " \
     "quantitativas e qualitativas sobre a cultura de segurança do paciente. " \
     "Erro de medicação abrange toda a cadeia do medicamento — prescrição, dispensação, preparo e administração. " \
     "É um dos indicadores mais críticos de segurança do paciente pois pode causar danos diretos e imediatos."
@@ -335,10 +328,9 @@ def analisar_bloco7_medicacao(df_media_tri_atual, df_media_tri_anterior, df_mens
     return chamar_gemini(prompt)
 
 # Função para análise do gráfico 8 (Cumprimento de análises)
-def analisar_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela_mensal_anterior, df_contexto_ia):
+def analisar_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela_mensal_anterior, df_contexto_ia, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. O cumprimento de análise mede se as notificações " \
+    contexto = frase_apresentacao(hospital) + " O cumprimento de análise mede se as notificações " \
     "registradas foram devidamente investigadas e analisadas pelos setores responsáveis dentro do prazo estabelecido. " \
     "Notificações não analisadas representam falha no ciclo de gestão da segurança do paciente."
     instrucao = "Analise o cumprimento das análises de notificações no trimestre atual em comparação ao anterior. " \
@@ -366,10 +358,9 @@ def analisar_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela
     return chamar_gemini(prompt)
 
 # Função para análise do bloco 9 (Protocolos Gerenciados)
-def analisar_bloco9(df_dataset_ia):
+def analisar_bloco9(df_dataset_ia, hospital):
     papel = "Especialista em qualidade e segurança do paciente no ambiente hospitalar"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. O hospital possui quatro protocolos gerenciados " \
+    contexto = frase_apresentacao(hospital) + " O hospital possui quatro protocolos gerenciados " \
     "assistenciais ativos: AVC (Acidente Vascular Cerebral), Sepse, Dor Torácica e TEV (Tromboembolismo Venoso). " \
     "Esses protocolos definem fluxos assistenciais padronizados para identificação precoce e tratamento adequado " \
     "dessas condições clínicas críticas. Falhas no seguimento dos protocolos podem resultar em danos graves ao paciente."
@@ -394,10 +385,9 @@ def analisar_bloco9(df_dataset_ia):
     return chamar_gemini(prompt)
 
 # Função para análise da interrelação e mapeamento de risco
-def analisar_interrelacao(total_notificacoes, trimestre_atual, ano_atual, df_dataset_ia):
+def analisar_interrelacao(total_notificacoes, trimestre_atual, ano_atual, df_dataset_ia, hospital):
     papel = "Especialista Master em Gestão de Riscos Hospitalares com domínio em metodologia HFMEA e Ishikawa"
-    contexto = "O hospital Santa Rosa possui o Núcleo de Segurança do Paciente implantado. Uma de suas atribuições é " \
-    "elaborar o Relatório Trimestral de Segurança do Paciente. O capítulo de Interrelação e Mapeamento de Risco " \
+    contexto = frase_apresentacao(hospital) + " O capítulo de Interrelação e Mapeamento de Risco " \
     "tem por objetivo cruzar os dados de todos os incidentes registrados para identificar padrões sistêmicos, " \
     "relações de causa e efeito entre setores e propor atualizações na matriz de risco institucional. " \
     "O público leitor deste capítulo é a diretoria executiva do hospital — profissionais não técnicos em análise " \

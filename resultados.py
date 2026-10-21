@@ -72,7 +72,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Gráfico 3",
         "ia_b3",
         agente_ia.analisar_bloco3,
-        b3[0], b3[2]
+        b3[0], b3[2], hospital
     )
     st.divider()
 
@@ -91,7 +91,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Gráfico 4",
         "ia_b4",
         agente_ia.analisar_bloco4,
-        b4[0], b4[1], b4[2], b4[3]
+        b4[0], b4[1], b4[2], b4[3], hospital
     )
     st.divider()
 
@@ -106,7 +106,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Gráfico 5",
         "ia_b5",
         agente_ia.analisar_bloco_setores,
-        b5[0], b5[1], b5[2], "notificantes"
+        b5[0], b5[1], b5[2], "notificantes", hospital
     )
     st.divider()
 
@@ -121,7 +121,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Gráfico 6",
         "ia_b6",
         agente_ia.analisar_bloco_setores,
-        b6[0], b6[1], b6[2], "notificados"
+        b6[0], b6[1], b6[2], "notificados", hospital
     )
     st.divider()
 
@@ -143,7 +143,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Queda",
         "ia_b7q",
         agente_ia.analisar_bloco7_queda,
-        ctx[0], ctx[1], ctx[2], b7q[0], b7q[2], b7q[3]
+        ctx[0], ctx[1], ctx[2], b7q[0], b7q[2], b7q[3], hospital
     )
 
     st.markdown("### Lesão por Pressão")
@@ -153,7 +153,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — LPP",
         "ia_b7l",
         agente_ia.analisar_bloco7_lpp,
-        b7l[2], b7l[3], b7l[0], b7l[4]
+        b7l[2], b7l[3], b7l[0], b7l[4], hospital
     )
 
     st.markdown("### Erro de Medicação")
@@ -163,7 +163,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Erro de Medicação",
         "ia_b7m",
         agente_ia.analisar_bloco7_medicacao,
-        b7m[2], b7m[3], b7m[0], b7m[4]
+        b7m[2], b7m[3], b7m[0], b7m[4], hospital
     )
 
     st.markdown("### Flebite")
@@ -173,7 +173,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Flebite",
         "ia_b7f",
         agente_ia.analisar_bloco7_flebite,
-        b7f[2], b7f[3], b7f[0], b7f[4]
+        b7f[2], b7f[3], b7f[0], b7f[4], hospital
     )
     st.divider()
 
@@ -185,7 +185,7 @@ def exibir(session_state):
         "🤖 Gerar Análise IA — Gráfico 8",
         "ia_b8",
         agente_ia.analisar_bloco8,
-        b8[0], b8[1], b8[2], b8[3], b8[4]
+        b8[0], b8[1], b8[2], b8[3], b8[4], hospital
     )
     st.divider()
 
@@ -196,7 +196,7 @@ def exibir(session_state):
             "🤖 Gerar Análise IA — Protocolos",
             "ia_b9",
             agente_ia.analisar_bloco9,
-            session_state['bloco9']
+            session_state['bloco9'], hospital
         )
     st.divider()
 
@@ -208,5 +208,5 @@ def exibir(session_state):
             "🤖 Gerar Análise IA — Interrelação",
             "ia_b10",
             agente_ia.analisar_interrelacao,
-            b10[0], tri, ano, b10[1]
+            b10[0], tri, ano, b10[1], hospital
         )
