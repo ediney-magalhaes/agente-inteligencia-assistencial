@@ -45,7 +45,7 @@ with aba1:
                         tri = st.session_state['trimestre']
                         ano = st.session_state['ano']
 
-                        st.session_state['bloco1'] = processador.preparar_bloco1(df_validado)
+                        st.session_state['bloco1'] = processador.preparar_bloco1(df_validado, tri, ano)
                         df_atual = st.session_state['bloco1'][11]
                         df_anterior = st.session_state['bloco1'][12]
 

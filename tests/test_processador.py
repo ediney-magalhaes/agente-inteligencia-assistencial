@@ -10,7 +10,7 @@ def test_variacao_com_base_zero():
     })
 
     # guardar o resultado da função
-    resultado = preparar_bloco1(df)
+    resultado = preparar_bloco1(df, 3, 2026)
 
     # comportamento atual
     assert resultado[5] == 0

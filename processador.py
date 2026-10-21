@@ -50,10 +50,7 @@ def carregar_validar(arquivo):
         return df_mapeamento_colunas
 
 # Preparar dados - Bloco 1 (Quantidade notificações)
-def preparar_bloco1(df):
-    data_maxima = df[COL_DATA].max()
-    ano_atual = data_maxima.year
-    trimestre_atual = data_maxima.quarter
+def preparar_bloco1(df, trimestre_atual, ano_atual):
 
     # Ajuste de comparação quando for 1º trimestre
     if trimestre_atual == 1:
