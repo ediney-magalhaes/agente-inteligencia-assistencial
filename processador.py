@@ -37,14 +37,24 @@ logger = logging.getLogger(__name__)
 # Carregar schema
 def carregar_validar(arquivo):
     logger.info('Iniciando leitura da planilha de notificações')
-    df = pd.read_excel(arquivo, sheet_name=0)
-    df_corrigido, lista_ausentes = atualizacao_schema(df)
-    if lista_ausentes:
-        raise ValueError(f'Colunas ausentes: {lista_ausentes}')
-    else:
-        df_corrigido [COL_DATA]= pd.to_datetime(df_corrigido[COL_DATA], errors='coerce')
-        df_mapeamento_colunas = df_corrigido[list(MAPEAMENTO_COLUNAS)]
-        return df_mapeamento_colunas
+    planilha = pd.ExcelFile(arquivo)
+    melhor_aba = None
+    melhor_ausentes = None
+    for nome_aba in planilha.sheet_names:
+        df = pd.read_excel(planilha, sheet_name=nome_aba)
+        df_corrigido, lista_ausentes = atualizacao_schema(df)
+        if not lista_ausentes:
+            logger.info(f'Usando a aba "{nome_aba}" da planilha de notificações')
+            df_corrigido [COL_DATA]= pd.to_datetime(df_corrigido[COL_DATA], errors='coerce')
+            return df_corrigido[list(MAPEAMENTO_COLUNAS)]
+        else:
+            if melhor_ausentes is None or len(lista_ausentes) < len(melhor_ausentes):
+                melhor_aba = nome_aba
+                melhor_ausentes = lista_ausentes
+    raise ValueError(
+        f'Nenhuma aba da planilha tem as colunas esperadas. '
+        f'A aba mais próxima foi "{melhor_aba}", onde faltaram: {melhor_ausentes}'
+    )
 
 # Preparar dados - Bloco 1 (Quantidade notificações)
 def preparar_bloco1(df, trimestre_atual, ano_atual):
