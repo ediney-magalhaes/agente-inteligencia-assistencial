@@ -119,7 +119,10 @@ def preparar_bloco2(df_atual, df_anterior):
     colunas_necessarias = [COL_TURNO, COL_CLASSIFICACAO, COL_DESCRICAO]
     df_contexto_ia = df_atual[colunas_necessarias]
 
-    return tabela, df_contexto_ia
+    return{
+        'tabela': tabela,
+        'df_contexto_ia': df_contexto_ia
+    }
 
 # Preparar dados - Bloco 3 (Classificação notificações)
 def preparar_bloco3(df_atual, df_anterior):
@@ -161,7 +164,11 @@ def preparar_bloco3(df_atual, df_anterior):
     colunas_necessarias = [COL_CLASSIFICACAO, COL_TURNO, COL_SETOR, COL_GRAU, COL_DESCRICAO]
     df_contexto_ia = df_atual[colunas_necessarias]
 
-    return tabela_comparativa, dicionario, df_contexto_ia
+    return {
+        'tabela_comparativa': tabela_comparativa,
+        'dicionario': dicionario,
+        'df_contexto_ia': df_contexto_ia
+    } 
 
 # Preparar dados - Bloco 4 (Eventos Adversos Notificados)
 def preparar_bloco4(df_atual, df_anterior):
@@ -199,7 +206,12 @@ def preparar_bloco4(df_atual, df_anterior):
     colunas_necessarias = [COL_TURNO, COL_SETOR, COL_GRAU, COL_OPCAO, COL_DESCRICAO]
     df_contexto_ia = df_eventos_adversos[colunas_necessarias]
 
-    return tabela_comparativa, tabela_top3_eventos, status_eventos, df_contexto_ia
+    return {
+        'tabela_comparativa': tabela_comparativa,
+        'tabela_top3_eventos': tabela_top3_eventos,
+        'status_eventos': status_eventos,
+        'df_contexto_ia': df_contexto_ia
+    }
 
 # Função para os blocos 5 e 6 do relatório
 def preparar_bloco_setores(df_atual, df_anterior, coluna):
@@ -218,7 +230,11 @@ def preparar_bloco_setores(df_atual, df_anterior, coluna):
     # Tabela descrições
     tab_analise_IA = df_atual[df_atual[coluna].isin(qtde_tri_atual.index)][[coluna, COL_DESCRICAO]]
 
-    return tab_tri_atual, tab_tri_anterior, tab_analise_IA
+    return {
+        'tab_tri_atual': tab_tri_atual,
+        'tab_tri_anterior': tab_tri_anterior,
+        'tab_analise_IA': tab_analise_IA
+    }
 
 # Função para o bloco 7 (Indicadores de qualidade)
 def preparar_bloco7(df_atual, df_indicadores, indicador, trim_atual, ano_atual):
@@ -254,7 +270,13 @@ def preparar_bloco7(df_atual, df_indicadores, indicador, trim_atual, ano_atual):
     #DataFrame para contexto da IA
     df_contexto_ia = mapa_funcoes[indicador](df_atual)
 
-    return df_ano_atual, df_ano_anterior, df_media_tri_atual, df_media_tri_anterior, df_contexto_ia
+    return {
+        'df_ano_atual': df_ano_atual,
+        'df_ano_anterior': df_ano_anterior,
+        'df_media_tri_atual': df_media_tri_atual,
+        'df_media_tri_anterior': df_media_tri_anterior,
+        'df_contexto_ia': df_contexto_ia
+    }
 
 # Função para indicador de Queda
 def preparar_detalhe_queda(df_atual):
@@ -267,7 +289,11 @@ def preparar_detalhe_queda(df_atual):
     qtde_tipo_queda = df_quedas[COL_OPCAO].value_counts()
     qtde_local_queda = df_quedas[COL_LOCAL].value_counts()
 
-    return qtde_grau_dano, qtde_local_queda, qtde_tipo_queda
+    return {
+        'qtde_grau_dano': qtde_grau_dano,
+        'qtde_local_queda': qtde_local_queda,
+        'qtde_tipo_queda': qtde_tipo_queda
+    }
 
 # Função que prepara dataset para IA filtrar possíveis erro de medicação, flebite e outros casos semelhantes
 def preparar_dataset_ia(df_atual):
@@ -375,7 +401,13 @@ def preparar_bloco8(df_atual, ano_recente): # parâmetro precisa ser dataframe c
     # DataFrame de contexto
     df_contexto_ia = df_nao_tratadas[colunas_necessarias]
 
-    return tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela_mensal_anterior, df_contexto_ia
+    return {
+        'tabela_tri_atual': tabela_tri_atual,
+        'tabela_tri_anterior': tabela_tri_anterior,
+        'tabela_mensal': tabela_mensal,
+        'tabela_mensal_anterior': tabela_mensal_anterior,
+        'df_contexto_ia': df_contexto_ia
+    }
 
 def preparar_bloco9(df_atual):
     colunas_necessarias = [COL_TAXON, COL_CAT, COL_CLASSIFICACAO, 
@@ -388,4 +420,7 @@ def preparar_bloco10(df_atual):
     colunas_necessarias = [COL_SETOR, COL_TURNO, COL_CLASSIFICACAO, 
                            COL_GRAU, COL_DESCRICAO]
     df_dataset_ia = df_atual[colunas_necessarias]
-    return total_notificacoes, df_dataset_ia
+    return {
+        'total_notificacoes': total_notificacoes,
+        'df_dataset_ia': df_dataset_ia
+    }
