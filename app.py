@@ -42,9 +42,12 @@ with aba1:
                     st.stop
                 with st.spinner("Processando dados..."):
                     try:
-                        df_validado = processador.carregar_validar(
+                        resultado_carga = processador.carregar_validar(
                             st.session_state["arquivo_notificacoes"]
                         )
+                        df_validado = resultado_carga['df']
+                        if resultado_carga['datas_invalidas']:
+                            st.warning(f"{resultado_carga['datas_invalidas']} notificações tem data inválida e ficaram fora de todos os cálculos.")
                         tri = st.session_state['trimestre']
                         ano = st.session_state['ano']
 

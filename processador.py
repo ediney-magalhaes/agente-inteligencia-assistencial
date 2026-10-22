@@ -46,7 +46,13 @@ def carregar_validar(arquivo):
         if not lista_ausentes:
             logger.info(f'Usando a aba "{nome_aba}" da planilha de notificações')
             df_corrigido [COL_DATA]= pd.to_datetime(df_corrigido[COL_DATA], errors='coerce')
-            return df_corrigido[list(MAPEAMENTO_COLUNAS)]
+            datas_invalidas = int(df_corrigido[COL_DATA].isna().sum())
+            if datas_invalidas:
+                logger.warning(f'{datas_invalidas} notificações com data inválida ficarão de fora de todos os cálculos')
+            return {
+                'df': df_corrigido[list(MAPEAMENTO_COLUNAS)],
+                'datas_invalidas': datas_invalidas,
+            }
         else:
             if melhor_ausentes is None or len(lista_ausentes) < len(melhor_ausentes):
                 melhor_aba = nome_aba

@@ -22,10 +22,31 @@ def test_descarta_coluna_fora_da_lista(tmp_path):
     df = pd.DataFrame(dados)
     caminho = tmp_path/'notificacoes.xlsx'
     df.to_excel(caminho, index=False)
-    resultado = carregar_validar(caminho)
+    resultado = carregar_validar(caminho)['df']
 
     # confere se a coluna 'Nome do Paciente' consta nas colunas padronizadas
     assert 'Nome do Paciente' not in resultado.columns
 
     # confere se a lista de colunas esta como o padronizado
     assert list(resultado.columns) == list(MAPEAMENTO_COLUNAS)
+
+# conferindo datas inválidas
+def test_conta_datas_invalidas(tmp_path):
+
+    # dicionário com valor 'x' para cada nome do mapeamento de colunas
+    dados = {coluna: ['x'] for coluna in MAPEAMENTO_COLUNAS }
+
+    # cria DF
+    df = pd.DataFrame(dados)
+
+    # caminho a ser gravado
+    caminho = tmp_path/'notificacoes.xlsx'
+
+    # grava arquivo Excel
+    df.to_excel(caminho, index=False)
+
+    # chamar função
+    resultado = carregar_validar(caminho)
+
+    # verificação
+    assert resultado['datas_invalidas'] == 1
