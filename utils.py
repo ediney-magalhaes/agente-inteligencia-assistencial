@@ -72,22 +72,3 @@ def texto_variacao(valor):
     if valor > 0: return f"um aumento de {valor:.1f}%"
     elif valor < 0: return f"uma redução de {abs(valor):.1f}%" 
     else: return "uma estabilidade"
-
-
-# Denominador: Foi encaminhada para tratar?
-def tem_investigacao(row):
-    pl = str(row[COL_PL]).strip().lower()
-    acr = str(row[COL_ACR]).strip().lower()
-    pac = str(row[COL_PAC]).strip().lower()
-    invalidos = ['nan', '-', '', 'nat', 'none']
-    return (pl not in invalidos) or (acr not in invalidos) or (pac not in invalidos)
-
-
-# Numerador: Foi realmente concluída?
-def foi_tratada(row):
-    status = str(row[COL_STATUS]).strip().lower()
-    return ('validado' in status) or ('concluído após a investigação' in status)
-
-# Estatísticas de Ferramentas (PL, ACR, PAC)
-def check_tool(row, col_name):
-    return str(row[col_name]).strip().lower() not in ['nan', '-', '', 'nat', 'none']

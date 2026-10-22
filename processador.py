@@ -11,9 +11,6 @@ import logging
 from utils import (
     atualizacao_schema,
     texto_variacao,
-    tem_investigacao,
-    foi_tratada,
-    check_tool,
     MAPEAMENTO_COLUNAS,
     COL_DATA,
     COL_CLASSIFICACAO,
