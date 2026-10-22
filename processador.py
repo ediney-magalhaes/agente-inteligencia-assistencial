@@ -237,8 +237,8 @@ def preparar_bloco_setores(df_atual, df_anterior, coluna):
     tab_tri_anterior = pd.DataFrame({'Trimestre anterior': qtde_tri_anterior})
 
     # Variação
-    tab_tri_atual['(%)'] = (df_atual[coluna].value_counts(normalize=True).head(3) * 100).round(1)
-    tab_tri_anterior['(%)'] = (df_anterior[coluna].value_counts(normalize=True).head(3) * 100).round(1)
+    tab_tri_atual['% do total'] = (df_atual[coluna].value_counts(normalize=True).head(3) * 100).round(1)
+    tab_tri_anterior['% do total'] = (df_anterior[coluna].value_counts(normalize=True).head(3) * 100).round(1)
 
     # Tabela descrições
     tab_analise_IA = df_atual[df_atual[coluna].isin(qtde_tri_atual.index)][[coluna, COL_DESCRICAO]]
