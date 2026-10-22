@@ -12,8 +12,8 @@ def test_variacao_com_base_zero():
     # guardar o resultado da função
     resultado = preparar_bloco1(df, 3, 2026)
 
-    # comportamento atual
-    assert resultado['var_tri'] == 0
+    # sem base de comparação, a variação não existe
+    assert pd.isna(resultado['var_tri'])
 
 # verifica colunas padrão para análise
 def test_descarta_coluna_fora_da_lista(tmp_path):

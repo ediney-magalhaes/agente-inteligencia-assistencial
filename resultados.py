@@ -3,6 +3,8 @@ import visualizador
 import agente_ia
 import logging
 
+from utils import formatar_variacao
+
 logger = logging.getLogger(__name__)
 
 # função para otimização das mensagens de erros nos gráficos
@@ -41,7 +43,7 @@ def exibir(session_state):
     if session_state.get("img_grafico2"):
         st.image(session_state["img_grafico2"], caption="Fonte: EPIMED")
     b2 = session_state['bloco2']
-    st.dataframe(b2['tabela'])
+    st.dataframe(formatar_variacao(b2['tabela']))
     otimizacao_graficos(
         "🤖 Gerar Análise IA — Gráfico 2",
         "ia_b2",
@@ -80,7 +82,7 @@ def exibir(session_state):
     st.markdown("## Gráfico 4.1 — Top 3 Eventos Adversos")
     b4 = session_state['bloco4']
     st.pyplot(visualizador.gerar_grafico_bloco4_1(b4['tabela_top3_eventos']))
-    st.dataframe(b4['tabela_comparativa'])
+    st.dataframe(formatar_variacao(b4['tabela_comparativa']))
     if b4['status_eventos'] is not None and not b4['status_eventos'].empty:
         st.markdown("**Eventos Graves e Óbitos**")
         st.dataframe(b4['status_eventos'])

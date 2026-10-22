@@ -5,7 +5,6 @@
 #---------------------------------------------------
 
 import pandas as pd
-import numpy as np
 import logging
 
 from utils import (
@@ -88,8 +87,8 @@ def preparar_bloco1(df, trimestre_atual, ano_atual):
     total_ano_anterior = len(df_ano_anterior)
 
     # Cálculo da variação
-    var_tri = ((total_atual - total_tri_anterior) / total_tri_anterior * 100) if total_tri_anterior else 0
-    var_ano = ((total_atual - total_ano_anterior) / total_ano_anterior * 100) if total_ano_anterior else 0
+    var_tri = ((total_atual - total_tri_anterior) / total_tri_anterior * 100) if total_tri_anterior else float('nan')
+    var_ano = ((total_atual - total_ano_anterior) / total_ano_anterior * 100) if total_ano_anterior else float('nan')
 
     # Contagem das notificações mês a mês
     qtde_mensal = df.groupby([df[COL_DATA].dt.year, df[COL_DATA].dt.month]).size()
@@ -127,7 +126,7 @@ def preparar_bloco2(df_atual, df_anterior):
 
     # Coluna das variações
     denominador = tabela['Trimestre anterior'].replace(0, float('nan'))
-    tabela['% variação'] = ((tabela['Trimestre atual'] - tabela['Trimestre anterior']) /  denominador * 100).fillna(0).round(1)
+    tabela['% variação'] = ((tabela['Trimestre atual'] - tabela['Trimestre anterior']) /  denominador * 100).round(1)
 
     # Dataframe com contexto para leitura da IA
     colunas_necessarias = [COL_TURNO, COL_CLASSIFICACAO, COL_DESCRICAO]
@@ -151,7 +150,7 @@ def preparar_bloco3(df_atual, df_anterior):
 
     # Variações
     denominador = tabela_comparativa['Mesmo trimestre do ano anterior'].replace(0, float('nan'))
-    tabela_comparativa['% variação'] = ((tabela_comparativa['Trimestre atual'] - tabela_comparativa['Mesmo trimestre do ano anterior']) / denominador * 100).fillna(0).round(1)
+    tabela_comparativa['% variação'] = ((tabela_comparativa['Trimestre atual'] - tabela_comparativa['Mesmo trimestre do ano anterior']) / denominador * 100).round(1)
 
     # Dicionário top 3
     dicionario = {}
@@ -211,7 +210,7 @@ def preparar_bloco4(df_atual, df_anterior):
     # Cálculo da variação
     denominador = tabela_comparativa['Trimestre anterior'].replace(0, float('nan'))
     calculo_normal = ((tabela_comparativa['Trimestre atual'] - tabela_comparativa['Trimestre anterior']) / denominador * 100).round(1)
-    tabela_comparativa['% variação'] = np.where(tabela_comparativa['Trimestre anterior'] == 0, '-', calculo_normal)
+    tabela_comparativa['% variação'] = calculo_normal
 
     # Filtrando o status das notificações 'Grave' e 'Óbito'
     status_eventos = df_eventos_adversos[df_eventos_adversos[COL_GRAU].isin(['Óbito', 'Grave'])][[COL_DESCRICAO, COL_GRAU, COL_STATUS]]

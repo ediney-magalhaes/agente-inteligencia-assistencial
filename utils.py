@@ -4,6 +4,8 @@
 # Data: 17/04/2026
 #---------------------------------------------------
 
+import pandas as pd
+
 # Constantes
 COL_DATA = 'Data da notificação'
 COL_CLASSIFICACAO = 'Classificação da Notificação'
@@ -72,3 +74,11 @@ def texto_variacao(valor):
     if valor > 0: return f"um aumento de {valor:.1f}%"
     elif valor < 0: return f"uma redução de {abs(valor):.1f}%" 
     else: return "uma estabilidade"
+
+# formata a coluna de variação para exibição
+def formatar_variacao(tabela, coluna='% variação'):
+    tabela_exibicao = tabela.copy
+    tabela_exibicao[coluna] = tabela_exibicao[coluna].map(
+        lambda valor: '-' if pd.isna(valor) else f'{valor:.1}'
+    )
+    return tabela_exibicao
