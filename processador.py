@@ -362,7 +362,9 @@ def preparar_bloco8(df_atual, ano_recente): # parâmetro precisa ser dataframe c
     qtde_tratadas_anterior = df_tratadas_ano_anterior.groupby(df_tratadas_ano_anterior[COL_DATA].dt.quarter).size()
 
     # Taxa trimestral
+    qtde_tratadas_atual = qtde_tratadas_atual.reindex(qtde_elegiveis_atual.index, fill_value=0)
     taxa_tri_atual = (qtde_tratadas_atual / qtde_elegiveis_atual * 100.0).round(1)
+    qtde_tratadas_anterior = qtde_tratadas_anterior.reindex(qtde_elegiveis_anterior.index, fill_value=0)
     taxa_tri_anterior = (qtde_tratadas_anterior / qtde_elegiveis_anterior * 100.0).round(1)
 
     tabela_tri_atual = pd.DataFrame({
@@ -388,6 +390,8 @@ def preparar_bloco8(df_atual, ano_recente): # parâmetro precisa ser dataframe c
     qtde_tratadas_mensal_anterior = df_tratadas_ano_anterior.groupby(df_tratadas_ano_anterior[COL_DATA].dt.month).size()
 
     # Cálculo da taxa de cumprimento mensal
+    qtde_tratadas_mensal = qtde_tratadas_mensal.reindex(qtde_elegiveis_mensal.index, fill_value=0)
+    qtde_tratadas_mensal_anterior = qtde_tratadas_mensal_anterior.reindex(qtde_elegiveis_mensal_anterior.index, fill_value=0)
     taxa_mensal = (qtde_tratadas_mensal / qtde_elegiveis_mensal * 100.0).round(1)
     taxa_mensal_anterior = (qtde_tratadas_mensal_anterior / qtde_elegiveis_mensal_anterior * 100.0).round(1)
 
