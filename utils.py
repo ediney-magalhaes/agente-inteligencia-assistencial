@@ -77,8 +77,8 @@ def texto_variacao(valor):
 
 # formata a coluna de variação para exibição
 def formatar_variacao(tabela, coluna='% variação'):
-    tabela_exibicao = tabela.copy
+    tabela_exibicao = tabela.copy()
     tabela_exibicao[coluna] = tabela_exibicao[coluna].map(
-        lambda valor: '-' if pd.isna(valor) else f'{valor:.1}'
+        lambda valor: '-' if pd.isna(valor) else f'{valor:.1f}'
     )
     return tabela_exibicao
