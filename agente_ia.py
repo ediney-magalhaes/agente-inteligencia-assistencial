@@ -92,7 +92,7 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia, hospital):
     contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
-    instrucao = "analisar o volume e as variações das notificações do trimestre atual e anterior de acordo com as classificações. Usar a tabela de contexto" \
+    instrucao = "analisar o volume e as variações das notificações do trimestre atual em relação ao mesmo trimestre do ano anterior, de acordo com as classificações. Usar a tabela de contexto " \
     "para identificar o motivo das variações segundo o grau do incidente, setor de ocorrência, turno e as descrições de cada notificação" \
     "para encontrar possíveis relações e estabelecer alguma causa e efeito."
     prompt = f"""
@@ -102,7 +102,7 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia, hospital):
     {contexto}
 
     DADOS:
-    - Tabela comparativa de notificações por classificações e variação: {tabela_comparativa.to_string()}
+    - Tabela comparativa de notificações por classificações, do trimestre atual e do mesmo trimestre do ano anterior, com variação: {tabela_comparativa.to_string()}
     - Dataset com turnos, classificação, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
 
     INSTRUÇÃO:

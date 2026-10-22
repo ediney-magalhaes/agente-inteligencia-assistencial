@@ -54,9 +54,10 @@ with aba1:
                         st.session_state['bloco1'] = processador.preparar_bloco1(df_validado, tri, ano)
                         df_atual = st.session_state['bloco1']['df_atual']
                         df_anterior = st.session_state['bloco1']['df_tri_anterior']
+                        df_ano_anterior = st.session_state['bloco1']['df_ano_anterior']
 
                         st.session_state['bloco2'] = processador.preparar_bloco2(df_atual, df_anterior)
-                        st.session_state['bloco3'] = processador.preparar_bloco3(df_atual, df_anterior)
+                        st.session_state['bloco3'] = processador.preparar_bloco3(df_atual, df_ano_anterior)
                         st.session_state['bloco4'] = processador.preparar_bloco4(df_atual, df_anterior)
                         st.session_state['bloco5'] = processador.preparar_bloco_setores(df_atual, df_anterior, 'Setor Responsável')
                         st.session_state['bloco6'] = processador.preparar_bloco_setores(df_atual, df_anterior, 'Local de ocorrência')

@@ -116,7 +116,7 @@ def grafico_classificacoes(tabela_classificacao, trim_atual, ano_atual):
     posicoes = np.arange(len(classificacoes))
 
     # Plotando barras do ano anterior
-    barras_ant = ax.bar(posicoes - largura/2, tabela_classificacao['Trimestre anterior'], largura, color=cores[0], label=str(ano_atual - 1))
+    barras_ant = ax.bar(posicoes - largura/2, tabela_classificacao['Mesmo trimestre do ano anterior'], largura, color=cores[0], label=str(ano_atual - 1))
 
     # Configurando os rótulos
     for barra in barras_ant:

@@ -110,7 +110,8 @@ def preparar_bloco1(df, trimestre_atual, ano_atual):
         'trimestre_anterior': trimestre_anterior,
         'ano_anterior': ano_anterior,
         'df_atual': df_atual,
-        'df_tri_anterior': df_tri_anterior
+        'df_tri_anterior': df_tri_anterior,
+        'df_ano_anterior': df_ano_anterior,
     }
 
 # Preparar dados - Bloco 2 (Turnos notificações)
@@ -145,12 +146,12 @@ def preparar_bloco3(df_atual, df_anterior):
     # Criando tabela comparativa
     tabela_comparativa = pd.DataFrame({
         'Trimestre atual': qtde_atual,
-        'Trimestre anterior':qtde_anterior
+        'Mesmo trimestre do ano anterior':qtde_anterior
     }).fillna(0)
 
     # Variações
-    denominador = tabela_comparativa['Trimestre anterior'].replace(0, float('nan'))
-    tabela_comparativa['% variação'] = ((tabela_comparativa['Trimestre atual'] - tabela_comparativa['Trimestre anterior']) / denominador * 100).fillna(0).round(1)
+    denominador = tabela_comparativa['Mesmo trimestre do ano anterior'].replace(0, float('nan'))
+    tabela_comparativa['% variação'] = ((tabela_comparativa['Trimestre atual'] - tabela_comparativa['Mesmo trimestre do ano anterior']) / denominador * 100).fillna(0).round(1)
 
     # Dicionário top 3
     dicionario = {}
