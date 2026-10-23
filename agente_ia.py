@@ -92,7 +92,8 @@ def analisar_bloco2(tabela, df_contexto_ia, hospital):
     "os eventos podem estar ocorrendo ou a equipe tem tempo livre para fazer registro! Utilizar a tabela com as descrições detalhadas" \
     "de cada notificação por turno e sua classificação. Usando as descrições realizadas pelos notificadores para encontrar os incidentes" \
     "de maior gravidade e ocorrência em cada turno." \
-    "Analisar também o volume e a variação do número de notificações (aumento ou redução) em cada turno do trimestre atual e o anterior."
+    "Analisar também o volume e a variação do número de notificações (aumento ou redução) em cada turno do trimestre atual e o anterior. " \
+    "Escreva apenas essa análise dos turnos, em no máximo 4 parágrafos corridos. Não inclua introdução, recomendações, plano de ação, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos: escreva O2 como texto simples."
     prompt = f"""
     Você é {papel}.
 
