@@ -116,8 +116,9 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia, hospital):
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar o volume e as variações das notificações do trimestre atual em relação ao mesmo trimestre do ano anterior, de acordo com as classificações. Usar a tabela de contexto " \
-    "para identificar o motivo das variações segundo o grau do incidente, setor de ocorrência, turno e as descrições de cada notificação" \
-    "para encontrar possíveis relações e estabelecer alguma causa e efeito."
+    "para identificar o motivo das variações segundo o grau do incidente, setor de ocorrência, turno e as descrições de cada notificação " \
+    "para encontrar possíveis relações e estabelecer alguma causa e efeito. " \
+    "Escreva apenas essa análise das classificações, em no máximo 4 parágrafos corridos. Não inclua introdução, recomendações, plano de ação, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -126,7 +127,7 @@ def analisar_bloco3(tabela_comparativa, df_contexto_ia, hospital):
 
     DADOS:
     - Tabela comparativa de notificações por classificações, do trimestre atual e do mesmo trimestre do ano anterior, com variação: {tabela_comparativa.to_string()}
-    - Dataset com turnos, classificação, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
+    - Dataset com turnos, classificação, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -164,8 +165,9 @@ def analisar_bloco4(tabela_comparativa, tabela_top3_eventos, status_eventos, df_
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar o volume e as variações dos eventos adversos por grau de dano e os três principais tipos de notificações por grau." \
-    "Usar o Dataset para compreender os motivos avaliando turno, setor de ocorrência, grau do dano, detalhe da classificação por Opção" \
-    "assim como as descrições de cada caso."
+    "Usar o Dataset para compreender os motivos avaliando turno, setor de ocorrência, grau do dano, detalhe da classificação por Opção " \
+    "assim como as descrições de cada caso. " \
+    "Escreva apenas essa análise dos eventos adversos, em no máximo 4 parágrafos corridos. Não inclua introdução, recomendações, plano de ação, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -175,8 +177,8 @@ def analisar_bloco4(tabela_comparativa, tabela_top3_eventos, status_eventos, df_
     DADOS:
     - Tabela comparativa de notificações por classificações e variação: {tabela_comparativa.to_string()}
     - Tabela com top 3 dos eventos: {tabela_top3_eventos.to_string()}
-    - Dataset com status dos danos e contexto: {status_eventos.to_string(index=False)}
-    - Dataset com turnos, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_string(index=False)}
+    - Dataset com status dos danos e contexto: {status_eventos.to_csv(index=False)}
+    - Dataset com turnos, setor de ocorrência, grau dos incidentes e descrição das notificações: {df_contexto_ia.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -189,8 +191,9 @@ def analisar_bloco_setores(tab_tri_atual, tab_tri_anterior, tab_analise_IA, seto
     contexto = frase_apresentacao(hospital) + " Esse relatório tem por objetivo trazer análises quantitativas " \
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
-    instrucao = "analisar o volume de notificações por setor notificante e por setor notificado para identificar setores proativos" \
-    "e locais de ocorrências dos incidentes."
+    instrucao = "analisar o volume de notificações por setor notificante e por setor notificado para identificar setores proativos " \
+    "e locais de ocorrências dos incidentes. " \
+    "Escreva apenas essa análise dos setores, em no máximo 4 parágrafos corridos. Não inclua introdução, recomendações, plano de ação, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -201,7 +204,7 @@ def analisar_bloco_setores(tab_tri_atual, tab_tri_anterior, tab_analise_IA, seto
     - Tipo de setor analisado: {setor}
     - Tabela do trimestre atual com volume de notificações por tipo de setor e variação: {tab_tri_atual.to_string()}
     - Tabela do trimestre anterior com volume de notificações por tipo de setor e variação: {tab_tri_anterior.to_string()}
-    - Dataset com setor (notificante ou notificado) e a descrição das notificações: {tab_analise_IA.to_string(index=False)}
+    - Dataset com setor (notificante ou notificado) e a descrição das notificações: {tab_analise_IA.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -239,7 +242,8 @@ def analisar_bloco7_queda(qtde_grau_dano, qtde_local_queda, qtde_tipo_queda,
     "e qualitativas sobre a cultura de segurança do paciente através da ótica do número de notificações realizadas. " \
     "As notificações seguem a taxonomia de classificação definida pela OMS."
     instrucao = "analisar os casos de notificações de queda, avaliando o volume por local e tipo da queda. Utilize o " \
-    "Dataset de contexto para compreender cada caso. Avalie as médias entre os trimestres e suas variações"
+    "Dataset de contexto para compreender cada caso. Avalie as médias entre os trimestres e suas variações. " \
+    "Escreva apenas essa análise das quedas, em no máximo 4 parágrafos corridos. Não inclua introdução, recomendações, plano de ação, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -252,7 +256,7 @@ def analisar_bloco7_queda(qtde_grau_dano, qtde_local_queda, qtde_tipo_queda,
     - Tabela tipo das quedas: {qtde_tipo_queda.to_string(index=False)}
     - Média do trimestre atual: {df_media_tri_atual}
     - Média do trimestre anterior: {df_media_tri_anterior}
-    - Dataset com taxonomia, categoria, classificação, incidente, opção e descrição das notificações: {df_indicador.to_string(index=False)}
+    - Dataset com taxonomia, categoria, classificação, incidente, opção e descrição das notificações: {df_indicador.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -272,7 +276,8 @@ def analisar_bloco7_lpp(df_media_tri_atual, df_media_tri_anterior, df_mensal, df
     "de cada caso para determinar se a lesão é ADMITIDA ou ADQUIRIDA. " \
     "ETAPA 2 — Com base na sua classificação da Etapa 1, analise o volume de lesões ADQUIRIDAS, " \
     "sua evolução mensal e a variação entre o trimestre atual e o anterior. " \
-    "Destaque se houve aumento ou redução e aponte os casos de maior gravidade identificados nas descrições."
+    "Destaque se houve aumento ou redução e aponte os casos de maior gravidade identificados nas descrições. " \
+    "Escreva apenas essa análise das lesões por pressão, em no máximo 4 parágrafos corridos. Não inclua introdução, recomendações, plano de ação, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -283,7 +288,7 @@ def analisar_bloco7_lpp(df_media_tri_atual, df_media_tri_anterior, df_mensal, df
     - Média do trimestre atual: {df_media_tri_atual}
     - Média do trimestre anterior: {df_media_tri_anterior}
     - Evolução mensal do indicador: {df_mensal.to_string(index=False)}
-    - Dataset com nota do classificador e descrição de cada caso: {df_indicador.to_string(index=False)}
+    - Dataset com nota do classificador e descrição de cada caso: {df_indicador.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -301,7 +306,8 @@ def analisar_bloco7_flebite(df_media_tri_atual, df_media_tri_anterior, df_mensal
     "Avalie a evolução mensal das taxas e a variação entre o trimestre atual e o anterior. " \
     "Utilize o Dataset de contexto para identificar os setores com maior ocorrência, " \
     "o grau de gravidade dos casos e possíveis padrões nas descrições que indiquem causa raiz. " \
-    "Destaque se houve aumento ou redução e aponte recomendações baseadas nos padrões identificados."
+    "Destaque se houve aumento ou redução e aponte recomendações baseadas nos padrões identificados. " \
+    "Escreva apenas essa análise da flebite, em no máximo 4 parágrafos corridos. Não inclua introdução, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -312,7 +318,7 @@ def analisar_bloco7_flebite(df_media_tri_atual, df_media_tri_anterior, df_mensal
     - Média do trimestre atual: {df_media_tri_atual}
     - Média do trimestre anterior: {df_media_tri_anterior}
     - Evolução mensal do indicador: {df_mensal.to_string(index=False)}
-    - Dataset com setor, grau do incidente e descrição de cada caso: {df_indicador.to_string(index=False)}
+    - Dataset com setor, grau do incidente e descrição de cada caso: {df_indicador.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -332,7 +338,8 @@ def analisar_bloco7_medicacao(df_media_tri_atual, df_media_tri_anterior, df_mens
     "Utilize o Dataset de contexto para identificar em qual etapa da cadeia do medicamento os erros estão " \
     "concentrados — armazenamento, recebimento, prescrição, dispensação, preparo ou administração — e os setores mais afetados. " \
     "Identifique padrões nas descrições que indiquem causa raiz e destaque casos de maior gravidade. " \
-    "Aponte recomendações focadas na etapa da cadeia com maior concentração de erros."
+    "Aponte recomendações focadas na etapa da cadeia com maior concentração de erros. " \
+    "Escreva apenas essa análise dos erros de medicação, em no máximo 4 parágrafos corridos. Não inclua introdução, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -343,7 +350,7 @@ def analisar_bloco7_medicacao(df_media_tri_atual, df_media_tri_anterior, df_mens
     - Média do trimestre atual: {df_media_tri_atual}
     - Média do trimestre anterior: {df_media_tri_anterior}
     - Evolução mensal do indicador: {df_mensal.to_string(index=False)}
-    - Dataset com setor, grau do incidente e descrição de cada caso: {df_indicador.to_string(index=False)}
+    - Dataset com setor, grau do incidente e descrição de cada caso: {df_indicador.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -360,8 +367,9 @@ def analisar_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela
     "Identifique os setores com maior índice de atraso ou não cumprimento. " \
     "Avalie a evolução mensal e aponte se houve melhora ou piora ao longo do trimestre. " \
     "Utilize o Dataset de contexto para identificar quais notificações estão pendentes de análise " \
-    "e destacar os setores mais críticos. Analise o uso de Protocolo de Londres, ACR e Pareceres. Critique a subutilização" \
-    "de ferramentas estruturadas (PL, ACR) usando sua quantidade."
+    "e destacar os setores mais críticos. Analise o uso de Protocolo de Londres, ACR e Pareceres. Critique a subutilização " \
+    "de ferramentas estruturadas (PL, ACR) usando sua quantidade. " \
+    "Escreva apenas essa análise do cumprimento, em no máximo 4 parágrafos corridos. Não inclua introdução, recomendações, plano de ação, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -373,7 +381,7 @@ def analisar_bloco8(tabela_tri_atual, tabela_tri_anterior, tabela_mensal, tabela
     - Tabela de cumprimento do trimestre anterior: {tabela_tri_anterior.to_string()}
     - Evolução mensal do trimestre atual: {tabela_mensal.to_string()}
     - Evolução mensal do trimestre anterior: {tabela_mensal_anterior.to_string()}
-    - Dataset com notificações pendentes de análise: {df_contexto_ia.to_string(index=False)}
+    - Dataset com notificações pendentes de análise: {df_contexto_ia.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -392,7 +400,8 @@ def analisar_bloco9(df_dataset_ia, hospital):
     "registradas para fazer essa identificação. " \
     "Para cada protocolo identificado, analise: volume de casos, gravidade dos incidentes, " \
     "setores de ocorrência e possíveis falhas no seguimento do protocolo indicadas nas descrições. " \
-    "Se nenhum caso for identificado para algum protocolo, registre explicitamente essa ausência."
+    "Se nenhum caso for identificado para algum protocolo, registre explicitamente essa ausência. " \
+    "Escreva apenas essa análise dos protocolos, em no máximo 4 parágrafos corridos. Não inclua introdução, recomendações, plano de ação, conclusão nem outras seções do relatório. Não use fórmulas nem símbolos matemáticos."
     prompt = f"""
     Você é {papel}.
 
@@ -400,7 +409,7 @@ def analisar_bloco9(df_dataset_ia, hospital):
     {contexto}
 
     DADOS:
-    - Dataset com taxonomia, categoria, classificação, incidente, opção e descrição das notificações: {df_dataset_ia.to_string(index=False)}
+    - Dataset com taxonomia, categoria, classificação, incidente, opção e descrição das notificações: {df_dataset_ia.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
@@ -466,7 +475,7 @@ def analisar_interrelacao(total_notificacoes, trimestre_atual, ano_atual, df_dat
     DADOS DO {trimestre_atual}º TRIMESTRE DE {ano_atual}:
     - Total de notificações analisadas: {total_notificacoes}
     - Dataset completo com setor, turno, classificação, grau do dano e descrições reais 
-      de cada notificação: {df_dataset_ia.to_string(index=False)}
+      de cada notificação: {df_dataset_ia.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}
