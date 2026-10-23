@@ -79,7 +79,7 @@ def analisar_bloco2(tabela, df_contexto_ia, hospital):
 
     DADOS:
     - Tabela comparativa de notificações por tunos e trimestres: {tabela.to_string()}
-    - Dataset com turnos, classificação e descrição das notificações: {df_contexto_ia.to_string(index=False)}
+    - Dataset com turnos, classificação e descrição das notificações: {df_contexto_ia.to_csv(index=False)}
 
     INSTRUÇÃO:
     {instrucao}

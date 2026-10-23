@@ -51,3 +51,9 @@ def test_nao_altera_instrucao_do_prompt():
     texto = 'Nome técnico mas compreensível para diretores'
     resultado = anonimizar_texto(texto)
     assert resultado == texto
+
+def test_nome_na_segunda_linha_e_removido():
+    texto = 'Paciente caiu no corredor.\nA acompanhante Maria Souza avisou a equipe.'
+    resultado = anonimizar_texto(texto)
+    assert 'Maria Souza' not in resultado
+    assert resultado.startswith('Paciente caiu no corredor.\n')

@@ -70,7 +70,7 @@ def anonimizar_texto(texto, origem='não informada'):
     for padrao, rotulo in CAMADAS:
         texto, qtde = re.subn(padrao, rotulo, texto, flags=re.IGNORECASE)
         contagem[rotulo] = qtde
-    trechos = localizar_nomes(texto)
+    trechos = localizar_nomes_por_linha(texto)
     for inicio, fim in sorted(trechos, reverse=True):
         texto = texto[:inicio] + '[NOME]' + texto[fim:]
     contagem['NOME-SPACY'] = len(trechos)
@@ -90,4 +90,20 @@ def localizar_nomes(texto):
                 inicio = doc[indices[0]].idx
                 fim = doc[indices[-1]].idx + len(doc[indices[-1]])
                 trechos.append((inicio, fim))
+    return trechos
+
+# localizar linha a linha para anonimização
+def localizar_nomes_por_linha(texto):
+
+    # guarda os nomes encontrados, já com a posição no texto inteiro
+    trechos = []
+
+    # marca onde a linha da vez começa no texto inteiro
+    posicao = 0
+
+    # laço que percorre as linhas, quebra o texto em uma lista de linhas
+    for linha in texto.split('\n'):
+        for inicio, fim in localizar_nomes(linha):
+            trechos.append((inicio + posicao, fim + posicao))
+        posicao += len(linha) + 1
     return trechos
