@@ -80,15 +80,13 @@ def anonimizar_texto(texto, origem='não informada'):
 def localizar_nomes(texto):
     doc = NLP(texto.title())
     doc_min = NLP(texto.lower())
-    if len(doc) != len(doc_min):
-        raise ValueError('Textos distintos!')
     trechos = []
     for ent in doc.ents:
         if ent.label_ == 'PER':
-            indices = [i for i in range(ent.start, ent.end) if doc_min[i].pos_ == 'PROPN']
+            indices = [t for t in doc_min if t.pos_ == 'PROPN' and t.idx < ent.end_char and t.idx + len(t) > ent.start_char]
             if indices:
-                inicio = doc[indices[0]].idx
-                fim = doc[indices[-1]].idx + len(doc[indices[-1]])
+                inicio = indices[0].idx
+                fim = indices[-1].idx + len(indices[-1])
                 trechos.append((inicio, fim))
     return trechos
 
