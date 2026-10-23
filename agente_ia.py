@@ -50,10 +50,11 @@ def chamar_gemini(prompt, bloco='não informado'):
             texto = funcao(ia, prompt)
             if not texto:
                 raise ValueError("A resposta retornou vazia!")
+            logger.info(f'Resposta gerada pelo modelo {ia}')
             return texto
         except Exception as e:
             logger.warning(f'Modelo {ia} não disponível! Erro {e}')
-    logger.error(f'Os modelos {lista_modelos} falharam!')
+    logger.error(f'Os modelos {[ia for _, ia in lista_modelos]} falharam!')
     raise RuntimeError("Todos os modelos tentados falharam na chamada!")
 
 # Função para análise do gráfico 1 (Nº notificações)
