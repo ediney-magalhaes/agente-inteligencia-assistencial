@@ -5,6 +5,7 @@ from google import genai
 from dotenv import load_dotenv
 from anonimizador import anonimizar_texto
 from prompts import frase_apresentacao
+from openai import OpenAI
 
 logger = logging.getLogger(__name__)
 
@@ -17,19 +18,39 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 # Configuração do cliente google
 cliente = genai.Client(api_key=GEMINI_API_KEY)
 
+# Configuração do cliente groq
+cliente_groq = OpenAI(base_url='https://api.groq.com/openai/v1', api_key=os.getenv('GROQ_API_KEY'))
+
+# Função padrão de chamada da API - Groq
+def chamar_groq(modelo, prompt):
+    resposta = cliente_groq.chat.completions.create(
+        model=modelo,
+        messages=[{'role': 'user', 'content': prompt}],
+    )
+    return resposta.choices[0].message.content
+
+# Função padrão de chamada da API - Gemini
+def chamar_google(modelo, prompt):
+    resposta = cliente.models.generate_content(model=modelo, contents=prompt)
+    return resposta.text
+
 # Função padrão de chamada da API
 def chamar_gemini(prompt, bloco='não informado'):
     prompt = anonimizar_texto(prompt, bloco)
-    lista_modelos = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro']
-    for ia in lista_modelos:
+    lista_modelos = [
+        (chamar_google, 'gemini-3.5-flash'),
+        (chamar_groq, 'openai/gpt-oss-120b'),
+        (chamar_google, 'gemini-3.1-flash-lite'),
+        (chamar_groq, 'openai/gpt-oss-20b'),
+        (chamar_groq, 'qwen/qwen3.8-27b'),
+        (chamar_google, 'gemma-4-31b-it'),
+    ]
+    for funcao, ia in lista_modelos:
         try:
-            resposta = cliente.models.generate_content(
-                model = ia,
-                contents=prompt
-            )
-            if not resposta.text:
+            texto = funcao(ia, prompt)
+            if not texto:
                 raise ValueError("A resposta retornou vazia!")
-            return resposta.text
+            return texto
         except Exception as e:
             logger.warning(f'Modelo {ia} não disponível! Erro {e}')
     logger.error(f'Os modelos {lista_modelos} falharam!')
