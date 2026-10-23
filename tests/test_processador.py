@@ -1,7 +1,7 @@
 import pandas as pd
 
-from processador import preparar_bloco1, carregar_validar
-from utils import COL_DATA, MAPEAMENTO_COLUNAS
+from processador import preparar_bloco1, carregar_validar, preparar_bloco8
+from utils import COL_DATA, MAPEAMENTO_COLUNAS, COL_PL, COL_STATUS, COL_ACR, COL_PAC, COL_SETOR, COL_CLASSIFICACAO, COL_DESCRICAO
 
 # função para testar a variação com o trimestre anterior zerado
 def test_variacao_com_base_zero():
@@ -50,3 +50,18 @@ def test_conta_datas_invalidas(tmp_path):
 
     # verificação
     assert resultado['datas_invalidas'] == 1
+
+# verifica taxa de cumprimento
+def test_trimestre_sem_tratadas_fica_zero():
+    df = pd.DataFrame({
+        COL_DATA: pd.to_datetime(['2026-08-15']),
+        COL_PL: ['Enfermagem'],
+        COL_STATUS: ['Em investigação'],
+        COL_ACR: [None],
+        COL_PAC: [None],
+        COL_SETOR: ['Enfermagem'],
+        COL_CLASSIFICACAO: ['Incidente sem dano'],
+        COL_DESCRICAO: ['Descrição de teste'],
+    })
+    resultado = preparar_bloco8(df, 2026)
+    assert resultado['tabela_tri_atual'].loc[3, 'Taxa de cumprimento'] == 0.0
