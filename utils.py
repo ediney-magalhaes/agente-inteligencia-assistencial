@@ -30,6 +30,9 @@ INDICADOR_QUEDA = 'Queda'
 INDICADOR_LPP = 'Lesão de Pele'
 INDICADOR_MEDICACAO = 'Erro de Medicação'
 INDICADOR_FLEBITE = 'Flebite'
+COL_ANO = 'Ano'
+COL_MES = 'Mês'
+COL_PACIENTE_DIA = 'Paciente-dia'
 
 # Mapeamento das colunas
 MAPEAMENTO_COLUNAS = {
@@ -52,6 +55,17 @@ MAPEAMENTO_COLUNAS = {
     COL_LOCAL: [],
     COL_NOTA: []
 }
+
+# Colunas obrigatórias da planilha de indicadores
+COLUNAS_INDICADORES = [
+    COL_ANO,
+    COL_MES,
+    COL_PACIENTE_DIA,
+    INDICADOR_QUEDA,
+    INDICADOR_LPP,
+    INDICADOR_MEDICACAO,
+    INDICADOR_FLEBITE
+]
 
 # Função para atualizar colunas conforme dataframe
 def atualizacao_schema(df):

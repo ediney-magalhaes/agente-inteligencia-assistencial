@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import processador
 import resultados
 import logging
@@ -62,7 +61,7 @@ with aba1:
                         st.session_state['bloco5'] = processador.preparar_bloco_setores(df_atual, df_anterior, 'Setor Responsável')
                         st.session_state['bloco6'] = processador.preparar_bloco_setores(df_atual, df_anterior, 'Local de ocorrência')
 
-                        df_indicadores = pd.read_excel(st.session_state["arquivo_indicadores"])
+                        df_indicadores = processador.carregar_indicadores(st.session_state["arquivo_indicadores"])
                         st.session_state['bloco7_queda'] = processador.preparar_bloco7(df_atual, df_indicadores, 'Queda', tri, ano)
                         st.session_state['bloco7_lpp'] = processador.preparar_bloco7(df_atual, df_indicadores, 'Lesão de Pele', tri, ano)
                         st.session_state['bloco7_medicacao'] = processador.preparar_bloco7(df_atual, df_indicadores, 'Erro de Medicação', tri, ano)

@@ -28,7 +28,8 @@ from utils import (
     COL_OPCAO,
     COL_TURNO,
     COL_LOCAL,
-    COL_NOTA
+    COL_NOTA,
+    COLUNAS_INDICADORES
 )
 
 logger = logging.getLogger(__name__)
@@ -59,6 +60,27 @@ def carregar_validar(arquivo):
     raise ValueError(
         f'Nenhuma aba da planilha tem as colunas esperadas. '
         f'A aba mais próxima foi "{melhor_aba}", onde faltaram: {melhor_ausentes}'
+    )
+
+# Leitura da planilha de indicadores
+def carregar_indicadores(arquivo):
+    logger.info('Iniciando leitura da planilha de indicadores')
+    planilha = pd.ExcelFile(arquivo)
+    melhor_aba = None
+    melhor_ausente = None
+    for nome_aba in planilha.sheet_names:
+        df = pd.read_excel(planilha, sheet_name=nome_aba)
+        df.columns = df.columns.str.strip()
+        ausentes = [coluna for coluna in COLUNAS_INDICADORES if coluna not in df.columns]
+        if not ausentes:
+            logger.info(f'Usando a aba "{nome_aba}" da planilha de indicadores')
+            return df
+        if melhor_ausente is None or len(ausentes) < len(melhor_ausente):
+            melhor_aba = nome_aba
+            melhor_ausente = ausentes
+    raise ValueError(
+        f'Nenhuma aba da planilha de indicadores tem as colunas esperadas. '
+        f'A aba mais próxima foi "{melhor_aba}", onde faltaram: {melhor_ausente}'
     )
 
 # Preparar dados - Bloco 1 (Quantidade notificações)
