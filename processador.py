@@ -28,8 +28,10 @@ from utils import (
     COL_OPCAO,
     COL_TURNO,
     COL_LOCAL,
+    COL_MES,
     COL_NOTA,
-    COLUNAS_INDICADORES
+    COLUNAS_INDICADORES,
+    MESES
 )
 
 logger = logging.getLogger(__name__)
@@ -74,6 +76,9 @@ def carregar_indicadores(arquivo):
         ausentes = [coluna for coluna in COLUNAS_INDICADORES if coluna not in df.columns]
         if not ausentes:
             logger.info(f'Usando a aba "{nome_aba}" da planilha de indicadores')
+            meses_invalidos = sorted(set(df[COL_MES].dropna().astype(str).str.strip()) - set(MESES))
+            if meses_invalidos:
+                raise ValueError(f'Meses desconhecidos na planilha de indicadores: {meses_invalidos}')
             return df
         if melhor_ausente is None or len(ausentes) < len(melhor_ausente):
             melhor_aba = nome_aba

@@ -67,6 +67,22 @@ COLUNAS_INDICADORES = [
     INDICADOR_FLEBITE
 ]
 
+# Lista padronizadas dos meses
+MESES = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
+]
+
 # Função para atualizar colunas conforme dataframe
 def atualizacao_schema(df):
     lista = []
