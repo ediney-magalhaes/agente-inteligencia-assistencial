@@ -8,3 +8,4 @@ log/
 Chave API.txt
 .env
 teste.py
+*.bat
